@@ -23,7 +23,7 @@
             "server": "src/main.server.ts",
             "prerender": false,
             "ssr": {
-              "entry": "src/main.server.ts"
+              "entry": "src/server.ts"
             },
             "outputMode": "server",
             "externalDependencies": ["canvas", "fabric"],

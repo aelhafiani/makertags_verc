@@ -2,5 +2,14 @@
   "buildCommand": "npm run build:prod",
   "installCommand": "npm install --omit=optional",
   "outputDirectory": "dist/makertags/browser",
-  "framework": "angular"
+  "functions": {
+    "api/ssr.js": {
+      "includeFiles": "dist/makertags/server/**"
+    }
+  },
+  "routes": [
+    { "src": "^/$", "dest": "/api/ssr" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/api/ssr" }
+  ]
 }
