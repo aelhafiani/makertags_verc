@@ -1,0 +1,38 @@
+<!-- questions-manage.component.html -->
+<div class="dashboard-container">
+    <h2>Manage Questions</h2>
+    
+    <nz-list nzBordered nzSize="large">
+      <nz-list-item *ngFor="let question of questions">
+        <div class="question-item">
+          <div class="question-header">
+            <h4>{{ question.question }}</h4>
+            <button 
+              nz-button 
+              nzType="primary" 
+              nzDanger 
+              (click)="deleteQuestion(question.id)"
+            >
+              Delete
+            </button>
+          </div>
+          <textarea
+            nz-input
+            [(ngModel)]="editedAnswers[question.id]"
+            placeholder="Type answer here..."
+            [value]="question.answer"
+          ></textarea>
+          
+          <div class="action-buttons">
+            <button 
+              nz-button 
+              nzType="primary" 
+              (click)="updateAnswer(question)"
+            >
+              Save Answer
+            </button>
+          </div>
+        </div>
+      </nz-list-item>
+    </nz-list>
+  </div>

@@ -1,0 +1,50 @@
+<div class="qr-panel">
+  <p class="qr-panel-title">QR Code</p>
+
+  <div class="qr-field">
+    <label class="qr-label">URL ou texte</label>
+    <input
+      nz-input
+      type="text"
+      placeholder="https://example.com"
+      [(ngModel)]="qrData"
+      (ngModelChange)="onDataChange()"
+    />
+  </div>
+
+  <div class="qr-field">
+    <label class="qr-label">Taille (px)</label>
+    <div class="qr-size-row">
+      <input
+        nz-input
+        type="number"
+        min="50"
+        max="600"
+        [(ngModel)]="qrSize"
+        class="qr-size-input"
+      />
+      <span class="qr-size-unit">px</span>
+    </div>
+  </div>
+
+  <div class="qr-preview" *ngIf="previewUrl">
+    <img [src]="previewUrl" alt="QR preview" class="qr-preview-img" />
+  </div>
+
+  <div class="qr-preview qr-preview-empty" *ngIf="!previewUrl">
+    <span nz-icon nzType="qrcode" nzTheme="outline" class="qr-placeholder-icon"></span>
+    <span class="qr-placeholder-label">Aperçu du QR Code</span>
+  </div>
+
+  <button
+    nz-button
+    nzType="primary"
+    nzBlock
+    [nzLoading]="loading"
+    (click)="addToCanvas()"
+    class="qr-add-btn"
+  >
+    <span nz-icon nzType="plus" nzTheme="outline"></span>
+    Ajouter au canvas
+  </button>
+</div>

@@ -1,0 +1,145 @@
+<div class="up-page">
+
+  <!-- Header -->
+  <div class="up-header">
+    <div>
+      <h2 class="up-title">Users & Purchases</h2>
+      <p class="up-subtitle">Verify access and support your customers</p>
+    </div>
+    <button nz-button nzType="default" (click)="load()" [nzLoading]="loading">
+      <span nz-icon nzType="reload"></span> Refresh
+    </button>
+  </div>
+
+  <!-- Stats -->
+  <div class="up-stats">
+    <div class="stat-card">
+      <span class="stat-num">{{ stats.total }}</span>
+      <span class="stat-label">Total purchases</span>
+    </div>
+    <div class="stat-card stat-green">
+      <span class="stat-num">{{ stats.valid }}</span>
+      <span class="stat-label">Active / Valid</span>
+    </div>
+    <div class="stat-card stat-red">
+      <span class="stat-num">{{ stats.expired }}</span>
+      <span class="stat-label">Expired</span>
+    </div>
+  </div>
+
+  <!-- Filters bar -->
+  <div class="up-filters">
+    <nz-input-group [nzPrefix]="searchIcon" class="up-search">
+      <input
+        nz-input
+        placeholder="Search by email, name or session ID…"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearch()"
+      />
+    </nz-input-group>
+    <ng-template #searchIcon><span nz-icon nzType="search"></span></ng-template>
+
+    <!-- Plan filter -->
+    <div class="filter-group">
+      <span class="filter-label">Plan:</span>
+      <button nz-button [nzType]="filterPlan === 'all' ? 'primary' : 'default'" nzSize="small" (click)="setFilterPlan('all')">All</button>
+      <button nz-button [nzType]="filterPlan === 'single' ? 'primary' : 'default'" nzSize="small" (click)="setFilterPlan('single')">Single</button>
+      <button nz-button [nzType]="filterPlan === 'monthly' ? 'primary' : 'default'" nzSize="small" (click)="setFilterPlan('monthly')">Monthly</button>
+      <button nz-button [nzType]="filterPlan === 'yearly' ? 'primary' : 'default'" nzSize="small" (click)="setFilterPlan('yearly')">Yearly</button>
+    </div>
+
+    <!-- Status filter -->
+    <div class="filter-group">
+      <span class="filter-label">Status:</span>
+      <button nz-button [nzType]="filterStatus === 'all' ? 'primary' : 'default'" nzSize="small" (click)="setFilterStatus('all')">All</button>
+      <button nz-button [nzType]="filterStatus === 'valid' ? 'primary' : 'default'" nzSize="small" (click)="setFilterStatus('valid')">✅ Valid</button>
+      <button nz-button [nzType]="filterStatus === 'expired' ? 'primary' : 'default'" nzSize="small" (click)="setFilterStatus('expired')">⛔ Expired</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <nz-table
+    #purchasesTable
+    [nzData]="filtered"
+    [nzLoading]="loading"
+    [nzPageSize]="25"
+    nzSize="small"
+    class="up-table"
+  >
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Template</th>
+        <th nzWidth="100px">Plan</th>
+        <th nzWidth="100px">Status</th>
+        <th nzWidth="160px">Purchase date</th>
+        <th nzWidth="160px">Expires at</th>
+        <th nzWidth="130px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of purchasesTable.data">
+
+        <!-- User -->
+        <td>
+          <div class="user-cell">
+            <span class="user-email">{{ row.displayEmail }}</span>
+            <span class="user-name" *ngIf="row.displayName !== '—'">{{ row.displayName }}</span>
+          </div>
+        </td>
+
+        <!-- Template -->
+        <td>
+          <span class="template-name">{{ row.displayTemplate }}</span>
+        </td>
+
+        <!-- Plan -->
+        <td>
+          <nz-tag [nzColor]="planColor(row.plan)">{{ row.plan }}</nz-tag>
+        </td>
+
+        <!-- Status -->
+        <td>
+          <nz-tag [nzColor]="row.isValid ? 'success' : 'error'">
+            {{ row.isValid ? '✅ Valid' : '⛔ Expired' }}
+          </nz-tag>
+        </td>
+
+        <!-- Created at -->
+        <td class="date-cell">{{ row.created_at | date:'dd MMM yyyy, HH:mm' }}</td>
+
+        <!-- Expires at -->
+        <td class="date-cell">
+          <span *ngIf="row.plan === 'single'" class="muted">Lifetime</span>
+          <span *ngIf="row.plan !== 'single' && row.expires_at" [class.text-red]="!row.isValid">
+            {{ row.expires_at | date:'dd MMM yyyy' }}
+          </span>
+          <span *ngIf="row.plan !== 'single' && !row.expires_at" class="muted">—</span>
+        </td>
+
+        <!-- Actions -->
+        <td>
+          <button
+            nz-button
+            nzType="default"
+            nzSize="small"
+            [nzLoading]="row.resending"
+            (click)="resendEmail(row)"
+            nz-tooltip
+            nzTooltipTitle="Resend purchase confirmation email with access link"
+          >
+            <span nz-icon nzType="mail"></span>
+            Resend
+          </button>
+        </td>
+
+      </tr>
+
+      <!-- Empty state -->
+      <tr *ngIf="!loading && filtered.length === 0">
+        <td colspan="7" class="empty-row">No purchases found.</td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+</div>

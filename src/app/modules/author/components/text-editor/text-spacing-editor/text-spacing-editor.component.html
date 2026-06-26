@@ -1,0 +1,12 @@
+
+    <div class="mb-2">
+        <label>Letter Spacing</label>
+        <nz-slider [nzMin]="1" [nzMax]="2000"  (nzOnAfterChange)="updateLetterSpacing()"[(ngModel)]="charSpacing"></nz-slider>
+    </div>
+    
+<div>
+    <label>Line Spacing</label>
+    <nz-slider  [nzMin]="0" [nzMax]="10" [nzStep]="0.01" (nzOnAfterChange)="updateLineHeight()" [(ngModel)]="lineHeight"></nz-slider>
+</div>
+ 
+

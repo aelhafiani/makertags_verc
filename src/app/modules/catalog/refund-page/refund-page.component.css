@@ -1,0 +1,128 @@
+:host {
+  --text:   #111827;
+  --muted:  #6b7280;
+  --border: #e5e7eb;
+  --bg:     #f9fafb;
+  --green:  #16a34a;
+  --radius: 12px;
+}
+
+.legal-hero {
+  background: linear-gradient(135deg, #f0fdf4 0%, #f8fafc 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 56px 24px 40px;
+  text-align: center;
+}
+
+.legal-hero-inner { max-width: 640px; margin: 0 auto; }
+
+.legal-badge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.legal-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  color: var(--text);
+  margin: 0 0 12px;
+}
+
+.legal-meta { font-size: 14px; color: var(--muted); }
+
+.legal-body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* Guarantee banner */
+.guarantee-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.guarantee-icon {
+  flex-shrink: 0;
+  color: var(--green);
+}
+
+.guarantee-title {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.guarantee-sub {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Content */
+.legal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.legal-content h2 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-content p {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.75;
+  margin: 0 0 10px;
+}
+
+.legal-content ol {
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legal-content li {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.legal-content a { color: #2563eb; text-decoration: none; }
+.legal-content a:hover { text-decoration: underline; }
+
+.legal-contact-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+
+.legal-contact-card p { margin: 0 0 4px; font-size: 14px; color: #374151; }

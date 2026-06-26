@@ -1,0 +1,76 @@
+<div class="login-modal">
+
+  <!-- Icon -->
+  <div class="login-icon-wrap">
+    <div class="login-icon">✦</div>
+  </div>
+
+  <h2 class="login-title">{{ 'auth.title' | transloco }}</h2>
+  <p class="login-subtitle">{{ 'auth.subtitle' | transloco }}</p>
+
+  <!-- Google -->
+  <button class="btn-google" (click)="loginWithGoogle()" [disabled]="loading">
+    <img loading="lazy" src="assets/icons/google_icon.svg" alt="Google" width="20" />
+    {{ 'auth.continueGoogle' | transloco }}
+  </button>
+
+  <!-- Divider -->
+  <div class="login-divider">
+    <span class="login-divider-line"></span>
+    <span class="login-divider-text">OR</span>
+    <span class="login-divider-line"></span>
+  </div>
+
+  <!-- Form -->
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+    <!-- Email (always visible when no password step) -->
+    <div class="login-field" *ngIf="!hasPassword()">
+      <label class="login-label" for="email">{{ 'auth.emailLabel' | transloco }}</label>
+      <input
+        id="email"
+        type="email"
+        class="login-input"
+        [placeholder]="'auth.emailPlaceholder' | transloco"
+        formControlName="email"
+        autocomplete="email"
+      />
+      <p class="login-hint" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        {{ 'auth.emailError' | transloco }}
+      </p>
+    </div>
+
+    <!-- Password (shown after email check) -->
+    <div class="login-field" *ngIf="hasPassword()">
+      <label class="login-label" for="password">{{ 'auth.passwordLabel' | transloco }}</label>
+      <input
+        id="password"
+        type="password"
+        class="login-input"
+        [placeholder]="'auth.passwordPlaceholder' | transloco"
+        formControlName="password"
+        autocomplete="current-password"
+      />
+      <p class="login-hint" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        {{ 'auth.passwordError' | transloco }}
+      </p>
+    </div>
+
+    <button
+      type="submit"
+      class="login-btn"
+      [disabled]="loginForm.invalid || loading"
+    >
+      <span *ngIf="!loading">{{ 'auth.continueBtn' | transloco }}</span>
+      <span *ngIf="loading" nz-icon nzType="loading" nzTheme="outline"></span>
+    </button>
+
+    <!-- OTP fallback -->
+    <div *ngIf="hasPassword()" class="login-otp-link">
+      <a href="javascript:void(0)" (click)="connecting_using_otp()">
+        {{ 'auth.forgotPassword' | transloco }}
+      </a>
+    </div>
+
+  </form>
+</div>

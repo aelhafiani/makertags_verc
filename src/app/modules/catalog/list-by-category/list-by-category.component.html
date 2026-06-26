@@ -1,0 +1,28 @@
+<div class="container mt-4">
+
+  <!-- art-list.component.html -->
+  <h1 class="mb-4 heading">{{ (selecytedCategory?.heading | translateContent : activeLang()! | async) || selecytedCategory?.heading }}</h1>
+  <p class="m-4 category-description" [innerHTML]="(selecytedCategory?.full_description | translateContent : activeLang()! | async) || selecytedCategory?.full_description | sanitizeHtml"></p>
+
+  <div class="container mt-4">
+    <div *ngIf="arts && arts.length > 0" #masonryContainer class="css-masonry-grid">
+      <div class="css-masonry-item"
+           *ngFor="let art of arts; let i = index"
+            (click)="goTodetail(art)"
+            >
+        <img
+          [loading]="i < 4 ? 'eager' : 'lazy'"
+          [attr.fetchpriority]="i === 0 ? 'high' : 'auto'"
+          [src]="art.preview_realized_art"
+          [alt]="art.title"
+          width="350"
+          height="350"
+          decoding="async" />
+        <h5>{{ (art.title | translateContent : activeLang()! | async) || art.title }}</h5>
+        <div class="description" [innerHTML]="art.safeDescription"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

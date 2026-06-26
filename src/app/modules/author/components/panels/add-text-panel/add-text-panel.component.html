@@ -1,0 +1,70 @@
+<section class="add-text-panel">
+  <div class="panel-header">
+    <h3>Add text to your design</h3>
+    <p>Add additional text to your design</p>
+  </div>
+
+  <form *ngIf="fields.length > 0" [formGroup]="form" class="field-list">
+    <input
+      *ngFor="let field of fields"
+      nz-input
+      [formControlName]="field.objectId"
+      [id]="field.objectId"
+      (focus)="onInputFocus(field)"
+      (blur)="onInputBlur()"
+      [class.focused]="field.objectId === focusedObjectId"
+    />
+  </form>
+
+  <button nz-button nzType="primary" type="button" (click)="addTextBox()">
+    <span nz-icon nzType="font-size"></span>
+    Add a text box
+  </button>
+
+  <!-- AI Section -->
+  <div class="ai-divider"></div>
+
+  <div class="ai-section">
+    <div class="ai-section-header" (click)="showAiSection = !showAiSection">
+      <span class="ai-section-title">
+        <span nz-icon nzType="robot" nzTheme="outline"></span>
+        AI Text Suggestions
+      </span>
+      <span nz-icon [nzType]="showAiSection ? 'up' : 'down'" class="ai-chevron"></span>
+    </div>
+
+    <ng-container *ngIf="showAiSection">
+      <p class="ai-hint">
+        Generates text ideas based on your design's title, description and category.
+      </p>
+
+      <button
+        nz-button
+        class="ai-generate-btn"
+        type="button"
+        [nzLoading]="isGenerating"
+        [disabled]="isGenerating"
+        (click)="generateAiText()"
+      >
+        <span *ngIf="!isGenerating" nz-icon nzType="thunderbolt" nzTheme="fill"></span>
+        {{ aiSuggestions.length > 0 ? 'Regenerate' : 'Generate text' }}
+      </button>
+
+      <p *ngIf="aiError" class="ai-error">{{ aiError }}</p>
+
+      <div *ngIf="aiSuggestions.length > 0 && !isGenerating" class="ai-cards">
+        <div
+          *ngFor="let suggestion of aiSuggestions"
+          class="ai-card"
+          role="button"
+          tabindex="0"
+          (click)="addSuggestionToCanvas(suggestion)"
+          (keydown.enter)="addSuggestionToCanvas(suggestion)"
+        >
+          <span class="ai-card-text">{{ suggestion }}</span>
+          <span nz-icon nzType="plus-circle" nzTheme="outline" class="ai-card-icon"></span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>

@@ -1,0 +1,104 @@
+<div class="container py-4">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h4 class="my-assets mb-0">My Assets</h4>
+    <button (click)="open()" nz-button nzType="primary">
+      <span nz-icon nzType="plus"></span> Add Assets
+    </button>
+  </div>
+
+  <nz-spin [nzSpinning]="loading">
+    <div *ngIf="images.length === 0 && !loading" class="text-center text-muted py-5">
+      No assets yet. Click "Add Assets" to upload.
+    </div>
+
+    <div class="row text-center text-lg-start">
+      <div class="col-lg-2 col-md-3 col-6" *ngFor="let img of images">
+        <div class="asset-block img-thumbnail d-block mb-4 position-relative">
+          <img loading="lazy" [src]="img.source" [alt]="img.categorie" class="w-100" style="height:120px;object-fit:cover;" />
+          <div class="asset-meta small text-muted">{{ img.type }} / {{ img.categorie }}</div>
+          <button
+            (click)="deleteAsset(img)"
+            class="delete-btn"
+            nz-button
+            nzType="primary"
+            nzDanger
+            [nzSize]="'small'"
+            nzShape="circle"
+          >
+            <span nz-icon nzType="delete"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nz-spin>
+
+  <nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="visible"
+    nzPlacement="right"
+    nzTitle="Add New Asset"
+    (nzOnClose)="close()"
+    [nzWidth]="400"
+  >
+    <ng-container *nzDrawerContent>
+      <form nz-form [formGroup]="addNewAssetForm" (ngSubmit)="AddNewAsset()">
+
+        <nz-form-item>
+          <nz-form-label nzRequired>Type</nz-form-label>
+          <nz-form-control nzErrorTip="Required">
+            <nz-select class="w-100" formControlName="type" nzPlaceHolder="Select type">
+              <nz-option nzValue="images" nzLabel="Image"></nz-option>
+              <nz-option nzValue="svgs" nzLabel="SVG"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>Category</nz-form-label>
+          <nz-form-control nzErrorTip="Required">
+            <nz-select class="w-100" formControlName="categorie" nzPlaceHolder="Select category">
+              <nz-option nzValue="general" nzLabel="General"></nz-option>
+              <nz-option nzValue="shapes" nzLabel="Shapes"></nz-option>
+              <nz-option nzValue="photos" nzLabel="Photos"></nz-option>
+              <nz-option nzValue="stickers" nzLabel="Stickers"></nz-option>
+              <nz-option nzValue="patterns" nzLabel="Patterns"></nz-option>
+              <nz-option nzValue="arrows" nzLabel="Arrows"></nz-option>
+              <nz-option nzValue="flowers" nzLabel="Flowers"></nz-option>
+              <nz-option nzValue="baby" nzLabel="Baby"></nz-option>
+              <nz-option nzValue="chrismas" nzLabel="Christmas"></nz-option>
+              <nz-option nzValue="birthday" nzLabel="Birthday"></nz-option>
+              <nz-option nzValue="love" nzLabel="Love"></nz-option>
+              <nz-option nzValue="animals" nzLabel="Animals"></nz-option>
+              <nz-option nzValue="food" nzLabel="Food"></nz-option>
+              <nz-option nzValue="marketing" nzLabel="Marketing"></nz-option>
+              <nz-option nzValue="family" nzLabel="Family"></nz-option>
+              <nz-option nzValue="icons" nzLabel="Icons"></nz-option>
+              <nz-option nzValue="wedding" nzLabel="Wedding"></nz-option>
+              <nz-option nzValue="models" nzLabel="Models"></nz-option>
+              <nz-option nzValue="backgrounds" nzLabel="Backgrounds"></nz-option>
+              <nz-option nzValue="borders" nzLabel="Borders"></nz-option>
+              <nz-option nzValue="text" nzLabel="Text"></nz-option>
+              <nz-option nzValue="overlays" nzLabel="Overlays"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>Files</nz-form-label>
+          <nz-form-control>
+            <input type="file" multiple accept="image/jpeg,image/png,image/webp,image/svg+xml" (change)="handleChange($event)" />
+            <div class="text-muted small mt-1">JPEG, PNG, WebP, SVG — max 10 MB each</div>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button nzType="primary" type="submit" [nzLoading]="uploading" class="w-100">
+              Upload
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+  </nz-drawer>
+</div>

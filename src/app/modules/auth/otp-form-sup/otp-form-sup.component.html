@@ -1,0 +1,67 @@
+ <div>
+    <div class="row justify-content-center align-items-center h-100">
+      <!-- Left Column: Image
+      <div class="col-lg-8 d-none d-lg-block">
+        <img loading="lazy"  fetchpriority="high" 
+          src="../../assets/images/register-background.jpg"
+          alt="Login Image"
+          class="img-fluid"
+          style="height: 100vh; object-fit: cover;"
+        />
+      </div> -->
+  
+      <!-- Right Column: Login Form -->
+      <div>
+  
+          <!-- <div class="text-center mb-4">
+            <img loading="lazy"  fetchpriority="high"  src="../../assets/images/logo-text.png" alt="Logo" class="img-fluid" style="max-width: 150px;">
+          </div> -->
+           <h3 class="text-center">You're almost Signed up</h3>
+                    
+          <form >
+
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                [(ngModel)]="email"
+                [ngModelOptions]="{standalone: true}"
+                name="email"
+                required
+                nz-input
+                placeholder="Enter your email"
+              />
+            </div>
+            <p>Enter the code sent to your email to finish signing up</p>
+            <div class="form-group">
+              <label for="otp">Code</label>
+              <ng-otp-input [ngModelOptions]="{standalone: true}" [(ngModel)]="otpNumber" (onInputChange)="onOtpChange($event)" [config]="{ length:6 }"></ng-otp-input>
+            </div>
+           
+             <p>Didn't get the code? <a>Resend</a></p>
+     
+            <!-- <a routerLink="/auth/login" class="btn btn-link btn-block">
+              Do you have an account? Login</a> -->
+
+              <button
+                class="btn btn-primary btn-block button-black"
+                [disabled]="!otpNumber || loading"
+                (click)="verifyOtp()"
+              >
+                Verify
+              </button>
+
+              <p class="mt-2">
+                Didn't get the code? <a (click)="resendOtp()">Resend</a>
+              </p>
+
+              <div *ngIf="errorMsg" class="text-danger mt-2">{{ errorMsg }}</div>
+          </form>
+  
+      </div>
+    </div>
+  </div>
+  

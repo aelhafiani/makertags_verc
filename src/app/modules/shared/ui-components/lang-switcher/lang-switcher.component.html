@@ -1,0 +1,20 @@
+<div class="lang-switcher" nz-dropdown [nzDropdownMenu]="langMenu" nzTrigger="click" nzPlacement="bottomRight">
+  <button class="lang-btn" type="button" aria-label="Select language">
+    <span class="lang-flag">{{ activeLanguage.flag }}</span>
+    <span class="lang-code">{{ activeLanguage.code | uppercase }}</span>
+    <svg class="lang-chevron" width="12" height="12" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/>
+    </svg>
+  </button>
+</div>
+
+<nz-dropdown-menu #langMenu="nzDropdownMenu">
+  <ul nz-menu class="lang-menu">
+    @for (lang of languages; track lang.code) {
+      <li nz-menu-item (click)="setLang(lang.code)" [class.active]="activeLang() === lang.code">
+        <span class="lang-menu-flag">{{ lang.flag }}</span>
+        <span class="lang-menu-label">{{ lang.label }}</span>
+      </li>
+    }
+  </ul>
+</nz-dropdown-menu>

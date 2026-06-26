@@ -1,0 +1,143 @@
+<div class="legal-page">
+  <div class="legal-hero">
+    <div class="legal-hero-inner">
+      <div class="legal-badge">Legal</div>
+      <h1 class="legal-title">Terms of Service</h1>
+      <p class="legal-meta">Effective date: <strong>{{ effectiveDate }}</strong> · Operated by <strong>{{ companyName }}</strong></p>
+    </div>
+  </div>
+
+  <div class="legal-body">
+    <aside class="legal-toc">
+      <p class="toc-title">Contents</p>
+      <ol>
+        <li><a href="#acceptance">Acceptance of Terms</a></li>
+        <li><a href="#services">Description of Services</a></li>
+        <li><a href="#accounts">User Accounts</a></li>
+        <li><a href="#payments">Payments & Subscriptions</a></li>
+        <li><a href="#refunds">Refunds & Cancellations</a></li>
+        <li><a href="#license">License & Intellectual Property</a></li>
+        <li><a href="#content">User Content</a></li>
+        <li><a href="#prohibited">Prohibited Uses</a></li>
+        <li><a href="#disclaimer">Disclaimer of Warranties</a></li>
+        <li><a href="#liability">Limitation of Liability</a></li>
+        <li><a href="#governing">Governing Law</a></li>
+        <li><a href="#changes">Changes to Terms</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ol>
+    </aside>
+
+    <main class="legal-content">
+
+      <section id="acceptance">
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing or using <strong>{{ siteName }}</strong> (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service.</p>
+        <p>The Service is operated by <strong>{{ companyName }}</strong>, a limited liability company registered in the United States ("Company," "we," "us," or "our").</p>
+      </section>
+
+      <section id="services">
+        <h2>2. Description of Services</h2>
+        <p>{{ siteName }} is a web-based software-as-a-service (SaaS) platform that provides:</p>
+        <ul>
+          <li>An online design editor for creating printable gift tags, labels, and invitations.</li>
+          <li>A library of free and premium digital templates.</li>
+          <li>Export functionality (PDF, JPEG, PNG) for personal and commercial use.</li>
+          <li>Optional subscription plans and individual template purchases.</li>
+        </ul>
+        <p>We reserve the right to modify, suspend, or discontinue any part of the Service at any time with reasonable notice.</p>
+      </section>
+
+      <section id="accounts">
+        <h2>3. User Accounts</h2>
+        <p>You may use the Service as a guest or by creating an account. You are responsible for:</p>
+        <ul>
+          <li>Maintaining the confidentiality of your account credentials.</li>
+          <li>All activities that occur under your account.</li>
+          <li>Providing accurate and complete registration information.</li>
+        </ul>
+        <p>We reserve the right to terminate accounts that violate these Terms.</p>
+      </section>
+
+      <section id="payments">
+        <h2>4. Payments &amp; Subscriptions</h2>
+        <p>We offer the following paid plans:</p>
+        <ul>
+          <li><strong>Single Design Purchase (€2 one-time):</strong> Grants perpetual access to one specific premium template.</li>
+          <li><strong>Pro Monthly (€12 / month):</strong> Unlimited access to all premium templates, billed monthly.</li>
+          <li><strong>Pro Yearly (€70 / year):</strong> Unlimited access to all premium templates, billed annually.</li>
+        </ul>
+        <p>All payments are processed securely by <strong>Stripe, Inc.</strong> We do not store your payment card details. Prices are displayed in Euros (EUR) and may vary by region. Subscriptions renew automatically unless cancelled before the renewal date.</p>
+        <p>By completing a purchase, you authorize us to charge the applicable fee to your payment method.</p>
+      </section>
+
+      <section id="refunds">
+        <h2>5. Refunds &amp; Cancellations</h2>
+        <p><strong>Subscriptions:</strong> You may cancel your subscription at any time from your account settings. Cancellation takes effect at the end of the current billing period — no partial refunds are issued for unused time.</p>
+        <p><strong>Single purchases:</strong> Because digital content is delivered immediately upon purchase, single-design purchases are non-refundable once the design has been accessed or exported.</p>
+        <p><strong>Exception:</strong> If you experience a technical issue preventing access to purchased content, contact us within 7 days at <a [href]="'mailto:' + supportEmail">{{ supportEmail }}</a> and we will investigate and issue a refund if the issue is confirmed on our end.</p>
+        <p>We reserve the right to deny refund requests that do not comply with this policy.</p>
+      </section>
+
+      <section id="license">
+        <h2>6. License &amp; Intellectual Property</h2>
+        <p><strong>Our Content:</strong> All templates, designs, graphics, and software on the Service are owned by {{ companyName }} or its licensors and are protected by copyright, trademark, and other intellectual property laws.</p>
+        <p><strong>License to you:</strong> Upon payment (or for free templates — upon use), we grant you a non-exclusive, non-transferable, worldwide license to:</p>
+        <ul>
+          <li>Edit and personalize the template for personal or commercial use.</li>
+          <li>Print and distribute physical copies of your customized design.</li>
+          <li>Use your exported file in digital communications (social media, email, etc.).</li>
+        </ul>
+        <p><strong>Restrictions:</strong> You may not: resell, sublicense, or redistribute the original or minimally modified templates; use them in competing template marketplaces; or claim ownership of the base designs.</p>
+      </section>
+
+      <section id="content">
+        <h2>7. User Content</h2>
+        <p>When you upload images or text to the editor, you retain ownership of that content. By uploading, you grant us a limited license to store and process your content solely to provide the Service. We do not use your uploaded content for any other purpose.</p>
+      </section>
+
+      <section id="prohibited">
+        <h2>8. Prohibited Uses</h2>
+        <p>You agree not to:</p>
+        <ul>
+          <li>Use the Service for any unlawful purpose.</li>
+          <li>Upload content that is defamatory, obscene, or infringes third-party rights.</li>
+          <li>Attempt to reverse-engineer or scrape the Service.</li>
+          <li>Circumvent payment or access controls.</li>
+          <li>Use automated tools to bulk-download templates.</li>
+        </ul>
+      </section>
+
+      <section id="disclaimer">
+        <h2>9. Disclaimer of Warranties</h2>
+        <p>The Service is provided "as is" and "as available" without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, or non-infringement. We do not warrant that the Service will be uninterrupted, error-free, or free of viruses.</p>
+      </section>
+
+      <section id="liability">
+        <h2>10. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by law, {{ companyName }} and its officers, directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Service, even if advised of the possibility of such damages.</p>
+        <p>Our total liability to you for any claim arising from these Terms shall not exceed the greater of (a) €10 or (b) the total fees paid by you in the 3 months preceding the claim.</p>
+      </section>
+
+      <section id="governing">
+        <h2>11. Governing Law</h2>
+        <p>These Terms shall be governed by and construed in accordance with the laws of the State of California, United States, without regard to conflict-of-law principles. Any disputes shall be resolved in the courts of Los Angeles County, California.</p>
+      </section>
+
+      <section id="changes">
+        <h2>12. Changes to Terms</h2>
+        <p>We may update these Terms from time to time. We will notify you of material changes by posting the new Terms on this page and, where appropriate, via email. Your continued use of the Service after changes take effect constitutes acceptance of the new Terms.</p>
+      </section>
+
+      <section id="contact">
+        <h2>13. Contact Us</h2>
+        <p>Questions about these Terms? Reach us at:</p>
+        <div class="legal-contact-card">
+          <p><strong>{{ companyName }}</strong></p>
+          <p>{{ supportAddr }}</p>
+          <p>Email: <a [href]="'mailto:' + supportEmail">{{ supportEmail }}</a></p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>

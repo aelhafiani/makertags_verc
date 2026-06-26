@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.contextual-panel {
+  height: 100%;
+  overflow-y: scroll;
+  background: #ffffff;
+  border-right: 1px solid #ececec;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+  }
+}
+
+.panel-empty {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #888;
+  padding: 12px;
+  text-align: center;
+}
+

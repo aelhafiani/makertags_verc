@@ -1,0 +1,289 @@
+
+<nz-layout style="height: 100vh;" >
+  
+    <nz-header class="bg-white header-container">
+      <div class="d-flex header-author">
+        <div id="logo-container">
+          <div class="logo" ><a class="logo-link" [routerLink]="['/']"><img loading="lazy"  fetchpriority="high"  src="assets/logo.svg" /></a></div>
+        </div>
+       
+        <div class="menu-header float-end">
+        <div class="btn-top-container d-flex">
+          <button *ngIf="isAdmin$ | async" (click)="saveArt()" nz-button nzType="primary">
+            <span nz-icon nzType="add"></span>
+            <span>Save Art</span>
+          </button>
+
+        
+
+          <!-- <button (click)="initOriginalArt()" style="margin-right: 10px;" nz-button nzType="primary">
+            <span nz-icon nzType="add"></span>
+            <span>Reset</span>
+          </button> -->
+          <!-- <button (click)="saveUserArt()" style="margin-right: 10px;" class="btn btn-primary" >
+            <span>Save</span>
+          </button> -->
+
+          <button id="exportPdfBtn"  class="btn btn-warning" (click)="openShareMenu()">
+            <span style="font-weight: 700;">Share</span>
+          </button>
+
+          <button nz-button nz-dropdown *ngIf="isAdmin$ | async" [nzDropdownMenu]="menu">
+            <span class="icon-header" *ngIf="screenWidth < 767" nz-icon nzType="form" nzTheme="outline"></span>
+            <span *ngIf="screenWidth > 767">Actions</span>
+            <span *ngIf="screenWidth > 767" nz-icon nzType="down"></span>
+          </button>
+
+         
+          <a  *ngIf="isAuthentified()" [routerLink]="['/profile']" class="text-center">
+            <img loading="lazy"  fetchpriority="high"  [src]="userSession?.user?.photoURL || 'https://via.placeholder.com/150'" alt="Avatar" class="rounded-circle img-thumbnail" style="width: 50px; height: 50px;margin: 10px;">
+
+          </a>
+        </div>
+          
+
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>
+                <a (click)="ungroupeEelemnts()">ungroup</a>
+              </li>
+              <li nz-menu-item>
+                <a (click)="groupElementBySelection()">group</a>
+              </li>
+              <li nz-menu-item>
+                <a (click)="lockMovement()">lockMovement</a>
+              </li>
+              <li nz-menu-item>
+                <a (click)="unLockMovement()">UnlockMovement</a>
+              </li>
+              <li nz-menu-item>
+                <a (click)="applyMaskIfTwoObjectsSelected()">Mask</a>
+              </li>
+              <li nz-menu-item>
+                <a (click)="undoMask()">UndoMask</a>
+              </li>
+              <li nz-menu-item>
+                <a (click)="duplicateSelectedObject()">DuplicateObject</a>
+              </li>
+              <li nz-menu-item>
+                <a (click)="downloadCanvasAsJson()">Download JSON</a>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+       
+          <nz-dropdown-menu #menuUser="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>
+                <a [routerLink]="['/profile']">Profile</a>
+              </li>
+              <li *ngIf="isAdmin$ |async" nz-menu-item>
+                <a [routerLink]="['/dashboard']">Dasborad</a>
+                
+               </li>
+              <li nz-menu-item>
+                <a (click)="logout()">logout</a>
+                
+               </li>
+            </ul>
+          </nz-dropdown-menu>
+      
+          <!-- <button (click)="exportCanvas()" class="btn btn-primary m-2">Export Image at 300 DPI</button>
+          <button (click)="exportCanvasForEachGroup()" class="btn btn-primary m-2">Export Image groups at 300 DPI</button> -->
+        </div>
+      </div>
+      
+    </nz-header>
+    <nz-content>
+
+      <div class="inner-content">
+
+        
+        <div  id="container">
+          
+          <div class="content-containert">
+            <div   class="content">
+             
+              
+            <div id="content" class="d-flex justify-content-center">
+            <div
+              class="canvas-content position-relative"
+              [ngStyle]="{
+                'background': '#fff'
+              }"
+            >
+            <div class="loading-overlay full-w" *ngIf="isLoaded">
+              <div class="loading-text">
+                              <nz-spin style="top: 20%;" *ngIf="isLoaded" nzSimple></nz-spin>
+                Loading...
+              </div>
+            </div>
+              <canvas id="fabricSurface" class="shadow-sm" style="border: 1px solid #fff;"></canvas>
+            </div>
+          </div>
+            </div>
+          </div>
+          <div  class=" col-sm-12 ">
+          <ng-container>
+        
+           <div  *ngIf="isElementSelected" class="menuRespContainer" style="text-align: center;">
+            <div class="wrapperMenuMenuResp">
+              <icon class="iconMenuResp" nz-icon nzType="close" nzTheme="outline" (click)="closeTextEditor()"></icon>
+              <div id="navMobile" nz-menu nzMode="horizontal">
+                <div class="menublock" (click)="openMobileMenu(menu)" nz-menu-item  *ngFor="let menu of listEditorComponentsMenu">
+                  <span *ngIf="!menu.isNzIcon"> <img loading="lazy"  fetchpriority="high"  [src]="'../../assets/icons/'+menu.icon+'.svg'"></span>
+                  <span *ngIf="menu.isNzIcon" style="font-size: 20px; margin-top: 8px;"  nz-icon [nzType]="menu.icon"></span>
+        
+                  <span class="menu-mobile-name">{{menu.name}}</span>
+                </div>
+                <div *ngIf="!isObjectLoked" (click)="removeElement()" class="menublock" nz-menu-item >
+                  <span  style="font-size: 20px; margin-top: 8px;"  nz-icon nzType="delete"></span>
+                  <span class="menu-mobile-name">Delete</span>
+                </div>
+
+            
+              </div>
+            </div>
+           </div> 
+           
+            
+        
+            <ul *ngIf="isAddInMenuBarre " nz-menu nzMode="horizontal" id="addElementMenu">
+              <li (click)="openAddInMenu('text')" nz-menu-item > 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M18 5.5h-5.25V18c0 .28.22.5.5.5h2a.75.75 0 1 1 0 1.5h-6.5a.75.75 0 1 1 0-1.5h2a.5.5 0 0 0 .5-.5V5.5H6a.5.5 0 0 0-.5.5v1.25a.75.75 0 0 1-1.5 0V5.5C4 4.67 4.67 4 5.5 4h13c.83 0 1.5.67 1.5 1.5v1.75a.75.75 0 1 1-1.5 0V6a.5.5 0 0 0-.5-.5z"></path></svg>
+                <span>Text</span>
+              </li>
+              <li (click)="openAddInMenu('elements')" nz-menu-item > 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="m6.5 4.25.75-.75a2.121 2.121 0 0 1 3 3L6.5 10.25 2.75 6.5a2.121 2.121 0 0 1 3-3l.75.75zm7 6 4-7.5 4 7.5h-8zm-10.75 3.5h7.5v7.5h-7.5v-7.5zm14.75-.25a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"></path></svg>
+                <span>Elements</span>
+              </li>
+              <li  (click)="openAddInMenu('marque')" nz-menu-item > 
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.22 3.435 9.532 6.53 5.41 8.03l6.847-5.745a2 2 0 0 1 2.817.246L16.5 4.23a2.99 2.99 0 0 0-1.14.18l-.511.186-.923-1.1a.5.5 0 0 0-.704-.061Zm-1.276 4.878H7.56l8.143-2.964a2 2 0 0 1 2.563 1.195l.644 1.769h-1.597l-.457-1.256a.5.5 0 0 0-.64-.298l-4.27 1.554Zm-6.752 1h14a1.992 1.992 0 0 1 1.492.668c.316.354.508.82.508 1.332v8a2 2 0 0 1-2 2h-14a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Zm14.822-.886.009.002-.014-.015.005.013ZM4.75 11.3a.5.5 0 0 1 .5-.5H19.2a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5H5.25a.5.5 0 0 1-.5-.5v-8Zm6.446 4.326c-.033.905-.768 1.544-1.782 1.544-1.185 0-1.914-.795-1.914-2.086C7.5 13.792 8.227 13 9.414 13c.995 0 1.749.664 1.779 1.56h-.968a.791.791 0 0 0-.811-.721c-.551 0-.889.471-.889 1.242 0 .773.338 1.25.891 1.25.434 0 .757-.28.815-.704h.965ZM13.688 13c1.19 0 1.946.798 1.946 2.084 0 1.288-.756 2.086-1.946 2.086-1.196 0-1.952-.798-1.952-2.086 0-1.286.765-2.084 1.952-2.084Zm0 .834c-.557 0-.927.488-.927 1.25 0 .764.365 1.253.927 1.253.556 0 .924-.489.924-1.253 0-.762-.37-1.25-.924-1.25Zm2.792 3.23a.702.702 0 1 0 0-1.405.702.702 0 0 0 0 1.404Z" fill="currentColor"></path></svg>
+                <span>Marque</span>
+              </li>
+              <li (click)="triggerFileInput()" nz-menu-item > 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.75 13.81v7.44a.75.75 0 1 1-1.5 0v-7.4L9.49 15.6a.75.75 0 1 1-1.06-1.06l2.35-2.36c.68-.68 1.8-.68 2.48 0l2.35 2.36a.75.75 0 1 1-1.06 1.06l-1.8-1.8zM9 18v1.5H6.75v-.01A5.63 5.63 0 0 1 5.01 8.66a6 6 0 0 1 11.94-.4 5.63 5.63 0 0 1 .3 11.23v.01H15V18h1.88a4.12 4.12 0 1 0-1.5-7.97A4.51 4.51 0 0 0 11 4.5a4.5 4.5 0 0 0-4.43 5.29 4.13 4.13 0 0 0 .68 8.2V18H9z"></path></svg>
+                <span>Import</span>
+              </li>
+
+            </ul>
+
+            <!-- Hidden File Input -->
+            <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
+
+            <!-- <button (click)="openAddInMenuBarre()"  *ngIf="!isElementSelected" class="btn-add"><span nz-icon nzType="plus" nzTheme="outline"></span></button> -->
+
+            <div id="pages-drawer-container">
+              <!-- TODO FIXE PAGES BUGS AND DECOMMENT -->
+              <span (click)="pagesDrawer = !pagesDrawer" class="open-page-drawer" [ngStyle]="{'right': pagesDrawer ? '200px' : '0' , 'animation-duration': '1s'}">>></span>
+        
+              <nz-drawer
+              [nzTitle]="''"
+              [nzWidth]="200"
+              [nzMask]="false"
+              [nzMaskStyle] = "{width: 'auto', background:'#000'}"
+              [nzVisible]="pagesDrawer"
+              [nzPlacement]="'right'"
+              nzTitle="Pages Drawer"
+              [nzHeight]="'100%'"
+              (nzOnClose)="closePageDrawer()"
+            >
+              <ng-container *nzDrawerContent>
+                <h6 class="text-center mb-4">{{menuTitle}}</h6>
+                <maker-tags-pages-selector></maker-tags-pages-selector>
+              </ng-container>
+            </nz-drawer>
+            </div>
+            
+            
+        
+            <nz-drawer
+              [nzTitle]="''"
+              [nzMaskStyle]="{opacity:0}"
+              
+              [nzMaskClosable]="true"
+              [nzClosable]="false"
+              [nzVisible]="mobileMenu"
+              [nzPlacement]="screenWidth > 767 ? 'left' : 'bottom'"
+              nzTitle="Basic Drawer"
+              [nzHeight]="menuDrawerHeight"
+              (nzOnClose)="closeMobileMenu()"
+            >
+              <ng-container *nzDrawerContent>
+                <h6 class="text-center mb-4">{{menuTitle}}</h6>
+                <ng-container #dynamicComponent *ngComponentOutlet="selectedComponentMenu"></ng-container>
+              </ng-container>
+            </nz-drawer>
+
+
+            <nz-drawer
+            [nzTitle]="''"
+            [nzMaskStyle]="{opacity:0}"
+            
+            [nzMaskClosable]="true"
+            [nzClosable]="false"
+            [nzVisible]="shareDrawer"
+            [nzPlacement]="screenWidth > 767 ? 'left' : 'bottom'"
+            nzTitle="Share Drawer"
+            [nzHeight]="240"
+            (nzOnClose)="closeShareDrawer()"
+          >
+            <ng-container *nzDrawerContent>
+              <maker-tags-share-options (shareAction)="onShareAction($event)"></maker-tags-share-options>
+            </ng-container>
+          </nz-drawer>
+
+            <nz-drawer
+            [nzTitle]="''"
+            [nzMaskStyle]="{opacity:0}"
+            
+            [nzMaskClosable]="true"
+            [nzClosable]="false"
+            [nzVisible]="downloadDrawer"
+            [nzPlacement]="screenWidth > 767 ? 'left' : 'bottom'"
+            nzTitle="Download Drawer"
+            [nzHeight]="menuDrawerHeight"
+            (nzOnClose)="closeDownloadDrawer()"
+          >
+            <ng-container *nzDrawerContent>
+           <maker-tags-download-options [progress]="progress" [is3D_art]="is3D_art" [isDownloaded]="isDownloaded" (downloadAction)="downloadActionFile($event)"></maker-tags-download-options>
+            </ng-container>
+          </nz-drawer>
+        <ng-container id="addInArtMenu">
+        
+            <nz-drawer
+             
+              [nzWrapClassName]="'addInArtMenu'"	
+              [nzTitle]="''"
+              [nzMaskStyle]="{opacity:0}"
+              [nzMaskClosable]="true"
+              [nzClosable]="false"
+              [nzVisible]="addInArtMenu"
+              [nzPlacement]="screenWidth > 767 ? 'right' : 'bottom'"
+              nzTitle="Basic Drawer"
+              (nzOnClose)="closeAddInArtMenu()"
+              [nzHeight]="240"
+            >
+            <div>
+              <ng-container *nzDrawerContent>
+                <ng-container  *ngComponentOutlet="selectedComponentAddInMenu"></ng-container>
+              </ng-container>
+            </div>
+            </nz-drawer>
+          </ng-container>
+          </ng-container>
+          </div>
+        
+        
+         
+        </div>
+      </div>
+    </nz-content>
+  </nz-layout>
+
+
+
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" >Custom Callback</button>
+    <button nz-button nzType="primary">Custom Submit</button>
+  </ng-template>
+

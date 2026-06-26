@@ -1,0 +1,121 @@
+<section class="background-panel" *ngIf="background$ | async as bg">
+  <header class="panel-header">
+    <h3>Background</h3>
+    <p>Choose a color or texture for your canvas.</p>
+  </header>
+
+  <div class="search-section">
+    <nz-input-group nzSearch [nzAddOnAfter]="searchBtn">
+      <input
+        #searchInput
+        nz-input
+        type="text"
+        placeholder="Search textures"
+        [value]="currentSearchQuery"
+        (keyup.enter)="searchBackgrounds(searchInput.value)"
+      />
+    </nz-input-group>
+    <ng-template #searchBtn>
+      <button nz-button nzType="default" nzSearch (click)="searchBackgrounds(searchInput.value)">
+        <span nz-icon nzType="search"></span>
+      </button>
+    </ng-template>
+  </div>
+
+  <section>
+    <h4>Predefined colors</h4>
+    <div class="color-swatches">
+      <button
+        *ngFor="let color of predefinedColors"
+        class="color-button"
+        [style.backgroundColor]="color"
+        [class.active]="bg.type === 'color' && bg.value === color"
+        [attr.aria-label]="'Set background color ' + color"
+        type="button"
+        (click)="selectColor(color)"
+      ></button>
+    </div>
+  </section>
+
+  <section>
+    <h4>Custom color</h4>
+    <div class="custom-color">
+      <input
+        class="native-color"
+        type="color"
+        [value]="bg.value"
+        (input)="onCustomColorInput($any($event.target).value)"
+      />
+      <input
+        nz-input
+        type="text"
+        [value]="bg.value"
+        maxlength="7"
+        placeholder="#FFFFFF"
+        (input)="onCustomColorInput($any($event.target).value)"
+      />
+    </div>
+    <div class="custom-color-list" *ngIf="customColors$ | async as customColors">
+      <button
+        *ngFor="let color of customColors"
+        class="color-button small"
+        [style.backgroundColor]="color"
+        [attr.aria-label]="'Set custom color ' + color"
+        [class.active]="bg.type === 'color' && bg.value === color"
+        type="button"
+        (click)="selectColor(color)"
+      ></button>
+    </div>
+  </section>
+
+  <section>
+    <h4>Available colors</h4>
+    <div class="color-swatches compact">
+      <button
+        *ngFor="let color of swatchColors"
+        class="color-button"
+        [style.backgroundColor]="color"
+        [class.active]="bg.type === 'color' && bg.value === color"
+        [attr.aria-label]="'Set swatch color ' + color"
+        type="button"
+        (click)="selectColor(color)"
+      ></button>
+    </div>
+  </section>
+  <section class="opacity" *ngIf="bg.type !== 'color'">
+    <h4>Opacity</h4>
+    <nz-slider
+      [ngModel]="bg.opacity * 100"
+      (ngModelChange)="onOpacityChange($event)"
+      [nzMin]="0"
+      [nzMax]="100"
+      [nzStep]="1"
+    ></nz-slider>
+  </section>
+  <section class="textures">
+    <h4>Textures and patterns</h4>
+    <nz-spin [nzSpinning]="loadingTextures">
+      <div class="texture-grid">
+        <button
+          *ngFor="let texture of textures; trackBy: trackTexture"
+          class="texture-button"
+          type="button"
+          [class.active]="bg.type === 'texture' && bg.value === texture.urls.regular"
+          [style.backgroundImage]="'url(' + texture.urls.thumb + ')'"
+          (click)="selectTexture(texture)"
+          [attr.aria-label]="'Apply texture by ' + texture.photographer"
+        ></button>
+      </div>
+    </nz-spin>
+    <div class="loading-more" *ngIf="loadingMore">
+      <nz-spin nzSimple></nz-spin>
+    </div>
+    <div #sentinel class="scroll-sentinel"></div>
+    <p class="attribution" *ngIf="selectedTexture">
+      {{ textureAttribution(selectedTexture) }}
+      <a [href]="selectedTexture.pageUrl" target="_blank" rel="noreferrer noopener">View on Pexels</a>
+    </p>
+  </section>
+
+
+</section>

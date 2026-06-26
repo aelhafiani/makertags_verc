@@ -1,0 +1,121 @@
+<div class="mockup-modal">
+  <div class="mockup-header">
+    <span nz-icon nzType="camera" nzTheme="outline" class="mockup-icon"></span>
+    <div>
+      <h3 class="mockup-title">Generate Mockup</h3>
+      <p class="mockup-sub">{{ isCutDieCard ? 'AI-generated foldable die-cut flower card product scene' : 'AI-generated lifestyle photo of your tag on a gift' }}</p>
+    </div>
+  </div>
+
+  <!-- Config row -->
+  <div class="mockup-config" *ngIf="!resultUrl">
+    <!-- Mockup type selector -->
+    <div class="config-field config-field--full">
+      <label class="config-label">Mockup Type</label>
+      <div class="type-toggle">
+        <button
+          *ngFor="let opt of mockupTypeOptions"
+          class="type-btn"
+          [class.type-btn--active]="selectedMockupType === opt.value"
+          [disabled]="loading"
+          type="button"
+          (click)="selectMockupType(opt.value)"
+        >
+          <span nz-icon [nzType]="opt.value === 'cut-die-card' ? 'scissor' : 'gift'" nzTheme="outline"></span>
+          {{ opt.label }}
+        </button>
+      </div>
+      <p class="type-desc">{{ isCutDieCard ? 'Foldable die-cut flower card product scene' : 'Lifestyle photo with tag on a wrapped gift' }}</p>
+    </div>
+
+    <div class="config-field" *ngIf="!isCutDieCard">
+      <label class="config-label">Format</label>
+      <nz-select
+        class="ratio-select"
+        [(ngModel)]="selectedRatio"
+        [nzDisabled]="loading"
+      >
+        <nz-option
+          *ngFor="let opt of ratioOptions"
+          [nzValue]="opt.value"
+          [nzLabel]="opt.label"
+        ></nz-option>
+      </nz-select>
+    </div>
+
+    <div class="config-field" *ngIf="isCutDieCard">
+      <label class="config-label">Format</label>
+      <span class="format-fixed">9:16 (1080×1920) — TikTok/Reels</span>
+    </div>
+
+    <div class="config-info" *ngIf="canvas && !isCutDieCard">
+      <span class="info-chip">
+        <span nz-icon nzType="font-size"></span>
+        {{ title || 'No title text found' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Canvas preview -->
+  <div class="canvas-preview-wrap" *ngIf="canvasPreview && !resultUrl">
+    <p class="config-label">{{ isCutDieCard ? 'Opened card (from canvas)' : 'Your tag design' }}</p>
+    <div class="canvas-preview">
+      <img [src]="canvasPreview" alt="Your tag design" />
+    </div>
+  </div>
+
+  <!-- Closed card upload (cut-die-card only) -->
+  <div class="opened-card-upload" *ngIf="isCutDieCard && !resultUrl">
+    <p class="config-label">Closed card photo <span class="optional-badge">optional</span></p>
+    <p class="upload-hint">Upload a photo of the card in its closed/folded state. The AI will use the canvas design as the opened version and this photo as the closed version.</p>
+
+    <div class="opened-card-preview" *ngIf="openedCardPreview">
+      <img [src]="openedCardPreview" alt="Opened card" class="opened-preview-img" />
+      <button class="btn-remove-img" type="button" (click)="removeOpenedCard()" [disabled]="loading">
+        <span nz-icon nzType="close" nzTheme="outline"></span>
+      </button>
+    </div>
+
+    <label class="btn-upload-opened" *ngIf="!openedCardPreview" [class.disabled]="loading">
+      <span nz-icon nzType="upload" nzTheme="outline"></span>
+      Choose photo
+      <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onOpenedCardFileChange($event)" [disabled]="loading" hidden />
+    </label>
+  </div>
+
+  <!-- Generate button -->
+  <button
+    *ngIf="!resultUrl"
+    class="btn-generate"
+    type="button"
+    [disabled]="loading"
+    (click)="generate()"
+  >
+    <nz-spin *ngIf="loading" nzSimple nzSize="small" class="btn-spin"></nz-spin>
+    <span *ngIf="!loading" nz-icon nzType="thunderbolt" nzTheme="fill"></span>
+    {{ loading ? 'Generating…' : 'Generate Mockup' }}
+  </button>
+
+  <!-- Result -->
+  <div class="mockup-result" *ngIf="resultUrl">
+    <div class="result-img-wrap">
+      <img [src]="resultUrl" alt="Generated mockup" class="result-img" />
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-download-result" type="button" (click)="download()">
+        <span nz-icon nzType="download" nzTheme="outline"></span>
+        Download
+      </button>
+      <button class="btn-regen" type="button" (click)="regenerate()">
+        <span nz-icon nzType="reload" nzTheme="outline"></span>
+        Regenerate
+      </button>
+    </div>
+
+    <details class="prompt-details">
+      <summary>View prompt</summary>
+      <p class="prompt-text">{{ usedPrompt }}</p>
+    </details>
+  </div>
+</div>

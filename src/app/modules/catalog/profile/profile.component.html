@@ -1,0 +1,230 @@
+<!-- ── PASSWORD MODAL ───────────────────────────────────────────────────────── -->
+<ng-template #passwordModal>
+  <div class="account-modal-body">
+    <p class="modal-hint">Choose a strong password (minimum 8 characters).</p>
+    <label class="modal-label">New password</label>
+    <input
+      [(ngModel)]="newPassword"
+      type="password"
+      placeholder="New password"
+      class="modal-input"
+      autocomplete="new-password"
+    />
+    <label class="modal-label" style="margin-top: 12px;">Confirm password</label>
+    <input
+      [(ngModel)]="confirmNewPassword"
+      type="password"
+      placeholder="Confirm password"
+      class="modal-input"
+      (keyup.enter)="savePassword()"
+    />
+  </div>
+</ng-template>
+
+<!-- ── NAME MODAL ───────────────────────────────────────────────────────────── -->
+<ng-template #nameModal>
+  <div class="account-modal-body">
+    <label class="modal-label">Full name</label>
+    <input
+      [(ngModel)]="editFullName"
+      type="text"
+      placeholder="e.g. Jane Doe"
+      class="modal-input"
+      (keyup.enter)="saveFullName()"
+      autofocus
+    />
+  </div>
+</ng-template>
+
+
+<!-- ── GUEST OTP MODAL ──────────────────────────────────────────────────────── -->
+<ng-template #guestOtpModal>
+  <div style="padding: 20px;">
+    <p style="color: #6b7280; margin-bottom: 20px; font-size: 14px;">
+      We've sent a sign-in code to <strong>{{ guestEmailForOtp }}</strong>. Check your email and enter it below.
+    </p>
+    <input
+      [(ngModel)]="otpCode"
+      type="text"
+      placeholder="Enter 6-digit code"
+      maxlength="6"
+      style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 16px; letter-spacing: 4px; text-align: center; margin-bottom: 20px;"
+      (keyup.enter)="verifyGuestOTP()"
+      autofocus
+    />
+    <div style="color: #6b7280; font-size: 13px; text-align: center;">
+      Didn't receive the code? Check your spam folder or <a href="javascript:void(0)" (click)="resendGuestOTP()" style="color: #f59e0b; text-decoration: underline;">resend it</a>.
+    </div>
+  </div>
+</ng-template>
+
+<div class="profile-wrap" *ngIf="user.id">
+  <div class="profile-header">
+    <div class="header-content">
+      <div class="avatar-section">
+        <img
+          [src]="user.photoURL || 'https://via.placeholder.com/150'"
+          alt="Avatar"
+          class="avatar"
+        >
+      </div>
+      <div class="info-section">
+        <h1 class="profile-title">{{ user.email }}</h1>
+        <div class="info-row">
+          <span class="info-label">Status:</span>
+          <span *ngIf="user.emailVerified" class="badge badge-verified">✓ Verified</span>
+          <span *ngIf="!user.emailVerified" class="badge badge-unverified">○ Unverified</span>
+        </div>
+        <button
+          *ngIf="!user.emailVerified"
+          class="btn-resend"
+          (click)="sendVerificationEmail()"
+        >
+          Resend verification email
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACCOUNT SETTINGS ──────────────────────────────────────────────────────── -->
+  <div class="account-settings-section">
+    <h2 class="section-title">Account Settings</h2>
+    <div class="account-settings-card">
+
+      <!-- Full name row -->
+      <div class="account-row">
+        <div class="account-row-info">
+          <span class="account-row-label">Full name</span>
+          <span class="account-row-value">{{ fullName || 'Not set' }}</span>
+        </div>
+        <button class="btn-account-action" (click)="openNameModal()">
+          {{ fullName ? 'Edit' : 'Add name' }}
+        </button>
+      </div>
+
+      <div class="account-divider"></div>
+
+      <!-- Password row -->
+      <div class="account-row">
+        <div class="account-row-info">
+          <span class="account-row-label">Password</span>
+          <span class="account-row-value">{{ hasPassword ? '••••••••' : 'No password set' }}</span>
+        </div>
+        <button class="btn-account-action" (click)="openPasswordModal()">
+          {{ hasPassword ? 'Change password' : 'Add a password' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SUBSCRIPTION INFO ──────────────────────────────────────────────────────── -->
+  <div class="subscription-section" *ngIf="subscription">
+    <div class="sub-card" [ngClass]="subscription.cancelled_at ? 'sub-card--cancelled' : ''">
+      <div class="sub-header">
+        <div class="sub-title">
+          <span class="sub-badge" [ngClass]="subscription.cancelled_at ? 'badge-cancelled' : ''">
+            {{ subscription.cancelled_at ? '○ CANCELLED' : '✓ ACTIVE' }}
+          </span>
+          <h2>{{ subscription.plan === 'yearly' ? 'Pro Yearly' : 'Pro Monthly' }}</h2>
+        </div>
+        <button
+          class="btn-cancel"
+          *ngIf="!subscription.cancelled_at"
+          (click)="confirmCancelSubscription()"
+          [disabled]="isLoading">
+          Cancel subscription
+        </button>
+        <button
+          class="btn-reactivate"
+          *ngIf="subscription.cancelled_at"
+          (click)="reactivateSubscription()"
+          [disabled]="isLoading">
+          Reactivate subscription
+        </button>
+      </div>
+      <div class="sub-details">
+        <div class="sub-detail-row">
+          <span class="detail-label">Plan started:</span>
+          <span class="detail-value">{{
+            (subscription.created_at | date: 'MMM d, yyyy') || 'N/A'
+          }}</span>
+        </div>
+        <div class="sub-detail-row">
+          <span class="detail-label">Expires:</span>
+          <span class="detail-value">{{
+            (subscription.expires_at | date: 'MMM d, yyyy') || 'N/A'
+          }}</span>
+        </div>
+        <div class="sub-benefit">
+          <span class="benefit-icon">🎨</span>
+          <span class="benefit-text">Unlimited access to all premium designs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ALL DESIGNS ────────────────────────────────────────────────────────────── -->
+  <div class="designs-section" *ngIf="userDocs.length > 0">
+    <h2 class="section-title">My Designs</h2>
+    <p class="section-subtitle">{{ userDocs.length }} saved template{{ userDocs.length !== 1 ? 's' : '' }}</p>
+
+    <div class="masonry-grid">
+      <div class="masonry-item" *ngFor="let design of userDocs">
+        <!-- Premium badge if purchased -->
+        <div class="item-badge badge-premium" *ngIf="isPurchased(design)">
+          ✓ PREMIUM
+        </div>
+        <!-- Buy badge if not purchased -->
+        <div class="item-badge badge-locked" *ngIf="!isPurchased(design) && design.is_premuim">
+          🔒 GET PREMIUM
+        </div>
+
+        <div class="item-image">
+          <img
+            loading="lazy"
+            [src]="design.pages[0]?.preview || 'https://via.placeholder.com/225x360'"
+            alt="{{ design.name }}"
+          >
+          <div class="item-overlay">
+            <button class="btn-edit" [routerLink]="['/creator/my', design.id]">
+              ✎ Edit
+            </button>
+          </div>
+        </div>
+
+        <div class="item-footer">
+          <div class="item-info">
+            <h3 class="item-title">{{ design.title || design.name || 'Untitled' }}</h3>
+            <p class="item-meta">{{ design.categorie }}</p>
+          </div>
+
+          <!-- Delete button (always) or Buy button (if premium & not purchased & no subscription) -->
+          <div class="item-actions">
+            <button
+              *ngIf="!isPurchased(design) && design.is_premuim && !subscription"
+              class="btn-buy"
+              (click)="buyDesign(getOriginalId(design))"
+              title="Buy this design"
+            >
+              💳
+            </button>
+            <button
+              class="btn-delete"
+              (click)="confirmDelete(design.id)"
+              title="Delete design"
+            >
+              🗑
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EMPTY STATE ────────────────────────────────────────────────────────────── -->
+  <div class="empty-state" *ngIf="userDocs.length === 0">
+    <p>No designs yet</p>
+    <a routerLink="/catalog" class="btn-browse">Browse templates</a>
+  </div>
+</div>

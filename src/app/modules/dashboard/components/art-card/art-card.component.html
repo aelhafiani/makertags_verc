@@ -1,0 +1,20 @@
+<div *ngIf="art" nz-col [nzSpan]="5" class="card-art">
+
+        
+
+    <nz-card [routerLink]="'/creator/'+art.id" nzHoverable style="width:240px" [nzCover]="coverTemplate">
+      <!-- <nz-card-meta nzTitle="Europe Street beat" nzDescription="www.instagram.com"></nz-card-meta> -->
+    </nz-card>
+    <ng-template #coverTemplate>
+      <img loading="lazy"  fetchpriority="high"  alt="example" [src]="art.preview_realized_art" />
+      <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="topCenter">
+        <span nz-icon nzType="ellipsis"></span>
+      </button>
+    </ng-template>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item (click)="editArt(art.id)">Edit</li>
+          <li nz-menu-item (click)="removeArt()">Delete</li>
+        </ul>
+      </nz-dropdown-menu>
+  </div> 

@@ -1,0 +1,17 @@
+.preview-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 2px solid #e5e7eb;
+    cursor: pointer;
+    object-fit: contain;
+    background: #f9fafb;
+
+    &.selected {
+        border: 2px solid #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+}

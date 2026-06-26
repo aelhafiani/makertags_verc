@@ -1,0 +1,57 @@
+
+<nz-tabset>
+    <nz-tab nzTitle="Colors">
+        <!-- <div>
+            <p>Disabled</p>
+            <nz-switch [(ngModel)]="disabledColore" (ngModelChange)="toggleColorVisibility($event)" [nzSize]="'small'" [nzCheckedChildren]="'On'" [nzUnCheckedChildren]="'Off'"></nz-switch>
+        </div> -->
+        <div class="color-list simple">
+            <nz-color-picker [nzFlipFlop]="flipFlop" (nzOnChange)="changeColor($event)" nzShowText [nzOpen]="false">
+                <ng-template #flipFlop>
+                    <div  class="colorCard picker" ></div>
+                  </ng-template>
+            </nz-color-picker >
+        <div (click)="changeColorSwitch(color)" *ngFor="let color of colorSwatche"  class="colorCard" [ngStyle]="{'background':'#'+color}"></div>
+    </div>
+    <div class="color-list">
+        <div class="colorCard" *ngFor="let color of colorGradien" (click)="changeColorSwitch('linear-gradient('+color[0]+','+color[1]+')')"  [ngStyle]="{'background':'linear-gradient('+color[0]+','+color[1]+')'}">
+        </div>
+    </div>
+    </nz-tab>
+    <nz-tab nzTitle="Pattern">
+                <div class="color-list">
+                    <div class="patternBlock" *ngFor="let color of patterns" (click)="changePattern(color.source)"  [ngStyle]="{'background':'url('+color.source+')'}">
+                    </div>
+                </div>
+    </nz-tab>
+    <nz-tab nzTitle="Stroke">
+        <div class="stroke-block">
+            <div>
+                <p>Disabled</p>
+                <nz-switch [(ngModel)]="disabledStroke" (ngModelChange)="toggleStrokeVisibility($event)" [nzSize]="'small'" [nzCheckedChildren]="'On'" [nzUnCheckedChildren]="'Off'"></nz-switch>
+            </div>
+            <div>
+                <p>Stroke Style</p>
+                 <nz-select [(ngModel)]="strokeStyle" (ngModelChange)="changeStrokeStyle($event)" nzPlaceHolder="Select a style" [nzSize]="'small'" [nzShowSearch]="false">
+                     <nz-option nzLabel="Solid" nzValue="solid"></nz-option>
+                     <nz-option nzLabel="Dotted" nzValue="dotted"></nz-option>
+                     <nz-option nzLabel="Dashed" nzValue="dashed"></nz-option>
+                </nz-select>
+        </div>
+        <div>
+            <p>Stroke Width</p>
+            <nz-slider [(ngModel)]="strokeWidth"  (nzOnAfterChange)="changeStrokeWidth($event)"  [nzStep]="0.1" [nzMin]="0.1" [nzMax]="10"></nz-slider>
+        </div>
+        
+         <div class="color-list simple">
+            <p>Stroke Color</p>
+            <nz-color-picker [nzFlipFlop]="flipFlop" (nzOnChange)="changeStrokeColor($event)" nzShowText [nzOpen]="false">
+              <ng-template #flipFlop>
+               <div  class="colorCard picker" ></div>
+                </ng-template>
+            </nz-color-picker>
+         </div>
+          
+        </div>
+</nz-tab>
+  </nz-tabset>

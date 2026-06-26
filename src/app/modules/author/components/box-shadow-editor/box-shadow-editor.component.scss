@@ -1,0 +1,14 @@
+.color-list{
+
+    .colorCard{
+        padding: 14px;
+        width: auto;
+        height: 30px;
+        border-radius: 7px;
+        margin: 10px;
+    }
+    .colorCard.picker{
+        background: rgb(131,58,180);
+background: radial-gradient(circle, rgba(131,58,180,1) 0%, rgba(160,105,144,1) 24%, rgba(252,253,29,1) 50%, rgba(57,252,76,1) 69%, rgba(252,69,69,1) 100%);
+    }
+}

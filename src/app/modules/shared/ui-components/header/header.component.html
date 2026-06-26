@@ -1,0 +1,153 @@
+<!-- ══ NAVBAR ════════════════════════════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="navbar-inner">
+
+    <!-- Logo -->
+    <a class="navbar-logo" routerLink="/">
+      <img
+        src="assets/logo.svg"
+        alt="MakerTags logo"
+        height="44"
+      />
+    </a>
+
+    <!-- Desktop nav links -->
+    <ul class="nav-links">
+      <li><a class="nav-link" routerLink="/tags" routerLinkActive="active">{{ 'header.templates' | transloco }}</a></li>
+      <li><a class="nav-link" routerLink="/about" routerLinkActive="active">{{ 'header.about' | transloco }}</a></li>
+      <li><a class="nav-link" routerLink="/contact" routerLinkActive="active">{{ 'header.contact' | transloco }}</a></li>
+      <li><a class="nav-link nav-link--pricing" routerLink="/pricing" routerLinkActive="active">{{ 'header.pricing' | transloco }}</a></li>
+    </ul>
+
+    <!-- Language switcher -->
+    <maker-tags-lang-switcher></maker-tags-lang-switcher>
+
+    <!-- Desktop auth -->
+    <div class="nav-auth">
+      <ng-container *ngIf="!isAuthenticated(); else profileMenu">
+        <button class="btn-login" type="button" (click)="openLoginModal()">
+          {{ 'header.login' | transloco }}
+        </button>
+        <button class="btn-signup" type="button" (click)="openLoginModal()">
+          {{ 'header.signup' | transloco }}
+        </button>
+      </ng-container>
+
+      <ng-template #profileMenu>
+        <div class="profile-dropdown dropdown">
+          <button class="profile-trigger" type="button" id="profileDropdown"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/assets%2Fprofile-icon.png?alt=media&token=c212b43f-5210-4d60-bda3-7a4ec0d89be5"
+              alt="Profile"
+              class="profile-avatar"
+            />
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-panel" aria-labelledby="profileDropdown">
+            <li><a class="dropdown-item-custom" routerLink="/profile">
+              <span class="dropdown-icon">👤</span> {{ 'header.myProfile' | transloco }}
+            </a></li>
+            <li *ngIf="isAdmin$ | async">
+              <a class="dropdown-item-custom" (click)="goTo('/dashboard')">
+                <span class="dropdown-icon">⚙️</span> {{ 'header.dashboard' | transloco }}
+              </a>
+            </li>
+            <li class="dropdown-divider-custom"></li>
+            <li><a class="dropdown-item-custom dropdown-item-danger" (click)="logout()">
+              <span class="dropdown-icon">↩</span> {{ 'header.logout' | transloco }}
+            </a></li>
+          </ul>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Hamburger (mobile) -->
+    <button
+      class="hamburger"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#mobileDrawer"
+      aria-controls="mobileDrawer"
+      aria-label="Open menu"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- ══ MOBILE DRAWER ════════════════════════════════════════════════════════ -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileDrawer" aria-labelledby="drawerLabel">
+  <div class="offcanvas-header drawer-header">
+    <a routerLink="/" data-bs-dismiss="offcanvas">
+      <img src="assets/logo.svg" alt="Logo" height="38" />
+    </a>
+    <button type="button" class="drawer-close" data-bs-dismiss="offcanvas" aria-label="Close">✕</button>
+  </div>
+
+  <div class="offcanvas-body drawer-body">
+    <!-- Nav links -->
+    <ul class="drawer-links">
+      <li>
+        <a class="drawer-link" routerLink="/tags" routerLinkActive="active" data-bs-dismiss="offcanvas">
+          {{ 'header.templates' | transloco }}
+        </a>
+      </li>
+      <li>
+        <a class="drawer-link" routerLink="/about" routerLinkActive="active" data-bs-dismiss="offcanvas">
+          {{ 'header.about' | transloco }}
+        </a>
+      </li>
+      <li>
+        <a class="drawer-link" routerLink="/contact" routerLinkActive="active" data-bs-dismiss="offcanvas">
+          {{ 'header.contact' | transloco }}
+        </a>
+      </li>
+      <li>
+        <a class="drawer-link drawer-link--pricing" routerLink="/pricing" routerLinkActive="active" data-bs-dismiss="offcanvas">
+          {{ 'header.pricing' | transloco }}
+        </a>
+      </li>
+    </ul>
+
+    <div class="drawer-divider"></div>
+
+    <!-- Language switcher (mobile) -->
+    <div class="drawer-lang">
+      <maker-tags-lang-switcher></maker-tags-lang-switcher>
+    </div>
+
+    <div class="drawer-divider"></div>
+
+    <!-- Auth -->
+    <ng-container *ngIf="!isAuthenticated(); else drawerLoggedIn">
+      <p class="drawer-auth-hint">{{ 'header.joinUsers' | transloco }}</p>
+      <button class="btn-signup drawer-btn" type="button" (click)="openLoginFromOffcanvas()" data-bs-dismiss="offcanvas">
+        {{ 'header.signup' | transloco }}
+      </button>
+      <button class="btn-login drawer-btn-ghost" type="button" (click)="openLoginFromOffcanvas()" data-bs-dismiss="offcanvas">
+        {{ 'header.login' | transloco }}
+      </button>
+    </ng-container>
+
+    <ng-template #drawerLoggedIn>
+      <div class="drawer-profile">
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/assets%2Fprofile-icon.png?alt=media&token=c212b43f-5210-4d60-bda3-7a4ec0d89be5"
+          alt="Profile"
+          class="drawer-avatar"
+        />
+        <div>
+          <div class="drawer-profile-name">{{ 'header.myAccount' | transloco }}</div>
+          <div class="drawer-profile-sub">{{ 'header.manageDesigns' | transloco }}</div>
+        </div>
+      </div>
+      <ul class="drawer-account-links">
+        <li><a (click)="goTo('/profile')" data-bs-dismiss="offcanvas">👤 {{ 'header.profile' | transloco }}</a></li>
+        <li *ngIf="isAdmin$ | async"><a (click)="goTo('/dashboard')" data-bs-dismiss="offcanvas">⚙️ {{ 'header.dashboard' | transloco }}</a></li>
+        <li><a (click)="logout()" data-bs-dismiss="offcanvas" class="danger">↩ {{ 'header.logout' | transloco }}</a></li>
+      </ul>
+    </ng-template>
+  </div>
+</div>

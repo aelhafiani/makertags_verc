@@ -1,0 +1,398 @@
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <a routerLink="/" class="topbar-logo">
+      <img src="assets/logo.svg" alt="Logo" height="36" />
+    </a>
+    <button class="btn-exit" type="button" (click)="onExit()">
+      <span nz-icon nzType="close" nzTheme="outline"></span>
+      <span class="btn-exit-label">Save and Exit</span>
+    </button>
+    <div class="doc-info">
+      <span class="doc-title">{{ artDoc?.title || artDoc?.name || 'Untitled' }}</span>
+      <span class="save-badge">
+        <span class="save-dot"></span><span class="save-label">Saved</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <div class="history-btns">
+      <button class="icon-btn" type="button" title="Undo" (click)="onUndo()">
+        <span nz-icon nzType="undo" nzTheme="outline"></span>
+      </button>
+      <button class="icon-btn" type="button" title="Redo" (click)="onRedo()">
+        <span nz-icon nzType="redo" nzTheme="outline"></span>
+      </button>
+      <button
+        class="icon-btn icon-btn--snap"
+        type="button"
+        [title]="snapGuidesEnabled ? 'Désactiver les lignes de guidage' : 'Activer les lignes de guidage'"
+        [class.icon-btn--snap-on]="snapGuidesEnabled"
+        (click)="toggleSnapGuides()"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="7.25" y="1" width="1.5" height="14" rx="0.75" fill="currentColor"/>
+          <rect x="1" y="7.25" width="14" height="1.5" rx="0.75" fill="currentColor"/>
+          <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+    </div>
+    <button
+      *ngIf="isAdmin$ | async"
+      class="btn-ai-design"
+      type="button"
+      title="Générer un design par IA"
+      (click)="openAiDesignGenerator()"
+    >
+      <span nz-icon nzType="experiment" nzTheme="fill"></span>
+      <span class="btn-ai-design-label">IA Design</span>
+    </button>
+    <button
+      *ngIf="isAdmin$ | async"
+      class="btn-mockup"
+      type="button"
+      title="Generate AI Mockup"
+      (click)="openMockupGenerator()"
+    >
+      <span nz-icon nzType="camera" nzTheme="outline"></span>
+      <span class="btn-mockup-label">Mockup</span>
+    </button>
+    <button class="btn-download" type="button" (click)="openDownloadMenu()">
+      <span nz-icon nzType="download" nzTheme="outline"></span>
+      <span class="btn-download-label">Download</span>
+    </button>
+
+    <!-- Premium unlock button: visible only when watermark is active -->
+    <button
+      *ngIf="showWatermarkBanner"
+      class="btn-unlock-premium"
+      type="button"
+      (click)="openUnlockPremium()"
+    >
+      <span nz-icon nzType="crown" nzTheme="fill"></span>
+      <span class="btn-unlock-label">Remove Watermark</span>
+    </button>
+  </div>
+</header>
+
+<!-- EDITOR BODY (desktop + mobile canvas mode) -->
+<div class="editor-body" [class.mobile-canvas-body]="mobileMode === 'canvas'">
+
+  <!-- LEFT SIDEBAR: tool icons (desktop only) -->
+  <aside class="left-sidebar" aria-label="Tools">
+    <button
+      *ngFor="let tool of tools"
+      class="tool-btn"
+      [class.active]="activeTool === tool.id"
+      type="button"
+      [title]="tool.label"
+      (click)="selectTool(tool.id)"
+    >
+      <span nz-icon [nzType]="tool.icon" nzTheme="outline"></span>
+      <span class="tool-label">{{ tool.label }}</span>
+    </button>
+  </aside>
+
+  <!-- CONTEXTUAL PANEL (desktop only) -->
+  <div class="panel-lane">
+    <maker-tags-contextual-panel />
+  </div>
+
+  <!-- CANVAS AREA -->
+  <main class="canvas-lane">
+    <!-- FLOATING TEXT TOOLBAR -->
+    <maker-tags-floating-text-toolbar></maker-tags-floating-text-toolbar>
+    <!-- FLOATING SHAPE TOOLBAR -->
+    <maker-tags-floating-shape-toolbar></maker-tags-floating-shape-toolbar>
+    <!-- FLOATING QR TOOLBAR -->
+    <maker-tags-floating-qr-toolbar></maker-tags-floating-qr-toolbar>
+    <!-- FLOATING ALIGNMENT TOOLBAR (multi-selection) -->
+    <maker-tags-floating-alignment-toolbar></maker-tags-floating-alignment-toolbar>
+
+    <div class="canvas-scroll"
+         #canvasScrollEl
+         (contextmenu)="onCanvasContextMenu($event)">
+      <div class="canvas-sizer"
+           [style.width.px]="canvasWidth * zoomLevel / 100"
+           [style.height.px]="canvasHeight * zoomLevel / 100">
+        <div #canvasWrapperEl
+             class="canvas-wrapper"
+             style="visibility:hidden"
+             [style.transform]="'scale(' + zoomLevel / 100 + ')'"
+             [style.width.px]="canvasWidth"
+             [style.height.px]="canvasHeight">
+          <canvas #fabricSurface></canvas>
+        </div>
+      </div>
+      <div class="canvas-loader-overlay" #canvasLoaderEl style="display:flex">
+        <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+      </div>
+    </div>
+
+    <!-- BOTTOM TOOLBAR: zoom + actions (desktop) -->
+    <div class="canvas-toolbar">
+      <div class="zoom-controls">
+        <button class="toolbar-icon-btn" type="button" title="Zoom out" (click)="zoomOut()">
+          <span nz-icon nzType="minus" nzTheme="outline"></span>
+        </button>
+        <select class="zoom-select" [(ngModel)]="zoomLevel" (ngModelChange)="onZoomChange($event)">
+          <option *ngFor="let z of zoomOptions" [value]="z">{{ z }}%</option>
+        </select>
+        <button class="toolbar-icon-btn" type="button" title="Zoom in" (click)="zoomIn()">
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+        </button>
+      </div>
+
+      <div class="canvas-size-controls">
+        <span class="size-label">W</span>
+        <input
+          class="size-input"
+          type="number"
+          min="1"
+          [(ngModel)]="canvasWidth"
+          (keydown.enter)="applyCanvasSize()"
+          (blur)="applyCanvasSize()"
+          title="Canvas width (px)"
+        />
+        <span class="size-sep">×</span>
+        <span class="size-label">H</span>
+        <input
+          class="size-input"
+          type="number"
+          min="1"
+          [(ngModel)]="canvasHeight"
+          (keydown.enter)="applyCanvasSize()"
+          (blur)="applyCanvasSize()"
+          title="Canvas height (px)"
+        />
+        <span class="size-unit">px</span>
+      </div>
+
+      <div class="toolbar-actions">
+        <button class="toolbar-icon-btn" type="button" title="Share" (click)="openShareMenu()">
+          <span nz-icon nzType="share-alt" nzTheme="outline"></span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- RIGHT MINI-PREVIEW (desktop only) -->
+  <aside class="preview-lane">
+    <maker-tags-mini-preview-column />
+  </aside>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     MOBILE ONLY
+     ══════════════════════════════════════════════════════════════════════════ -->
+
+<!-- ── MOBILE SIMPLE MODE ─────────────────────────────────────────────────── -->
+<div class="mobile-simple" *ngIf="mobileMode === 'simple'">
+
+  <!-- Topbar simple -->
+  <header class="mobile-simple-topbar">
+    <button class="mobile-simple-exit" type="button" (click)="onExit()">
+      <span nz-icon nzType="close" nzTheme="outline"></span>
+    </button>
+    <span class="mobile-simple-title">{{ artDoc?.title || artDoc?.name || 'Untitled' }}</span>
+    <button class="mobile-simple-done" type="button" (click)="openDownloadMenu()">
+      <span nz-icon nzType="download" nzTheme="outline"></span>
+    </button>
+  </header>
+
+  <!-- Canvas preview (snapshot image) -->
+  <div class="mobile-preview-wrap">
+    <img class="mobile-preview-img" [src]="mobilePreviewDataUrl" alt="preview" *ngIf="mobilePreviewDataUrl" />
+    <div class="mobile-preview-placeholder" *ngIf="!mobilePreviewDataUrl">
+      <span nz-icon nzType="loading" nzTheme="outline"></span>
+    </div>
+  </div>
+
+  <!-- Scrollable edit fields -->
+  <div class="mobile-simple-fields">
+    <maker-tags-edit-panel />
+  </div>
+
+  <!-- Actions -->
+  <div class="mobile-simple-actions">
+    <button class="mobile-btn-done" type="button" (click)="openDownloadMenu()">
+      <span nz-icon nzType="download" nzTheme="outline"></span>
+      Télécharger
+    </button>
+    <button class="mobile-btn-canvas" type="button" (click)="switchToCanvasMode()">
+      <span nz-icon nzType="edit" nzTheme="outline"></span>
+      Modifier avec l'Outil de Conception
+    </button>
+  </div>
+</div>
+
+<!-- ── MOBILE CANVAS MODE ──────────────────────────────────────────────────── -->
+<div class="mobile-canvas-mode" *ngIf="mobileMode === 'canvas'">
+
+  <!-- Topbar canvas -->
+  <header class="mobile-canvas-topbar">
+    <button class="mobile-canvas-back" type="button" (click)="switchToSimpleMode()" *ngIf="mobileSimpleEditorEnabled">
+      <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+    </button>
+    <div class="mobile-canvas-history">
+      <button class="icon-btn" type="button" (click)="onUndo()">
+        <span nz-icon nzType="undo" nzTheme="outline"></span>
+      </button>
+      <button class="icon-btn" type="button" (click)="onRedo()">
+        <span nz-icon nzType="redo" nzTheme="outline"></span>
+      </button>
+    </div>
+    <button class="mobile-simple-done" type="button" (click)="switchToSimpleMode()" *ngIf="mobileSimpleEditorEnabled">
+      Terminé
+    </button>
+  </header>
+
+  <!-- Canvas is rendered in .editor-body above (visible via mobile-canvas-body class) -->
+
+  <!-- Bottom tools -->
+  <nav class="mobile-toolbar" aria-label="Tools">
+    <button
+      *ngFor="let tool of tools"
+      class="mobile-tool-btn"
+      [class.active]="activeTool === tool.id"
+      type="button"
+      (click)="selectTool(tool.id)"
+    >
+      <span nz-icon [nzType]="tool.icon" nzTheme="outline"></span>
+      <span class="mobile-tool-label">{{ tool.label }}</span>
+    </button>
+    <button class="mobile-tool-btn mobile-tool-btn--share" type="button" (click)="openShareMenu()">
+      <span nz-icon nzType="share-alt" nzTheme="outline"></span>
+      <span class="mobile-tool-label">Share</span>
+    </button>
+  </nav>
+
+  <!-- Bottom sheet panel -->
+  <div class="mobile-sheet-backdrop" *ngIf="mobilePanelOpen" (click)="closeMobilePanel()"></div>
+  <div class="mobile-sheet"
+       [class.mobile-sheet--dragging]="sheetDragging"
+       [style.transform]="sheetTransform">
+    <div class="mobile-sheet-handle"
+         (touchstart)="onSheetTouchStart($event)"
+         (touchmove)="onSheetTouchMove($event)"
+         (touchend)="onSheetTouchEnd($event)">
+      <div class="mobile-sheet-handle-bar"></div>
+      <span class="mobile-sheet-title">{{ activeToolLabel }}</span>
+    </div>
+    <div class="mobile-sheet-content">
+      <maker-tags-contextual-panel />
+    </div>
+  </div>
+</div>
+
+<!-- CANVAS RIGHT-CLICK CONTEXT MENU -->
+<div
+  *ngIf="contextMenu"
+  class="canvas-context-menu"
+  [style.left.px]="contextMenu.x"
+  [style.top.px]="contextMenu.y"
+  (click)="$event.stopPropagation()"
+>
+  <!-- Actions available to all users -->
+  <button class="ctx-item" type="button" (click)="duplicateObject()">
+    <span nz-icon nzType="copy" nzTheme="outline"></span>
+    Duplicate
+  </button>
+
+  <button class="ctx-item" type="button" (click)="mirrorHorizontal()">
+    <span nz-icon nzType="swap" nzTheme="outline"></span>
+    Mirror Horizontal
+  </button>
+  <button class="ctx-item" type="button" (click)="mirrorVertical()">
+    <span nz-icon nzType="swap" nzTheme="outline" style="transform: rotate(90deg)"></span>
+    Mirror Vertical
+  </button>
+
+  <button class="ctx-item" type="button" *ngIf="!contextMenu.isLocked" (click)="lockMovement()">
+    <span nz-icon nzType="lock" nzTheme="outline"></span>
+    Lock
+  </button>
+  <button class="ctx-item" type="button" *ngIf="contextMenu.isLocked" (click)="unlockMovement()">
+    <span nz-icon nzType="unlock" nzTheme="outline"></span>
+    Unlock
+  </button>
+
+  <!-- Admin-only actions -->
+  <ng-container *ngIf="isAdmin$ | async">
+    <div class="ctx-divider"></div>
+
+    <button class="ctx-item" type="button" *ngIf="contextMenu.isMultiSelection" (click)="groupElements()">
+      <span nz-icon nzType="group" nzTheme="outline"></span>
+      Group
+    </button>
+    <button class="ctx-item" type="button" *ngIf="contextMenu.isGroup" (click)="ungroupElements()">
+      <span nz-icon nzType="apartment" nzTheme="outline"></span>
+      Ungroup
+    </button>
+
+    <button class="ctx-item" type="button" *ngIf="contextMenu.isMultiSelection" (click)="applyMask()">
+      <span nz-icon nzType="scissor" nzTheme="outline"></span>
+      Mask
+    </button>
+    <button class="ctx-item" type="button" *ngIf="contextMenu.hasMask" (click)="undoMask()">
+      <span nz-icon nzType="undo" nzTheme="outline"></span>
+      Undo Mask
+    </button>
+
+    <div class="ctx-divider"></div>
+
+    <button
+      class="ctx-item"
+      type="button"
+      *ngIf="!contextMenu.targetIsContour"
+      (click)="setAsArtContour()"
+    >
+      <span nz-icon nzType="border" nzTheme="outline"></span>
+      Set as art contour
+    </button>
+    <button
+      class="ctx-item ctx-item--danger"
+      type="button"
+      *ngIf="contextMenu.targetIsContour"
+      (click)="clearArtContour()"
+    >
+      <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+      Remove art contour
+    </button>
+  </ng-container>
+</div>
+
+<div aria-live="polite" class="sr-only" #liveRegion></div>
+
+<!-- SHARE OPTIONS DRAWER -->
+<nz-drawer
+  [nzVisible]="shareDrawer"
+  nzPlacement="right"
+  nzTitle="Share Your Artwork"
+  [nzWidth]="400"
+  (nzOnClose)="closeShareDrawer()"
+>
+  <ng-container *nzDrawerContent>
+    <maker-tags-share-options (shareAction)="onShareAction($event)" />
+  </ng-container>
+</nz-drawer>
+
+<!-- DOWNLOAD OPTIONS DRAWER -->
+<nz-drawer
+  [nzVisible]="downloadDrawer"
+  nzPlacement="right"
+  nzTitle="Download"
+  [nzWidth]="420"
+  (nzOnClose)="closeDownloadDrawer()"
+>
+  <ng-container *nzDrawerContent>
+    <maker-tags-download-options
+      [isDownloaded]="isDownloaded"
+      [progress]="progress"
+      [artSize]="artDoc?.size ?? ''"
+      (downloadAction)="downloadActionFile($event)"
+    />
+  </ng-container>
+</nz-drawer>

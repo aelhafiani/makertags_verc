@@ -1,0 +1,87 @@
+<div class="legal-page">
+  <div class="legal-hero">
+    <div class="legal-hero-inner">
+      <div class="legal-badge">Legal</div>
+      <h1 class="legal-title">Refund &amp; Cancellation Policy</h1>
+      <p class="legal-meta">Effective date: <strong>{{ effectiveDate }}</strong> · <strong>{{ companyName }}</strong></p>
+    </div>
+  </div>
+
+  <div class="legal-body">
+
+    <!-- Guarantee callout -->
+    <div class="guarantee-banner">
+      <div class="guarantee-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+      </div>
+      <div>
+        <strong class="guarantee-title">7-Day Satisfaction Guarantee</strong>
+        <p class="guarantee-sub">If you have a technical issue with a purchase, contact us within 7 days and we will make it right.</p>
+      </div>
+    </div>
+
+    <main class="legal-content">
+
+      <section>
+        <h2>1. Our Commitment</h2>
+        <p>At <strong>{{ siteName }}</strong>, operated by <strong>{{ companyName }}</strong>, we want you to be completely satisfied with your purchase. This policy describes when and how refunds are issued.</p>
+      </section>
+
+      <section>
+        <h2>2. Free Plan</h2>
+        <p>The free plan has no charge — no refund is applicable.</p>
+      </section>
+
+      <section>
+        <h2>3. Single Design Purchases (€2)</h2>
+        <p>Single-design purchases are <strong>generally non-refundable</strong> because digital content is delivered immediately upon payment and can be accessed right away.</p>
+        <p><strong>Exception — Technical Issues:</strong> If you encounter a confirmed technical problem that prevents you from accessing or exporting the purchased design, contact us at <a [href]="'mailto:' + supportEmail">{{ supportEmail }}</a> within <strong>7 days</strong> of purchase. We will investigate and issue a full refund if the problem is caused by our platform.</p>
+      </section>
+
+      <section>
+        <h2>4. Pro Monthly Subscription (€12 / month)</h2>
+        <p>You may cancel your subscription at any time through your account settings. Cancellation stops future billing immediately. <strong>No partial refunds</strong> are issued for the unused portion of the current billing period — access continues until the period ends.</p>
+        <p><strong>Exception:</strong> If you are charged for a renewal after cancellation due to a billing error on our part, contact us within 14 days and we will issue a full refund of the erroneous charge.</p>
+      </section>
+
+      <section>
+        <h2>5. Pro Yearly Subscription (€70 / year)</h2>
+        <p>The annual plan is billed once per year. You may cancel at any time to stop auto-renewal. <strong>No partial refunds</strong> are issued for unused months of an active annual period.</p>
+        <p><strong>Exception — 7-day cooling-off:</strong> If you purchased the annual plan in error and have not used any premium template downloads, you may request a full refund within <strong>7 days</strong> of the initial purchase by contacting us at <a [href]="'mailto:' + supportEmail">{{ supportEmail }}</a>.</p>
+      </section>
+
+      <section>
+        <h2>6. How to Request a Refund</h2>
+        <ol>
+          <li>Email <a [href]="'mailto:' + supportEmail">{{ supportEmail }}</a> with the subject line: <em>"Refund Request — [your registered email]"</em></li>
+          <li>Include your purchase date, plan or design purchased, and a description of the issue.</li>
+          <li>We will respond within <strong>3 business days</strong>.</li>
+          <li>Approved refunds are processed within <strong>5–10 business days</strong> to your original payment method via Stripe.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>7. Chargebacks</h2>
+        <p>We encourage you to contact us before initiating a chargeback with your bank. Unresolved chargebacks may result in account suspension. We will respond to all chargeback disputes with full documentation.</p>
+      </section>
+
+      <section>
+        <h2>8. Changes to This Policy</h2>
+        <p>We may update this policy at any time. Changes take effect immediately upon posting. We will notify active subscribers of material changes by email.</p>
+      </section>
+
+      <section>
+        <h2>9. Contact</h2>
+        <div class="legal-contact-card">
+          <p><strong>{{ companyName }}</strong></p>
+          <p>Email: <a [href]="'mailto:' + supportEmail">{{ supportEmail }}</a></p>
+          <p>We aim to respond to all support requests within 1–3 business days.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>

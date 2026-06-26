@@ -1,0 +1,23 @@
+.editor-container{
+    justify-content: space-around;
+    font-size: 26px;
+    button{
+        padding: 0px;
+        background-color: #fff;
+        border: 1px solid #DDD;
+        width: 65px;
+        height: 40px;
+        line-height: 3px;
+      
+    }
+    button.active{
+        background-color: darkgray;
+    }
+    button.no-border{
+        border: none !important;
+    }
+
+}
+.border-block{
+    border: 1px solid #DDD;
+}

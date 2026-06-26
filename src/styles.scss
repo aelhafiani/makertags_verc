@@ -1,0 +1,248 @@
+/* You can add global styles to this file, and also import other style files */
+// @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.min.css";
+@import "../node_modules/quill/dist/quill.snow.css";
+@import "../node_modules/quill/dist/quill.bubble.css";
+ 
+ @import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+
+@font-face {
+    font-family: 'Madimi One';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/madimione/v1/2V0YKIEADpA8U6RygDnZVC8iB7HM.woff2) format('woff2');
+  }
+@font-face {
+    font-family: 'AbrilFatface-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FAbrilFatface-Regular.ttf?alt=media&token=05301c03-7828-48f9-81ba-06cc1a82c0ab')  ;
+
+}
+@font-face {
+    font-family: 'AmaticSC-Bold';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FAmaticSC-Bold.ttf?alt=media&token=a19df27d-677f-46e6-8190-6fdbeb7ade9a')  ;
+}
+@font-face {
+    font-family: 'AmaticSC-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FAmaticSC-Regular.ttf?alt=media&token=9b7bc94b-4e73-400a-80b4-7b71530472a1')  ;
+}
+@font-face {
+    font-family: 'Anton-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FAnton-Regular.ttf?alt=media&token=e1f05e6b-e206-4e0b-81df-fd6da35ceb2b')  ;
+}
+// @font-face {
+//     font-family: 'Baby Melany';
+//     src: url('assets/fonts/Baby-Melany.oft') format('otf');
+// }
+// @font-face {
+//     font-family: 'Beauty';
+//     src: url('assets/fonts/Beauty.oft') format('otf');
+// }
+@font-face {
+    font-family: 'BebasNeue-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FBebasNeue-Regular.ttf?alt=media&token=77c1008c-1fe4-4d25-9b5f-ca4b0cd24c98')  ;
+}
+@font-face {
+    font-family: 'Cairo-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FCairo-Regular.ttf?alt=media&token=05779873-ec96-4e38-8dce-4d72c981f9a9')  ;
+}
+@font-face {
+    font-family: 'CaviarDreams';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FCaviarDreams.ttf?alt=media&token=8c34e432-7522-464d-ba5f-db3a2c55e32c')  ;
+}
+@font-face {
+    font-family: 'DancingScript-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FDancingScript-Regular.ttf?alt=media&token=5d026aac-ba9a-42dc-b672-fe53332f8252')  ;
+}
+@font-face {
+    font-family: 'Digory_Doodles_PS';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FDigory_Doodles_PS.ttf?alt=media&token=0a1c3f8b-8c1c-4405-b503-aac76ba565ff')  ;
+}
+@font-face {
+    font-family: 'Freebooter-script';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FFreebooter-script.ttf?alt=media&token=8f8fcced-7846-43cf-b621-26e532758649')  ;
+}
+@font-face {
+    font-family: 'GrandHotel-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FGrandHotel-Regular.ttf?alt=media&token=262dc556-ce96-4853-810b-a6f46dde9607')  ;
+}
+@font-face {
+    font-family: 'LibreBarcode128Text-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FLibreBarcode128Text-Regular.ttf?alt=media&token=05d94440-9e2a-4ca1-a5cb-4dcee07f6ea6')  ;
+}
+@font-face {
+    font-family: 'Lobster-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FLobster-Regular.ttf?alt=media&token=dcbabbd3-e497-47c7-bdfd-4c96c41bbd45')  ;
+}
+@font-face {
+    font-family: 'LobsterTwo-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FLobsterTwo-Regular.ttf?alt=media&token=8271ae05-b0a4-4207-8d1b-815c18ca8388')  ;
+}
+// @font-face {
+//     font-family: 'NexaRustSans-Black';
+//     src: url('assets/fonts/NexaRustSans-Black.otf') format('otf');
+// }
+@font-face {
+    font-family: 'NotoSans-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FNotoSans-Regular.ttf?alt=media&token=4890ea77-0d5f-4c5e-9b92-d76c98deb04a')  ;
+}
+
+@font-face {
+    font-family: 'BebasNeue-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FBebasNeue-Regular.ttf?alt=media&token=77c1008c-1fe4-4d25-9b5f-ca4b0cd24c98')  ;
+}
+@font-face {
+    font-family: 'OpenSans-Bold';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FOpenSans-Bold.ttf?alt=media&token=1210d726-71ef-41d2-859f-478816651c95');
+}
+@font-face {
+    font-family: 'Palatino Linotype';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FPalatino%20Linotype.ttf?alt=media&token=6d53651f-5c7a-460e-aa83-f2d09855844a')  ;
+}
+@font-face {
+    font-family: 'PinyonScript-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FPinyonScript-Regular.ttf?alt=media&token=704353a2-59cf-4d78-bf49-6943d0fd2e49')  ;
+}
+@font-face {
+    font-family: 'Prata-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FPrata-Regular.ttf?alt=media&token=79c70697-fbb3-4b02-81b4-9d1b13937b2d')  ;
+}
+
+@font-face {
+    font-family: 'Raleway-Thin';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FRaleway-Thin.ttf?alt=media&token=84932220-ecc4-40aa-be21-f64ea09528d1')  ;
+}
+@font-face {
+    font-family: 'Roboto-Light';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FRoboto-Light.ttf?alt=media&token=90466488-2974-4c2b-91db-910bfbc679ea')  ;
+}
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FRoboto-Regular.ttf?alt=media&token=3172fd36-171d-478c-af82-dccd6c6d8616')  ;
+}
+@font-face {
+    font-family: 'Rochester-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FRochester-Regular.ttf?alt=media&token=e5b632a3-d1d8-4774-9b89-492f107c2dd2')  ;
+}
+@font-face {
+    font-family: 'Rubik-Regular';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FRubik-Regular.ttf?alt=media&token=2ef66ff5-5af1-45df-9a98-a291444712cc')  ;
+}
+@font-face {
+    font-family: 'TrashHand';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FTrashHand.ttf?alt=media&token=f3fdd14c-6c1d-4cf8-a122-de7fdb402233')  ;
+}
+@font-face {
+    font-family: 'Woman';
+    src: url('https://firebasestorage.googleapis.com/v0/b/artmaker-8a799.appspot.com/o/fonts%2FWoman.otf?alt=media&token=31bf3ba4-18bf-4d52-b3c5-b862740ae821')  ;
+}
+
+::-webkit-scrollbar {
+    display: none;
+  }
+// .body-author,html{
+//     height: 100%;
+//     overflow: hidden;
+//     overflow-y: hidden;
+//     overflow-x: hidden;
+// }
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Responsive images */
+img { max-width: 100%; }
+
+/* Responsive base */
+*, *::before, *::after { box-sizing: border-box; }
+// .btn-primary{
+//     background-color: #000 !important;
+    
+// }
+#authorTabs{
+    .ant-tabs-card>.ant-tabs-nav .ant-tabs-tab, .ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab {
+        margin: 0;
+        padding: 17px 15px !important;
+        background: #0d1216  !important;
+        border: none !important;
+        transition: all .3s cubic-bezier(.645,.045,.355,1);
+        color: #fff;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        justify-content: center;
+
+    }
+    
+    .ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active, .ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab-active {
+        color: #ffffff !important;
+        background: #1b1c1c !important;
+    }
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+        color: #fff !important;
+        text-shadow: 0 0 .25px currentcolor;
+    }
+    .ant-tabs-left>.ant-tabs-content-holder, .ant-tabs-left>div>.ant-tabs-content-holder{
+        border: none !important;
+    }
+
+}
+
+.addInArtMenu{
+    .ant-drawer-content {
+    background-color: var(--bs-gray-dark) !important;
+    color: #fff;
+}
+}
+
+.open-menu .canvas-container{
+    position: relative;
+    user-select: none;
+    display: inline-block;
+    top: 18px;
+    vertical-align: middle;
+
+}
+.ant-drawer.no-mask.ant-drawer-right.ant-drawer-open{
+        width: auto !important;
+    
+}
+#carouselExampleSlidesOnly  .owl-item{
+    height:80%;
+    }
+  #slider {
+    .owl-carousel .owl-item img{
+        height: 100%;
+        width: auto !important
+    }
+  }
+  .ant-layout-content{
+    min-height: auto !important;
+  }
+  .button-black{
+        border-radius: 0px !important;
+        background: #000 !important;
+        border: none !important;
+        cursor: pointer;
+
+  }
+
+*:focus-visible {
+  outline: 2px solid #00b4d8;
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

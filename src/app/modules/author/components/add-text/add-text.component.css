@@ -1,0 +1,19 @@
+ul.list-action li {
+    text-align: left;
+    padding: 9px;
+    background: #6e6e6e5c;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+ul.list-action {
+    padding: 0px;
+    list-style: none;
+}
+h3{
+
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 20px;
+
+}

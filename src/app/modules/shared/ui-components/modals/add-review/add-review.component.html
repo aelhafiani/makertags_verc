@@ -1,0 +1,69 @@
+<div class="container">
+  <form #reviewFrom="ngForm" (ngSubmit)="submitReview(reviewFrom)">
+    <div class="o-wrapper--full-width u-mb-20  mb-3">
+      <h6>Your rating *</h6>
+      <nz-rate [(ngModel)]="rate"  name="rate"  ></nz-rate>
+    </div>
+    <div class="o-wrapper--full-width u-mb-20 mb-3">
+      <h6>Name * </h6>
+      <input 
+        [(ngModel)]="name" 
+        name="name" 
+        nz-input 
+        placeholder="Your name" 
+        required 
+        maxlength="100" 
+        pattern="^[a-zA-Z0-9 ]*$" 
+        #nameInput="ngModel" 
+        class="form-control" />
+      <div *ngIf="nameInput.invalid && nameInput.touched" class="error alert-danger">
+        <div *ngIf="nameInput.errors?.['required']">Name is required.</div>
+        <div *ngIf="nameInput.errors?.['maxlength']">Name must be less than 100 characters.</div>
+        <div *ngIf="nameInput.errors?.['pattern']">Name cannot contain special characters.</div>
+      </div>
+    </div>
+    
+    <div class="o-wrapper--full-width u-mb-20 mb-3">
+      <h6>Your review *</h6>
+      <textarea 
+        [(ngModel)]="review" 
+        name="review" 
+        nz-input 
+        placeholder="Comment" 
+        [nzAutosize]="{ minRows: 3, maxRows: 5 }" 
+        required 
+        maxlength="500" 
+        #reviewInput="ngModel" 
+        class="form-control"></textarea>
+      <div *ngIf="reviewInput.invalid && reviewInput.touched" class="error alert-danger">
+        <div *ngIf="reviewInput.errors?.['required']">Review is required.</div>
+        <div *ngIf="reviewInput.errors?.['maxlength']">Review must be less than 500 characters.</div>
+      </div>
+    </div>
+    
+    <div class="clearfix mb-3">
+        <h6>Your Creations  </h6>
+        <!-- <nz-upload
+        
+          nzListType="picture-card"
+          [(nzFileList)]="arts_thumbnails"
+          [nzShowButton]="arts_thumbnails.length < 8"
+          [nzPreview]="handlePreview"
+          [nzBeforeUpload]="beforeUploadList"
+          
+        >
+          <div>
+            <span nz-icon nzType="plus"></span>
+            <div style="margin-top: 8px">Upload</div>
+          </div>
+        </nz-upload> -->
+    <div>
+        <button  [disabled]="reviewFrom.invalid" nz-button nzType="primary" type="submit">Submit a review</button>
+
+    </div>
+  </div>
+  </form>
+   
+
+
+</div>

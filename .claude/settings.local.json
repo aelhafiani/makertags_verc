@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell.exe:*)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Angular:', d.get\\('dependencies',{}\\).get\\('@angular/core','?'\\)\\); print\\('Fabric:', d.get\\('dependencies',{}\\).get\\('fabric','?'\\)\\); print\\('Node target:', d.get\\('engines',{}\\).get\\('node','?'\\)\\); print\\('Test:', list\\(d.get\\('devDependencies',{}\\).keys\\(\\)\\)[:20]\\)\")",
+      "Bash(wc:*)",
+      "Bash(npx ng:*)",
+      "Bash(grep -E \"service\\\\.\\(ts|html\\)$\")",
+      "Bash(node -e \"const f=require\\('./node_modules/fabric'\\); console.log\\(Object.keys\\(f.controlsUtils\\).filter\\(k=>k.toLowerCase\\(\\).includes\\('rot'\\)\\)\\)\")",
+      "Bash(npx tsc:*)",
+      "Bash(grep -rn \"addElementEvent\\\\$\\\\|addImage\\\\|addForm\\\\|FabricImage.fromURL\\\\|crossOrigin\" \"c:/Front/makertags/src/app/modules/author/components/shell/editor-shell.component.ts\")",
+      "Bash(npm install *)",
+      "Bash(netlify dev:*)",
+      "Bash(curl -s http://localhost:8888)",
+      "Bash(python -c \"import sys,json; p=json.load\\(sys.stdin\\); print\\(json.dumps\\(p.get\\('scripts',{}\\), indent=2\\)\\)\")",
+      "Bash(node -e \"const fs=require\\('fs'\\); const p=JSON.parse\\(fs.readFileSync\\('/dev/stdin','utf8'\\)\\); console.log\\(JSON.stringify\\(p.scripts, null, 2\\)\\)\")",
+      "Bash(xargs grep *)",
+      "Bash(node --input-type=module)",
+      "Bash(grep -n \"isAdmin\\\\$\\\\|AsyncPipe\\\\|async\" src/app/modules/author/components/shell/editor-shell.component.html)",
+      "Bash(node -e \"console.log\\(require\\('./netlify/functions/node_modules/pdfkit/package.json'\\).version\\)\")",
+      "Bash(stripe --version)"
+    ]
+  }
+}

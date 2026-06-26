@@ -1,0 +1,260 @@
+:host {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  pointer-events: none;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    transform: none;
+    z-index: 610;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+}
+
+.floating-shape-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  height: 48px;
+  padding: 0 4px;
+  pointer-events: all;
+  user-select: none;
+
+  @media (max-width: 768px) {
+    border-radius: 0;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+}
+
+.fs-label {
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  flex-shrink: 0;
+}
+
+.fs-sep {
+  width: 1px;
+  height: 24px;
+  background: #e5e7eb;
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+.fs-color-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  height: 100%;
+
+  &:hover { background: #f3f4f6; }
+}
+
+.fs-color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+  display: block;
+
+  &--stroke {
+    background: transparent;
+    border-width: 3px;
+    border-style: solid;
+  }
+}
+
+.fs-color-label {
+  font-size: 12px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.fs-color-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.fs-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 6px;
+}
+
+.fs-stepper-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+
+  &:hover { background: #f3f4f6; }
+  &:active { background: #e5e7eb; }
+}
+
+.fs-stroke-input {
+  width: 44px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  padding: 2px 4px;
+  background: #f9fafb;
+  color: #111827;
+  outline: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button { opacity: 1; }
+  &:focus { border-color: #2563eb; background: #fff; }
+}
+
+.fs-stroke-val {
+  min-width: 36px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.fs-action-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover { background: #f3f4f6; color: #374151; }
+}
+
+.fs-delete-btn {
+  &:hover { background: #fef2f2; color: #ef4444; }
+}
+
+// ─── Opacity ──────────────────────────────────────────────────────────────────
+.fs-opacity-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  flex-shrink: 0;
+}
+
+.fs-opacity-slider {
+  width: 80px;
+  accent-color: #2563eb;
+  cursor: pointer;
+
+  @media (max-width: 768px) { width: 60px; }
+}
+
+.fs-opacity-val {
+  min-width: 34px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  text-align: right;
+}
+
+// ─── Stroke style buttons ─────────────────────────────────────────────────────
+.fs-stroke-styles {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 6px;
+}
+
+.fs-stroke-style-btn {
+  width: 36px;
+  height: 28px;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+
+  &:hover { background: #f3f4f6; }
+
+  &.active {
+    background: #eff6ff;
+    border-color: #2563eb;
+  }
+}
+
+.fs-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 1px;
+
+  &--solid {
+    background: #374151;
+  }
+
+  &--dashed {
+    background: transparent;
+    border-top: 2px dashed #374151;
+    height: 0;
+  }
+
+  &--dotted {
+    background: transparent;
+    border-top: 2px dotted #374151;
+    height: 0;
+  }
+}

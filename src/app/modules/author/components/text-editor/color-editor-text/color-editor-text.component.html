@@ -1,0 +1,19 @@
+<nz-tabset>
+    <nz-tab nzTitle="Colors">
+        <div class="color-list simple">
+            <nz-color-picker [nzFlipFlop]="flipFlop" (nzOnChange)="changeColor($event)" nzShowText [nzOpen]="false">
+                <ng-template #flipFlop>
+                    <div  class="colorCard picker" ></div>
+                  </ng-template>
+            </nz-color-picker >
+        <div (click)="changeColorSwitch(color)" *ngFor="let color of colorSwatche"  class="colorCard" [ngStyle]="{'background':'#'+color}"></div>
+    </div>
+    </nz-tab>
+    <nz-tab nzTitle="Pattern">
+                <div class="color-list">
+                    <div class="patternBlock" *ngFor="let color of patterns" (click)="changePattern(color.source)"  [ngStyle]="{'background':'url('+color.source+')'}">
+                    </div>
+                </div>
+    </nz-tab>
+
+  </nz-tabset>

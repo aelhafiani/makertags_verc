@@ -1,0 +1,138 @@
+<section class="elements-panel">
+  <ng-container *ngIf="view === 'home'; else categoryView">
+    <header class="panel-header">
+      <h3>Elements</h3>
+      <p>Add decorative graphics and simple shapes to your design.</p>
+    </header>
+
+    <label class="search-field">
+      <span nz-icon nzType="search"></span>
+      <input
+        nz-input
+        type="search"
+        placeholder="Search elements..."
+        [(ngModel)]="searchQuery"
+      />
+    </label>
+
+    <section>
+      <div class="section-header">
+        <h4>Shapes</h4>
+      </div>
+
+      <div class="shapes-strip">
+        <button
+          *ngFor="let shape of basicShapes"
+          class="shape-button"
+          type="button"
+          (click)="addShape(shape.type)"
+          [attr.aria-label]="'Add ' + shape.label"
+        >
+          <span nz-icon [nzType]="shape.icon"></span>
+          <span>{{ shape.label }}</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="panel-state" *ngIf="loading">
+      <nz-spin></nz-spin>
+    </div>
+
+    <p class="inline-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <ng-container *ngIf="!loading && !searchQuery.trim()">
+      <section
+        class="category-section"
+        *ngFor="let group of allGroups; trackBy: trackGroup"
+      >
+        <div class="section-header">
+          <h4>{{ group.categorie | titlecase }}</h4>
+          <button nz-button nzType="link" type="button" (click)="openCategory(group)">
+            See more
+          </button>
+        </div>
+
+        <div class="preview-strip">
+          <button
+            *ngFor="let item of group.items | slice:0:4; trackBy: trackItem"
+            class="asset-preview"
+            type="button"
+            (click)="addAsset(item)"
+            [attr.aria-label]="item.name || item.categorie"
+          >
+            <img [src]="item.source" [alt]="item.name || item.categorie" loading="lazy" />
+          </button>
+        </div>
+      </section>
+
+      <nz-empty
+        *ngIf="allGroups.length === 0"
+        nzNotFoundImage="simple"
+        nzNotFoundContent="No decorative elements available"
+      ></nz-empty>
+    </ng-container>
+
+    <ng-container *ngIf="!loading && searchQuery.trim()">
+      <div class="assets-grid" *ngIf="filteredItems.length > 0; else noSearchResults">
+        <button
+          *ngFor="let item of filteredItems; trackBy: trackItem"
+          class="asset-grid-item"
+          type="button"
+          (click)="addAsset(item)"
+          [attr.aria-label]="item.name || item.categorie"
+        >
+          <img [src]="item.source" [alt]="item.name || item.categorie" loading="lazy" />
+        </button>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #categoryView>
+    <header class="category-header">
+      <button nz-button nzType="text" type="button" (click)="goBack()">
+        <span nz-icon nzType="arrow-left"></span>
+        Back
+      </button>
+      <div>
+        <h3>{{ activeGroup?.categorie | titlecase }}</h3>
+        <p>Browse all assets in this category.</p>
+      </div>
+    </header>
+
+    <label class="search-field">
+      <span nz-icon nzType="search"></span>
+      <input
+        nz-input
+        type="search"
+        [placeholder]="'Search in ' + (activeGroup?.categorie || 'category')"
+        [(ngModel)]="searchQuery"
+      />
+    </label>
+
+    <div class="assets-grid" *ngIf="categoryFilteredItems.length > 0; else noCategoryResults">
+      <button
+        *ngFor="let item of categoryFilteredItems; trackBy: trackItem"
+        class="asset-grid-item"
+        type="button"
+        (click)="addAsset(item)"
+        [attr.aria-label]="item.name || item.categorie"
+      >
+        <img [src]="item.source" [alt]="item.name || item.categorie" loading="lazy" />
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #noSearchResults>
+    <nz-empty
+      nzNotFoundImage="simple"
+      nzNotFoundContent="No elements match your search"
+    ></nz-empty>
+  </ng-template>
+
+  <ng-template #noCategoryResults>
+    <nz-empty
+      nzNotFoundImage="simple"
+      nzNotFoundContent="No assets found in this category"
+    ></nz-empty>
+  </ng-template>
+</section>

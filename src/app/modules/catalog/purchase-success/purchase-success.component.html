@@ -1,0 +1,63 @@
+<div class="success-wrap">
+  <div class="success-card">
+
+    <!-- Icon -->
+    <div class="success-icon-wrap">
+      <div class="success-icon">✓</div>
+    </div>
+
+    <!-- Title -->
+    <h1 class="success-title">Purchase Successful!</h1>
+    <p class="success-lead">
+      Your premium template has been unlocked and added to your profile.
+    </p>
+
+    <!-- Email notice -->
+    <div class="email-notice">
+      <div class="email-notice-icon">📧</div>
+      <div class="email-notice-text">
+        <strong>Check your inbox</strong>
+        <p>
+          We've sent a confirmation email with a direct link to access
+          your design instantly — no login needed.
+        </p>
+      </div>
+    </div>
+
+    <!-- CTA buttons -->
+    <div class="success-actions">
+
+      <!-- Loading while we verify the Stripe session -->
+      <div *ngIf="verifying" class="verifying-state">
+        <span>⏳ Unlocking your design…</span>
+      </div>
+
+      <!-- Return to editor (shown after verification, when opened from editor shell) -->
+      <button
+        *ngIf="!verifying && editorReturnUrl"
+        class="btn-primary"
+        type="button"
+        (click)="goBackToEditor()"
+      >
+        ✏️ Continue Editing Without Watermark →
+      </button>
+
+      <a
+        *ngIf="!verifying && !editorReturnUrl && isLoggedIn"
+        routerLink="/profile"
+        class="btn-primary"
+      >
+        View my profile →
+      </a>
+      <a
+        *ngIf="!verifying && !editorReturnUrl && !isLoggedIn"
+        routerLink="/tags"
+        class="btn-primary"
+      >
+        Explore more templates →
+      </a>
+      <a routerLink="/tags" class="btn-secondary">Browse all templates</a>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<!-- ══ PAGE HEADER ═══════════════════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <h1 class="page-hero-title">Free Gift Tags to Print</h1>
+    <p class="page-hero-sub">
+      Discover hundreds of beautiful templates for every occasion — download, print and enjoy.
+    </p>
+  </div>
+</section>
+
+<!-- ══ FILTERS + GRID ════════════════════════════════════════════════════════ -->
+<div class="catalog-layout">
+
+  <!-- Filters sidebar -->
+  <aside class="filters-sidebar">
+    <h3 class="filters-title">Filter</h3>
+    <form [formGroup]="filterForm" nz-form nzLayout="vertical">
+      <div class="filter-group">
+        <label class="filter-label">Category</label>
+        <nz-select
+          formControlName="category"
+          nzAllowClear
+          nzShowSearch
+          nzPlaceHolder="All categories"
+          class="filter-select">
+          <nz-option
+            *ngFor="let category of categories"
+            [nzValue]="category.value"
+            [nzLabel]="category.label">
+          </nz-option>
+        </nz-select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Type / Size</label>
+        <nz-select
+          formControlName="size"
+          nzAllowClear
+          nzPlaceHolder="All types"
+          class="filter-select">
+          <nz-option
+            *ngFor="let size of sizes"
+            [nzValue]="size.value"
+            [nzLabel]="size.label">
+          </nz-option>
+        </nz-select>
+      </div>
+    </form>
+  </aside>
+
+  <!-- Cards grid -->
+  <main class="catalog-grid-area">
+    <div class="results-bar" *ngIf="arts">
+      <span class="results-count">{{ arts.length }} template{{ arts.length !== 1 ? 's' : '' }}</span>
+    </div>
+
+    <div class="arts-grid" *ngIf="arts && arts.length > 0">
+      <div
+        class="art-card"
+        [class.art-card--premium]="art.is_premuim"
+        *ngFor="let art of arts"
+        (click)="goTodetail(art)">
+        <div class="art-card-img">
+          <img loading="lazy" fetchpriority="high" [src]="art.preview_realized_art" [alt]="art.title" />
+          <!-- Premium badge -->
+          <div class="art-card-premium-badge" *ngIf="art.is_premuim">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="11" height="11">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 0 0 .95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 0 0-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 0 0-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 0 0-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 0 0 .951-.69l1.07-3.292z"/>
+            </svg>
+            Premium
+          </div>
+          <div class="art-card-overlay">
+            <span class="art-card-cta">{{ art.is_premuim ? 'Unlock — €2' : 'Customize' }}</span>
+          </div>
+        </div>
+        <div class="art-card-body">
+          <h5 class="art-card-title">{{ (art.title | translateContent : activeLang()! | async) || art.title }}</h5>
+          <div class="art-card-desc" [innerHTML]="art.safeDescription"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="arts && arts.length === 0">
+      <span class="empty-icon">🔍</span>
+      <p>No templates found. Try different filters.</p>
+    </div>
+  </main>
+</div>

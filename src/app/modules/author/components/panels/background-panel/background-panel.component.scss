@@ -1,0 +1,135 @@
+:host {
+  display: block;
+  background: #ffffff;
+  padding: 16px;
+}
+
+.background-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panel-header {
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #6b7280;
+  }
+}
+
+section {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 10px;
+}
+
+h4 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.color-swatches {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+
+  &.compact {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.color-button {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: scale(1.04);
+  }
+
+  &.active {
+    border-color: #1677ff;
+    box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+  }
+
+  &.small {
+    width: 24px;
+    border-radius: 4px;
+  }
+}
+
+.custom-color {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.native-color {
+  width: 40px;
+  height: 38px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: transparent;
+  padding: 0;
+}
+
+.custom-color-list {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.texture-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.texture-button {
+  border: 2px solid transparent;
+  border-radius: 6px;
+  aspect-ratio: 1;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+
+  &.active {
+    border-color: #1677ff;
+    box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+  }
+}
+
+.scroll-sentinel {
+  height: 20px;
+  width: 100%;
+}
+
+.loading-more {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.attribution {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #6b7280;
+
+  a {
+    margin-left: 4px;
+  }
+}

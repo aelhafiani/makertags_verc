@@ -1,0 +1,48 @@
+<!-- gallery.component.html -->
+@defer(on viewport) {
+  <div class="gallery-container">
+  <div class="thumbnail-container">
+    <ng-container *ngFor="let media of images">
+      <img loading="lazy"  fetchpriority="high"  *ngIf="!media.urlvideo"
+           [src]="media.url"
+           alt="Thumbnail"
+           [class.active]="media === selectedMedia"
+           (click)="selectMedia(media)"
+           width="100"
+            height="100"
+           >
+
+      <img loading="lazy"  fetchpriority="high"  *ngIf="media.urlvideo"
+           [src]="media.url"
+           alt="Video Thumbnail"
+           [class.active]="media === selectedMedia"
+           width="100"
+           height="100"
+           (click)="selectMedia(media)">
+    </ng-container>
+  </div>
+
+  <div class="main-media">
+    <img loading="lazy"  fetchpriority="high"  *ngIf="!selectedMedia?.urlvideo"
+         [src]="selectedMedia?.url"
+         class="img-fluid artwork-img"
+         width="100%"
+          height="auto"
+         alt="Main Image">
+    
+    <div *ngIf="selectedMedia?.urlvideo" class="video-responsive">
+      <iframe [src]="selectedMedia?.urlvideo | safeUrl"
+              frameborder="0"
+              allow="autoplay; encrypted-media"
+              allowfullscreen
+              class="video-player">
+      </iframe>
+    </div>
+  </div>
+</div>
+}@placeholder {
+  <div class="gallery-placeholder">
+    <p>Loading gallery...</p>
+  </div>
+}
+

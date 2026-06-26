@@ -1,0 +1,215 @@
+$green:      #16a34a;
+$green-dark: #15803d;
+$text:       #111827;
+$muted:      #9ca3af;
+$border:     #2d3748;
+$bg:         #111827;
+$white:      #ffffff;
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+.footer {
+  background: $bg;
+  color: $white;
+  padding: 64px 24px 0;
+  margin-top: 80px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid $border;
+}
+
+// Brand
+.footer-brand { display: flex; flex-direction: column; gap: 16px; }
+
+.footer-logo {
+  height: 50px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+  align-self: flex-start;
+}
+
+.footer-tagline {
+  font-size: 14px;
+  line-height: 1.7;
+  color: $muted;
+  max-width: 280px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 10px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  color: $muted;
+  text-decoration: none;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+
+  &:hover {
+    color: $white;
+    border-color: #4b5563;
+    background: #1f2937;
+  }
+}
+
+// Columns
+.footer-col { display: flex; flex-direction: column; gap: 16px; }
+
+.footer-heading {
+  font-size: 13px;
+  font-weight: 700;
+  color: $white;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  a {
+    font-size: 14px;
+    color: $muted;
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover { color: $white; }
+  }
+}
+
+// Company identity line
+.footer-company {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;
+
+  strong { color: $muted; }
+}
+
+// Trust badges row
+.footer-trust {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0;
+  border-bottom: 1px solid $border;
+}
+
+.trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  background: #1f2937;
+  border: 1px solid $border;
+  border-radius: 999px;
+  padding: 5px 14px;
+
+  &--stripe {
+    color: #818cf8;
+    border-color: #3730a3;
+    background: #1e1b4b;
+  }
+}
+
+// CTA col
+.footer-cta-text {
+  font-size: 14px;
+  color: $muted;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footer-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 22px;
+  background: $green;
+  color: $white;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  width: fit-content;
+  box-shadow: 0 2px 8px rgba(22,163,74,0.3);
+  transition: background 0.15s;
+
+  &:hover { background: $green-dark; color: $white; }
+}
+
+// Bottom bar
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 24px;
+
+  a {
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.15s;
+    &:hover { color: $white; }
+  }
+}
+
+// ─── RESPONSIVE ───────────────────────────────────────────────────────────────
+@media (max-width: 900px) {
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}

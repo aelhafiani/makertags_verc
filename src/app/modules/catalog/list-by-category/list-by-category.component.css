@@ -1,0 +1,165 @@
+.filter-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  nz-form-item {
+    margin-bottom: 16px;
+  }
+
+  nz-select {
+    width: 100%;
+  }
+}
+
+/* Réserver l'espace pour éviter le layout shift */
+.heading {
+  margin-bottom: 1rem;
+  min-height: 2rem;
+  line-height: 2rem;
+}
+
+.category-description {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+  min-height: 3rem;
+  max-height: 4.5rem;
+  overflow: hidden;
+  display: block;
+  margin: 1rem 0;
+}
+
+.css-masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .css-masonry-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 8px;
+  }
+}
+
+.css-masonry-item {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  min-height: 520px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.css-masonry-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .css-masonry-item {
+    min-height: auto;
+  }
+}
+
+.css-masonry-item img {
+  width: 100%;
+  height: 350px;
+  display: block;
+  object-fit: contain;
+  border-radius: 12px 12px 0 0;
+  background: #f5f5f5;
+  content-visibility: auto;
+  contain-intrinsic-size: 350px 350px;
+}
+
+@media (max-width: 768px) {
+  .css-masonry-item img {
+    height: 250px;
+    object-fit: cover;
+  }
+}
+
+.css-masonry-item h5,
+.css-masonry-item p {
+  padding: 0 12px;
+}
+
+.css-masonry-item h5 {
+  font-size: 1.1rem;
+  margin: 12px 0 8px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .css-masonry-item h5 {
+    font-size: 1rem;
+    margin: 8px 0 6px;
+  }
+}
+
+.css-masonry-item p {
+  padding-bottom: 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.css-masonry-item .description {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: #666;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  flex-grow: 1;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .css-masonry-item .description {
+    padding: 8px 12px !important;
+    font-size: 0.875rem;
+  }
+}
+
+.heading {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
+
+.container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  
+  .container > p {
+    font-size: 0.95rem;
+    margin: 1rem 0.5rem !important;
+    text-align: justify;
+  }
+}

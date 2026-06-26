@@ -1,0 +1,23 @@
+<div class="d-flex layer-container">
+    <div >
+        <button (click)="setPosition(positions.bringToFront)" type="button" class="mb-3 w-100">
+            <span> <img loading="lazy"  fetchpriority="high"  src="/assets/icons/topPosition.svg"></span>
+            <span>Bring To Front</span>
+        </button>
+        <button (click)="setPosition(positions.bringForward)" class="w-100">
+            <span > <img loading="lazy"  fetchpriority="high"  src="/assets/icons/topAllPosition.svg"></span>
+            <span>Bring Forward</span>
+        </button>
+    </div>
+  
+    <div>
+        <button (click)="setPosition(positions.sendToBack)" type="button" class="mb-3  w-100">
+            <span > <img loading="lazy"  fetchpriority="high"  src="/assets/icons/bottomPosition.svg"></span>
+            <span>Send To Back</span>
+        </button>
+        <button (click)="setPosition(positions.sendBackwards)" class="w-100" type="button" >
+            <span > <img loading="lazy"  fetchpriority="high"  src="/assets/icons/bottomAllPosition.svg"></span>
+            <span>Send Backwards</span>
+        </button>
+    </div>
+</div>

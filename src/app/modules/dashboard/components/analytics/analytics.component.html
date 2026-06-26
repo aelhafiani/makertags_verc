@@ -1,0 +1,87 @@
+<div *ngIf="loading" style="padding:24px">Chargement des analytics...</div>
+
+<div *ngIf="!loading" class="analytics-container" style="padding:24px">
+  <nz-row [nzGutter]="16">
+    <nz-col nzSpan="12">
+      <nz-card nzTitle="📊 Exports par utilisateur" >
+        <canvas
+          *ngIf="barChartData && barChartData.labels?.length"
+          baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="'bar'">
+        </canvas>
+
+        <nz-table #userTable [nzData]="exportsByUser" [nzFrontPagination]="true" nzSize="middle" style="margin-top:16px">
+          <thead>
+            <tr>
+              <th>Utilisateur</th>
+              <th>Total Exports</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of userTable.data">
+              <td>{{ u.full_name || '—' }}</td>
+              <td>{{ u.total_exports }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </nz-col>
+
+    <nz-col nzSpan="12">
+      <nz-card nzTitle="🎨 Exports par œuvre">
+        <canvas
+          *ngIf="pieChartData && pieChartData.length"
+          baseChart
+          [data]="{ labels: pieChartLabels, datasets: [{ data: pieChartData }] }"
+          [type]="'pie'">
+        </canvas>
+
+        <nz-table #artTable [nzData]="exportsByArt" [nzFrontPagination]="true" nzSize="middle" style="margin-top:16px">
+          <thead>
+            <tr>
+              <th>Œuvre</th>
+              <th>Total Exports</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of artTable.data">
+              <td>{{ a.title || '—' }}</td>
+              <td>{{ a.total_exports }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </nz-col>
+  </nz-row>
+
+  <nz-row [nzGutter]="16" style="margin-top:16px">
+    <nz-col nzSpan="24">
+      <nz-card nzTitle="📅 Exports par jour">
+        <canvas
+          *ngIf="lineChartData && lineChartData.labels?.length"
+          baseChart
+          [data]="lineChartData"
+          [options]="lineChartOptions"
+          [type]="'line'">
+        </canvas>
+
+        <nz-table #dayTable [nzData]="exportsByDay" nzSize="middle" style="margin-top:16px; max-width:600px;">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Exports</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of dayTable.data">
+              <td>{{ d.day | date:'mediumDate' }}</td>
+              <td>{{ d.exports }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </nz-col>
+  </nz-row>
+</div>

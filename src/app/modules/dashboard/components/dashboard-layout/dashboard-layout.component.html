@@ -1,0 +1,88 @@
+<nz-layout style="height: 100vh;">
+  <!-- Fixed Sidebar -->
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" style="position: fixed; height: 100vh; left: 0;">
+    <div class="logo"></div>
+
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li [routerLink]="'/'" nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>Home</span>
+      </li>
+        <li [routerLink]="'/dashboard'" nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>List Arts</span>
+      </li>
+      <li nz-submenu nzTitle="User" nzIcon="user">
+        <ul>
+          <li nz-menu-item>Tom</li>
+          <li nz-menu-item>Bill</li>
+          <li nz-menu-item>Alex</li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Team" nzIcon="team">
+        <ul>
+          <li nz-menu-item>Team 1</li>
+          <li nz-menu-item>Team 2</li>
+        </ul>
+      </li>
+      <li [routerLink]="'assets'" nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>Assets</span>
+      </li>
+        <li [routerLink]="'categories'" nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>Categories</span>
+      </li>
+        <li [routerLink]="'analytics'" nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>Analytics</span>
+      </li>
+      <li [routerLink]="'/dashboard'" nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>List Arts</span>
+      </li>
+      <li [routerLink]="'/dashboard/questions'" nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>Questions</span>
+      </li>
+      <li [routerLink]="'/dashboard/config'" nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>Config</span>
+      </li>
+      <li [routerLink]="'/dashboard/users-purchases'" nz-menu-item>
+        <span nz-icon nzType="team"></span>
+        <span>Users & Purchases</span>
+      </li>
+    </ul>
+  </nz-sider>
+
+  <!-- Right Layout (Header + Content) -->
+  <nz-layout style="margin-left: 200px;">
+    <!-- Fixed Header -->
+    <nz-header class="bg-white" style="position: fixed; width: 100%; top: 0; z-index: 10; left: 200px;">
+      <span
+        class="trigger"
+        nz-icon
+        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"
+      ></span>
+      <span nz-icon nzType="step-backward" nzTheme="outline"></span>
+    </nz-header>
+
+    <!-- Scrollable Content -->
+    <nz-content style="margin: 64px 16px 0; padding: 24px; overflow-y: auto; height: calc(100vh - 64px);">
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>User</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div class="inner-content">
+        <router-outlet></router-outlet> 
+      </div>
+    </nz-content>
+
+    <!-- Footer -->
+    <nz-footer style="text-align: center; margin-left: 200px;">
+      Ant Design ©2020 Implemented By Angular
+    </nz-footer>
+  </nz-layout>
+</nz-layout>

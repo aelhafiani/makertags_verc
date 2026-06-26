@@ -1,0 +1,102 @@
+<div class="floating-shape-toolbar" *ngIf="visible" (click)="$event.stopPropagation()">
+
+  <!-- Label -->
+  <span class="fs-label">{{ isColorable ? 'Shape' : 'Image' }}</span>
+
+  <div class="fs-sep"></div>
+
+  <!-- Fill color — shapes & SVG groups only -->
+  <ng-container *ngIf="isColorable">
+    <div class="fs-color-wrap" title="Fill color">
+      <span class="fs-color-dot" [style.background]="fill"></span>
+      <span class="fs-color-label">Fill</span>
+      <input class="fs-color-input" type="color" [value]="fill" (input)="onFillChange($event)" />
+    </div>
+
+    <div class="fs-sep"></div>
+
+    <!-- Stroke color -->
+    <div class="fs-color-wrap" title="Stroke color">
+      <span class="fs-color-dot fs-color-dot--stroke" [style.border-color]="stroke"></span>
+      <span class="fs-color-label">Stroke</span>
+      <input class="fs-color-input" type="color" [value]="stroke" (input)="onStrokeChange($event)" />
+    </div>
+
+    <!-- Stroke width -->
+    <div class="fs-group">
+      <button class="fs-stepper-btn" type="button" (click)="decreaseStrokeWidth()" title="Decrease stroke">−</button>
+      <input
+        class="fs-stroke-input"
+        type="number"
+        [value]="strokeWidth"
+        min="0"
+        max="100"
+        step="0.25"
+        (blur)="onStrokeWidthInput($any($event.target).value)"
+        (keydown.enter)="onStrokeWidthInput($any($event.target).value); $any($event.target).blur()"
+      />
+      <button class="fs-stepper-btn" type="button" (click)="increaseStrokeWidth()" title="Increase stroke">+</button>
+    </div>
+
+    <div class="fs-sep"></div>
+
+    <!-- Stroke style -->
+    <div class="fs-stroke-styles">
+      <button
+        class="fs-stroke-style-btn"
+        type="button"
+        [class.active]="strokeStyle === 'solid'"
+        (click)="setStrokeStyle('solid')"
+        title="Solid"
+      >
+        <span class="fs-line fs-line--solid"></span>
+      </button>
+      <button
+        class="fs-stroke-style-btn"
+        type="button"
+        [class.active]="strokeStyle === 'dashed'"
+        (click)="setStrokeStyle('dashed')"
+        title="Dashed"
+      >
+        <span class="fs-line fs-line--dashed"></span>
+      </button>
+      <button
+        class="fs-stroke-style-btn"
+        type="button"
+        [class.active]="strokeStyle === 'dotted'"
+        (click)="setStrokeStyle('dotted')"
+        title="Dotted"
+      >
+        <span class="fs-line fs-line--dotted"></span>
+      </button>
+    </div>
+
+    <!-- Opacity -->
+    <div class="fs-opacity-wrap" title="Transparence">
+      <span class="fs-color-label">Opacité</span>
+      <input
+        class="fs-opacity-slider"
+        type="range"
+        min="0"
+        max="100"
+        step="1"
+        [value]="opacity"
+        (input)="onOpacityChange($any($event.target).value)"
+      />
+      <span class="fs-opacity-val">{{ opacity }}%</span>
+    </div>
+
+    <div class="fs-sep"></div>
+  </ng-container>
+
+  <!-- Delete — always visible -->
+  <button class="fs-action-btn fs-delete-btn" type="button" (click)="deleteObject()" title="Delete">
+    <span nz-icon nzType="delete" nzTheme="outline"></span>
+  </button>
+
+  <!-- Close / deselect -->
+  <button class="fs-action-btn" type="button" (click)="close()" title="Deselect">
+    <span nz-icon nzType="close" nzTheme="outline"></span>
+  </button>
+
+</div>

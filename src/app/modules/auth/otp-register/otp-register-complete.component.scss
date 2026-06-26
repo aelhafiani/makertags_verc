@@ -1,0 +1,142 @@
+/* ── WRAPPER ──────────────────────────────────────────────────────────────── */
+.reg-modal {
+  padding: 8px 4px 4px;
+  font-family: inherit;
+}
+
+/* ── ICON ─────────────────────────────────────────────────────────────────── */
+.reg-icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.reg-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+}
+
+/* ── TEXT ─────────────────────────────────────────────────────────────────── */
+.reg-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 8px;
+}
+
+.reg-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 28px;
+}
+
+/* ── FORM ─────────────────────────────────────────────────────────────────── */
+.reg-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.reg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reg-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.reg-input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 15px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+  color: #111827;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    background: #fff;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+/* ── PASSWORD WRAPPER ─────────────────────────────────────────────────────── */
+.reg-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .reg-input {
+    padding-right: 44px;
+  }
+}
+
+.toggle-pw {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #9ca3af;
+  font-size: 18px;
+  line-height: 1;
+  transition: color 0.15s;
+
+  &:hover {
+    color: #f59e0b;
+  }
+}
+
+/* ── HINT ─────────────────────────────────────────────────────────────────── */
+.reg-hint {
+  font-size: 12px;
+  color: #ef4444;
+  margin: 0;
+}
+
+/* ── SUBMIT ───────────────────────────────────────────────────────────────── */
+.reg-btn {
+  width: 100%;
+  padding: 13px;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  margin-top: 4px;
+
+  &:hover:not(:disabled) {
+    background: #d97706;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}

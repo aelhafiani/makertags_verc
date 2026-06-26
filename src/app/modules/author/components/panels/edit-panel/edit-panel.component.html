@@ -1,0 +1,42 @@
+<section class="edit-panel">
+  <div class="panel-header">
+    <div>
+      <h3 class="panel-title">Personalize your design</h3>
+      <p class="panel-subtitle">Start by editing the text and images below.</p>
+    </div>
+  </div>
+
+  <ng-container *ngIf="fields.length > 0; else emptyState">
+    <div class="section-label">Front</div>
+
+    <form [formGroup]="form" class="field-list">
+      <div class="field-item" *ngFor="let field of fields">
+        <input
+          *ngIf="field.objectType === 'i-text'"
+          nz-input
+          [id]="field.objectId"
+          [formControlName]="field.objectId"
+          [placeholder]="field.label"
+          (blur)="applyChanges()"
+        />
+        <textarea
+          *ngIf="field.objectType === 'textbox'"
+          nz-input
+          rows="3"
+          [id]="field.objectId"
+          [formControlName]="field.objectId"
+          [placeholder]="field.label"
+          (blur)="applyChanges()"
+        ></textarea>
+      </div>
+    </form>
+
+    <p class="panel-hint">
+      Click "Next" to continue, or select the design to make additional changes.
+    </p>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <nz-empty nzNotFoundContent="No text fields found on this template."></nz-empty>
+  </ng-template>
+</section>

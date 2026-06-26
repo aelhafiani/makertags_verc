@@ -1,0 +1,14 @@
+
+
+<div class="color-list simple">
+        <nz-color-picker [nzFlipFlop]="flipFlop" (nzOnChange)="changeColor($event)" nzShowText [nzOpen]="false">
+            <ng-template #flipFlop>
+                <div  class="colorCard picker" ></div>
+              </ng-template>
+        </nz-color-picker >
+    <div (click)="changeColorSwitch(color)" *ngFor="let color of colorSwatche"  class="colorCard" [ngStyle]="{'background':'#'+color}"></div>
+</div>
+<div class="color-list">
+    <div class="colorCard" *ngFor="let color of colorGradien" (click)="changeColorSwitch('linear-gradient('+color[0]+','+color[1]+')')"  [ngStyle]="{'background':'linear-gradient('+color[0]+','+color[1]+')'}">
+    </div>
+</div>

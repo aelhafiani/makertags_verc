@@ -1,0 +1,89 @@
+<div class="reg-modal">
+
+  <!-- Icon header -->
+  <div class="reg-icon-wrap">
+    <div class="reg-icon">🔐</div>
+  </div>
+
+  <h2 class="reg-title">Complete your account</h2>
+  <p class="reg-subtitle">Just one last step to secure your profile.</p>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="reg-form">
+
+    <!-- Full Name -->
+    <div class="reg-field">
+      <label class="reg-label" for="full_name">Full Name</label>
+      <input
+        id="full_name"
+        type="text"
+        class="reg-input"
+        placeholder="e.g. Marie Dupont"
+        formControlName="full_name"
+        autocomplete="name"
+      />
+    </div>
+
+    <!-- Password -->
+    <div class="reg-field">
+      <label class="reg-label" for="password">Password</label>
+      <div class="reg-input-wrap">
+        <input
+          id="password"
+          [type]="showPassword ? 'text' : 'password'"
+          class="reg-input"
+          placeholder="Min. 6 characters"
+          formControlName="password"
+          autocomplete="new-password"
+        />
+        <button
+          type="button"
+          class="toggle-pw"
+          (click)="showPassword = !showPassword"
+          [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+        >
+          <span nz-icon [nzType]="showPassword ? 'eye-invisible' : 'eye'" nzTheme="outline"></span>
+        </button>
+      </div>
+      <p class="reg-hint" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minlength')">
+        Password must be at least 6 characters.
+      </p>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="reg-field">
+      <label class="reg-label" for="confirm_password">Confirm Password</label>
+      <div class="reg-input-wrap">
+        <input
+          id="confirm_password"
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          class="reg-input"
+          placeholder="Repeat your password"
+          formControlName="confirm_password"
+          autocomplete="new-password"
+        />
+        <button
+          type="button"
+          class="toggle-pw"
+          (click)="showConfirmPassword = !showConfirmPassword"
+          [attr.aria-label]="showConfirmPassword ? 'Hide password' : 'Show password'"
+        >
+          <span nz-icon [nzType]="showConfirmPassword ? 'eye-invisible' : 'eye'" nzTheme="outline"></span>
+        </button>
+      </div>
+      <p class="reg-hint" *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirm_password')?.touched">
+        Passwords do not match.
+      </p>
+    </div>
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      class="reg-btn"
+      [disabled]="registerForm.invalid || loading"
+    >
+      <span *ngIf="!loading">Finish setup →</span>
+      <span *ngIf="loading" nz-icon nzType="loading" nzTheme="outline"></span>
+    </button>
+
+  </form>
+</div>

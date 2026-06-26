@@ -1,0 +1,14 @@
+<nz-row>
+   <nz-col nzSpan="18">
+      <nz-slider  (nzOnAfterChange)="changeValueSize()" [nzMin]="1" [nzMax]="90" [(ngModel)]="sizeValue"></nz-slider>
+   </nz-col>
+   <div nz-col nzSpan="2">
+      <nz-input-number
+      [nzMin]="1"
+      [nzMax]="20"
+      [ngStyle]="{ marginLeft: '16px' }"
+      [(ngModel)]="sizeValue"
+     
+    ></nz-input-number>
+   </div>
+ </nz-row>

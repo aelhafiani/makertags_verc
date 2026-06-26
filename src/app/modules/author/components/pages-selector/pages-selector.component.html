@@ -1,0 +1,13 @@
+@if (artDoc?.pages?.length) {
+    @for (item of artDoc?.pages; track $index) {
+
+        <span *ngIf="$index !== 0" nz-icon nzType="delete" class="btn-primary" (click)="removePage()" ></span>
+        <div><p>{{item.side}}</p></div>
+        <img loading="lazy"  fetchpriority="high"  *ngIf="item.preview" (click)="selectPage($index)" class="preview-image" [class.selected]="$index == (selected |async)"  [src]="item.preview" alt="Canvas Preview">
+        <div (click)="selectPage($index)"  *ngIf="!item.preview" class="preview-image" [class.selected]="$index == (selected |async)"></div>
+    
+    }
+
+    <button *ngIf="canAddBack" (click)="addBackPage()" class="btn btn-primary m-2">Add The Back</button> 
+}
+

@@ -1,0 +1,133 @@
+<!-- ══ HERO ═══════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="hero-badge">{{ 'home.badge' | transloco }}</span>
+      <h1 class="hero-heading">
+        {{ 'home.heroTitle' | transloco }}<br>
+        <span class="hero-accent">{{ 'home.heroAccent' | transloco }}</span> {{ 'home.heroTitleSuffix' | transloco }}
+      </h1>
+      <p class="hero-sub">
+        {{ 'home.heroSub' | transloco }}
+      </p>
+      <div class="hero-actions">
+        <a [routerLink]="['/tags']" class="btn-primary-hero">
+          {{ 'home.browseTemplates' | transloco }}
+        </a>
+        <a [routerLink]="['/tags']" class="btn-ghost-hero">
+          {{ 'home.seeExamples' | transloco }}
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>{{ 'home.stat500' | transloco }}</strong><span>{{ 'home.statTemplates' | transloco }}</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><strong>{{ 'home.statFree' | transloco }}</strong><span>{{ 'home.statNoCard' | transloco }}</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><strong>{{ 'home.statInstant' | transloco }}</strong><span>{{ 'home.statDownload' | transloco }}</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img
+        loading="eager"
+        fetchpriority="high"
+        src="https://jmxcrkagefzlcudzxpuk.supabase.co/storage/v1/object/public/assets/brand%20(1).png"
+        alt="Gift tag preview"
+        class="hero-img"
+        width="520"
+        height="520"
+      />
+      <div class="hero-blob"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CATEGORIES ════════════════════════════════════════════════════════════ -->
+<section class="categories-section">
+  <div class="section-header">
+    <h2 class="section-title">{{ 'home.categoriesTitle' | transloco }}</h2>
+    <p class="section-sub">{{ 'home.categoriesSub' | transloco }}</p>
+  </div>
+
+  <div class="category-grid">
+    <ng-container *ngIf="loading(); else categoryList">
+      <div class="category-card" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-label"></div>
+      </div>
+    </ng-container>
+
+    <ng-template #categoryList>
+      <a
+        class="category-card"
+        *ngFor="let category of categories()"
+        [routerLink]="['/', category.value]"
+      >
+        <div class="category-img-wrap">
+          <img
+            loading="lazy"
+            [src]="category.image_url || ('assets/categories/webp/' + category.image)"
+            [alt]="category.label"
+          />
+        </div>
+        <span class="category-label">{{ (category.label | translateContent : activeLang()! | async) || category.label }}</span>
+      </a>
+    </ng-template>
+  </div>
+</section>
+
+<!-- ══ NEW DESIGNS ═══════════════════════════════════════════════════════════ -->
+<section class="designs-section">
+  <div class="section-header">
+    <h2 class="section-title">{{ 'home.newDesignsTitle' | transloco }}</h2>
+    <p class="section-sub">{{ 'home.newDesignsSub' | transloco }}</p>
+  </div>
+
+  <div class="masonry-grid" *ngIf="artsList && artsList.length > 0">
+    <a
+      class="masonry-card"
+      *ngFor="let art of artsList"
+      (click)="goTodetail(art)"
+    >
+      <div class="masonry-img-wrap">
+        <img loading="lazy" [src]="art.preview_realized_art" [alt]="art.title" />
+        <div class="masonry-overlay">
+          <span class="masonry-cta">{{ 'home.customize' | transloco }}</span>
+        </div>
+      </div>
+      <div class="masonry-info">
+        <h5 class="masonry-title">{{ (art.title | translateContent : activeLang()! | async) || art.title }}</h5>
+      </div>
+    </a>
+  </div>
+
+  <div class="load-more-wrap">
+    <a [routerLink]="['/tags']" class="btn-load-more">{{ 'home.viewAll' | transloco }}</a>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══════════════════════════════════════════════════════════ -->
+<section class="how-section">
+  <div class="section-header">
+    <h2 class="section-title">{{ 'home.howTitle' | transloco }}</h2>
+    <p class="section-sub">{{ 'home.howSub' | transloco }}</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-icon">🎨</div>
+      <h3 class="step-title">{{ 'home.step1Title' | transloco }}</h3>
+      <p class="step-desc">{{ 'home.step1Desc' | transloco }}</p>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-icon">✏️</div>
+      <h3 class="step-title">{{ 'home.step2Title' | transloco }}</h3>
+      <p class="step-desc">{{ 'home.step2Desc' | transloco }}</p>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-icon">⬇️</div>
+      <h3 class="step-title">{{ 'home.step3Title' | transloco }}</h3>
+      <p class="step-desc">{{ 'home.step3Desc' | transloco }}</p>
+    </div>
+  </div>
+</section>

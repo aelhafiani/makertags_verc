@@ -1,0 +1,72 @@
+<div class="container" *ngIf="tabs.length > 0">
+    <nz-tabset>
+        <nz-tab *ngFor="let tab of tabs" [nzTitle]="titleTemplate">
+          <ng-template #titleTemplate>
+            {{ tab.categorie }}
+          </ng-template>
+
+          <li  *ngFor="let img of tab.items" class="element-bloc">
+            <ng-container >
+                <img loading="lazy"  fetchpriority="high"  (click)="addImageToCanva(img)" [src]="img.source" alt="">
+            </ng-container>
+        </li>
+        </nz-tab>
+      </nz-tabset>
+
+<!-- 
+    <h3>Background</h3>
+    <div class="list-scrlX-wrapper">
+
+            <ul class="list-scroll-horz">
+                    <h4>Basic Form</h4>
+                    <li (click)="addFormToCanva(form)" *ngFor="let form of basicForms"> {{form}}</li>
+            </ul>
+            <ul class="list-scroll-horz">
+                <h4>Models</h4>
+                <div class="scrollable-section">
+                    <li  *ngFor="let img of images">
+                        <ng-container *ngIf="img.type === 'model'">
+                            <img loading="lazy"  fetchpriority="high"  (click)="addImageToCanva(img)" [src]="img.source" alt="">
+                        </ng-container>
+                    </li>
+                </div>
+            </ul>
+            <ul class="list-scroll-horz">
+                    <h4>SVG</h4>
+                    <li  *ngFor="let img of images">
+                        <ng-container *ngIf="img.type === 'svg'">
+                            <img loading="lazy"  fetchpriority="high"  (click)="addImageToCanva(img)" [src]="img.source" alt="">                        </ng-container>
+                        </li>
+            </ul>
+            <ul class="list-scroll-horz">
+                <h4>Stickers</h4>
+                <li  *ngFor="let img of images">
+                    <ng-container *ngIf="img.type === 'sticker'">
+                        <img loading="lazy"  fetchpriority="high"  (click)="addImageToCanva(img)" [src]="img.source" alt="">                        </ng-container>
+                    </li>
+        </ul>
+              <ul class="list-scroll-horz">
+                <h4>Image</h4>
+                <div class="scrollable-section">
+                    <li  *ngFor="let img of images">
+                        <ng-container *ngIf="img.type === 'image'">
+                            <img loading="lazy"  fetchpriority="high"  (click)="addImageToCanva(img)" [src]="img.source" alt="">
+                        </ng-container>
+                    </li>
+                </div>
+            </ul>
+            <ul class="list-scroll-horz">
+                <h4>Pattern</h4>
+                <div class="scrollable-section">
+                    <li *ngFor="let img of images">
+                        <ng-container *ngIf="img.type === 'pattern'">
+                            <img loading="lazy"  fetchpriority="high"  (click)="addImageToCanva(img)" [src]="img.source" alt="">
+                        </ng-container>
+                    </li>
+                </div>
+            </ul>
+
+    </div> -->
+    </div>
+
+

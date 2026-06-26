@@ -1,0 +1,34 @@
+<div class="d-flex editor-container">
+    <button (click)="applyStyleFormat(stylesFormats.bold,textStyleFormat.bold)" [ngClass]="{'active':stylesFormats.bold}" type="button">
+        <span nz-icon nzType="bold" nzTheme="outline"></span>
+    </button>
+    <button (click)="applyStyleFormat(stylesFormats.italic,textStyleFormat.italic)" type="button" [ngClass]="{'active':stylesFormats.italic}" >
+        <span nz-icon nzType="italic" nzTheme="outline"></span>
+    </button>
+    <button (click)="applyStyleFormat(stylesFormats.underline,textStyleFormat.underline)" type="button" [ngClass]="{'active':stylesFormats.underline}" >
+        <span nz-icon nzType="underline" nzTheme="outline"></span>
+    </button>
+    <button (click)="applyStyleFormat(stylesFormats.strikethrough,textStyleFormat.strikethrough)" type="button" [ngClass]="{'active':stylesFormats.strikethrough}" >
+        <span nz-icon nzType="strikethrough" nzTheme="outline"></span>
+    </button>
+    <button (click)="applyStyleFormat(stylesFormats.case,textStyleFormat.case)" type="button" [ngClass]="{'active':stylesFormats.case}" >
+        <img loading="lazy"  fetchpriority="high"  src="../../../assets/icons/text-case.svg">
+    </button>
+    
+    
+   
+</div>
+
+<div class="d-flex editor-container border-block mt-2 ">
+    <button (click)="applyTextAlign(textStyleFormat.left)" type="button" class="no-border" > <span nz-icon nzType="align-left" nzTheme="outline"></span></button>
+    <button (click)="applyTextAlign(textStyleFormat.center)" type="button" class="no-border" ><span nz-icon nzType="align-center" nzTheme="outline"></span></button>
+    <button (click)="applyTextAlign(textStyleFormat.right)" type="button" class="no-border" > <span nz-icon nzType="align-right" nzTheme="outline"></span></button>
+</div>
+<!-- <div class="d-flex editor-container  mt-2 ">
+   <button type="button" class="border-block w-50">
+    <span nz-icon nzType="ordered-list" nzTheme="outline"></span>
+   </button>
+   <button type="button" class="border-block w-50">
+    <span nz-icon nzType="unordered-list" nzTheme="outline"></span>
+   </button>
+</div> -->

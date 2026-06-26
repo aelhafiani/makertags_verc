@@ -1,0 +1,34 @@
+<!-- Gallery Grid -->
+<div class="gallery-grid">
+    <img loading="lazy"  fetchpriority="high" 
+      *ngFor="let image of userImages; let i = index"
+      [src]="image"
+      class="gallery-thumbnail"
+      (click)="openGallery(i)"
+      alt="User Image {{ i + 1 }}"
+    />
+  </div>
+  
+  <!-- Fullscreen Gallery Overlay -->
+  <div class="gallery-overlay" *ngIf="isGalleryOpen">
+    <!-- Close Button -->
+    <button class="gallery-close" (click)="closeGallery()">
+      <i nz-icon nzType="close" nzTheme="outline"></i>
+    </button>
+  
+    <!-- Previous Button -->
+    <button class="gallery-nav prev" (click)="navigate(-1)">
+      <i nz-icon nzType="left" nzTheme="outline"></i>
+    </button>
+  
+    <!-- Image Display -->
+    <div class="gallery-image-container">
+      <img loading="lazy"  fetchpriority="high"  [src]="userImages[selectedImageIndex]" alt="Selected Image" class="gallery-image" />
+    </div>
+  
+    <!-- Next Button -->
+    <button class="gallery-nav next" (click)="navigate(1)">
+      <i nz-icon nzType="right" nzTheme="outline"></i>
+    </button>
+  </div>
+  

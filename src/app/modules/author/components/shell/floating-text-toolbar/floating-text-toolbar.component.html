@@ -1,0 +1,159 @@
+<div class="floating-text-toolbar" *ngIf="visible" (click)="$event.stopPropagation()">
+
+  <!-- Label -->
+  <span class="ft-label">Edit text</span>
+
+  <div class="ft-sep"></div>
+
+  <!-- Font size -->
+  <div class="ft-group">
+    <span class="ft-group-label">Font size</span>
+    <button class="ft-stepper-btn" type="button" (click)="decreaseFontSize()" title="Decrease size">−</button>
+    <input
+      class="ft-size-input"
+      type="number"
+      [value]="fontSize"
+      min="1"
+      max="300"
+      (blur)="onFontSizeCommit($any($event.target).value)"
+      (keydown.enter)="onFontSizeCommit($any($event.target).value); $any($event.target).blur()"
+    />
+    <button class="ft-stepper-btn" type="button" (click)="increaseFontSize()" title="Increase size">+</button>
+  </div>
+
+  <div class="ft-sep"></div>
+
+  <!-- Font family picker -->
+  <div class="ft-font-wrap" (click)="$event.stopPropagation()">
+    <button class="ft-font-btn" type="button" (click)="toggleFontPicker($event)" title="Font">
+      <span class="ft-font-prefix">Font:</span>
+      <span class="ft-font-name" [style.font-family]="fontFamily">{{ fontFamily }}</span>
+      <span nz-icon nzType="caret-down" nzTheme="fill" class="ft-caret"></span>
+    </button>
+
+    <div class="ft-font-dropdown" *ngIf="showFontPicker">
+      <ng-container *ngFor="let cat of categories">
+        <p class="ft-cat-label">{{ cat }}</p>
+        <button
+          *ngFor="let font of fontsByCategory(cat)"
+          class="ft-font-option"
+          type="button"
+          [class.selected]="fontFamily === font.key"
+          [style.font-family]="font.key"
+          (click)="selectFont(font.key)"
+        >
+          {{ font.label }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="ft-sep"></div>
+
+  <!-- Color -->
+  <div class="ft-color-wrap" title="Text color">
+    <span class="ft-color-dot" [style.background]="fill"></span>
+    <span nz-icon nzType="caret-down" nzTheme="fill" class="ft-caret"></span>
+    <input
+      class="ft-color-input"
+      type="color"
+      [value]="fill"
+      (input)="onColorChange($event)"
+    />
+  </div>
+
+  <div class="ft-sep"></div>
+
+  <!-- Bold -->
+  <button
+    class="ft-fmt-btn"
+    type="button"
+    [class.active]="isBold"
+    (click)="toggleBold()"
+    title="Bold"
+  ><strong>B</strong></button>
+
+  <!-- Italic -->
+  <button
+    class="ft-fmt-btn"
+    type="button"
+    [class.active]="isItalic"
+    (click)="toggleItalic()"
+    title="Italic"
+  ><em>I</em></button>
+
+  <div class="ft-sep"></div>
+
+  <!-- Alignment -->
+  <div class="ft-align-wrap" (click)="$event.stopPropagation()">
+    <button class="ft-align-btn" type="button" (click)="toggleAlignMenu($event)" title="Alignment">
+      <span nz-icon [nzType]="alignIcon()" nzTheme="outline"></span>
+      <span nz-icon nzType="caret-down" nzTheme="fill" class="ft-caret"></span>
+    </button>
+
+    <div class="ft-align-dropdown" *ngIf="showAlignMenu">
+      <button class="ft-align-option" type="button" [class.active]="textAlign === 'left'" (click)="setAlign('left')">
+        <span nz-icon nzType="align-left" nzTheme="outline"></span> Left
+      </button>
+      <button class="ft-align-option" type="button" [class.active]="textAlign === 'center'" (click)="setAlign('center')">
+        <span nz-icon nzType="align-center" nzTheme="outline"></span> Center
+      </button>
+      <button class="ft-align-option" type="button" [class.active]="textAlign === 'right'" (click)="setAlign('right')">
+        <span nz-icon nzType="align-right" nzTheme="outline"></span> Right
+      </button>
+    </div>
+  </div>
+
+  <div class="ft-sep"></div>
+
+  <!-- Spacing -->
+  <div class="ft-spacing-wrap" (click)="$event.stopPropagation()">
+    <button class="ft-align-btn" type="button" (click)="toggleSpacingPanel($event)" title="Line & letter spacing">
+      <span nz-icon nzType="line-height" nzTheme="outline"></span>
+      <span nz-icon nzType="caret-down" nzTheme="fill" class="ft-caret"></span>
+    </button>
+
+    <div class="ft-spacing-dropdown" *ngIf="showSpacingPanel">
+      <p class="ft-spacing-title">Line spacing</p>
+      <div class="ft-slider-row">
+        <input
+          type="range"
+          class="ft-slider"
+          min="0.5"
+          max="4"
+          step="0.01"
+          [value]="lineHeight"
+          (input)="onLineHeightChange(+$any($event.target).value)"
+        />
+        <span class="ft-slider-val">{{ lineHeight | number:'1.2-2' }}</span>
+      </div>
+
+      <p class="ft-spacing-title">Letter spacing</p>
+      <div class="ft-slider-row">
+        <input
+          type="range"
+          class="ft-slider"
+          min="-200"
+          max="1000"
+          step="1"
+          [value]="charSpacing"
+          (input)="onCharSpacingChange(+$any($event.target).value)"
+        />
+        <span class="ft-slider-val">{{ charSpacing }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ft-sep"></div>
+
+  <!-- Delete -->
+  <button class="ft-action-btn ft-delete-btn" type="button" (click)="deleteObject()" title="Delete">
+    <span nz-icon nzType="delete" nzTheme="outline"></span>
+  </button>
+
+  <!-- Close / deselect -->
+  <button class="ft-action-btn" type="button" (click)="close()" title="Deselect">
+    <span nz-icon nzType="close" nzTheme="outline"></span>
+  </button>
+
+</div>

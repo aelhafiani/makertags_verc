@@ -1,0 +1,84 @@
+<section class="layers-panel">
+  <header class="panel-header">
+    <h3>Layers</h3>
+    <p>Reorder, hide, lock, or remove objects on the canvas.</p>
+  </header>
+
+  <div
+    cdkDropList
+    class="layers-list"
+    [cdkDropListData]="layers"
+    (cdkDropListDropped)="drop($event)"
+    *ngIf="layers.length > 0; else emptyState"
+  >
+    <button
+      *ngFor="let layer of layers; trackBy: trackLayer"
+      cdkDrag
+      [cdkDragDisabled]="layer.isContour"
+      class="layer-item"
+      [class.active]="layer.isSelected"
+      [class.layer-item--contour]="layer.isContour"
+      type="button"
+      (click)="selectLayer(layer, $event)"
+    >
+      <div class="drag-handle" cdkDragHandle [class.drag-handle--hidden]="layer.isContour">
+        <span nz-icon nzType="holder"></span>
+      </div>
+
+      <div class="type-icon">
+        <span nz-icon [nzType]="layerIcon(layer.type)"></span>
+      </div>
+
+      <div class="thumbnail" [class.thumbnail--empty]="!layer.thumbnail">
+        <img *ngIf="layer.thumbnail" [src]="layer.thumbnail" [alt]="layer.label" />
+        <span *ngIf="!layer.thumbnail" nz-icon [nzType]="layerIcon(layer.type)"></span>
+      </div>
+
+      <div class="layer-meta">
+        <span class="layer-label">{{ layer.label }}</span>
+        <span class="layer-kind" *ngIf="!layer.isContour">{{ layer.type }}</span>
+        <span class="layer-kind layer-kind--hint" *ngIf="layer.isContour">Click to edit</span>
+      </div>
+
+      <div class="layer-actions">
+        <button
+          nz-button
+          nzType="text"
+          type="button"
+          (click)="toggleVisibility(layer, $event)"
+          [attr.aria-label]="layer.visible ? 'Hide layer' : 'Show layer'"
+        >
+          <span nz-icon [nzType]="layer.visible ? 'eye' : 'eye-invisible'"></span>
+        </button>
+
+        <button
+          nz-button
+          nzType="text"
+          type="button"
+          (click)="toggleLock(layer, $event)"
+          [attr.aria-label]="layer.locked ? 'Unlock layer' : 'Lock layer'"
+        >
+          <span nz-icon [nzType]="layer.locked ? 'lock' : 'unlock'"></span>
+        </button>
+
+        <button
+          *ngIf="!layer.isContour"
+          nz-button
+          nzType="text"
+          type="button"
+          (click)="removeLayer(layer, $event)"
+          aria-label="Delete layer"
+        >
+          <span nz-icon nzType="delete"></span>
+        </button>
+      </div>
+    </button>
+  </div>
+
+  <ng-template #emptyState>
+    <nz-empty
+      nzNotFoundImage="simple"
+      nzNotFoundContent="No editable layers on this canvas yet"
+    ></nz-empty>
+  </ng-template>
+</section>

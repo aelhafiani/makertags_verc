@@ -1,0 +1,10 @@
+<section class="contextual-panel">
+  <ng-container *ngIf="component$ | async as panelComponent; else emptyPanel">
+    <ng-container *ngComponentOutlet="panelComponent"></ng-container>
+  </ng-container>
+
+  <ng-template #emptyPanel>
+    <div class="panel-empty">Select a tool to open a panel.</div>
+  </ng-template>
+</section>
+

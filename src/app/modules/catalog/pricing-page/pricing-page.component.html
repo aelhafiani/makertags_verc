@@ -1,0 +1,186 @@
+<!-- ══ HERO ═════════════════════════════════════════════════════════════════ -->
+<section class="pricing-hero">
+  <div class="pricing-hero-inner">
+    <div class="pricing-hero-badge">{{ 'pricing.heroBadge' | transloco }}</div>
+    <h1 class="pricing-hero-title">{{ 'pricing.heroTitle' | transloco }}</h1>
+    <p class="pricing-hero-sub">
+      {{ 'pricing.heroSub' | transloco }}
+    </p>
+
+    <!-- Billing toggle -->
+    <div class="billing-toggle">
+      <button
+        class="toggle-pill"
+        [class.active]="billingCycle === 'monthly'"
+        (click)="billingCycle = 'monthly'">
+        {{ 'pricing.monthly' | transloco }}
+      </button>
+      <button
+        class="toggle-pill"
+        [class.active]="billingCycle === 'yearly'"
+        (click)="billingCycle = 'yearly'">
+        {{ 'pricing.yearly' | transloco }}
+        <span class="toggle-pill-save">{{ 'pricing.save51' | transloco }}</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PLANS ════════════════════════════════════════════════════════════════ -->
+<section class="pricing-plans">
+  <div class="plans-grid">
+
+    <!-- ── FREE ───────────────────────────────────────────────────────────── -->
+    <div class="plan-card">
+      <div class="plan-name">{{ 'pricing.freePlan' | transloco }}</div>
+      <div class="plan-price-row">
+        <span class="plan-price">{{ 'pricing.freePrice' | transloco }}</span>
+      </div>
+      <p class="plan-desc">{{ 'pricing.freeDesc' | transloco }}</p>
+      <ul class="plan-features">
+        <li class="feat feat--yes">{{ 'pricing.freeFeature1' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.freeFeature2' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.freeFeature3' | transloco }}</li>
+        <li class="feat feat--no">{{ 'pricing.freeFeature4' | transloco }}</li>
+        <li class="feat feat--no">{{ 'pricing.freeFeature5' | transloco }}</li>
+        <li class="feat feat--no">{{ 'pricing.freeFeature6' | transloco }}</li>
+      </ul>
+      <a class="plan-btn plan-btn--ghost" [routerLink]="['/tags']">
+        {{ 'pricing.freeBtn' | transloco }}
+      </a>
+    </div>
+
+    <!-- ── SINGLE DESIGN ──────────────────────────────────────────────────── -->
+    <div class="plan-card">
+      <div class="plan-name">{{ 'pricing.singlePlan' | transloco }}</div>
+      <div class="plan-price-row">
+        <span class="plan-currency">€</span>
+        <span class="plan-price">2</span>
+        <span class="plan-period">&nbsp;{{ 'pricing.singlePeriod' | transloco }}</span>
+      </div>
+      <p class="plan-desc">{{ 'pricing.singleDesc' | transloco }}</p>
+      <ul class="plan-features">
+        <li class="feat feat--yes">{{ 'pricing.singleFeature1' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.singleFeature2' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.singleFeature3' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.singleFeature4' | transloco }}</li>
+        <li class="feat feat--no">{{ 'pricing.singleFeature5' | transloco }}</li>
+        <li class="feat feat--no">{{ 'pricing.singleFeature6' | transloco }}</li>
+      </ul>
+      <button
+        class="plan-btn plan-btn--outline"
+        [disabled]="!!loading"
+        (click)="checkout('single')">
+        <span *ngIf="loading === 'single'" class="spin"></span>
+        {{ 'pricing.singleBtn' | transloco }}
+      </button>
+    </div>
+
+    <!-- ── PRO (subscription) ─────────────────────────────────────────────── -->
+    <div class="plan-card plan-card--featured">
+      <div class="plan-popular-badge">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 0 0 .95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 0 0-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 0 0-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 0 0-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 0 0 .951-.69l1.07-3.292z"/>
+        </svg>
+        {{ 'pricing.mostPopular' | transloco }}
+      </div>
+      <div class="plan-name">{{ 'pricing.proPlan' | transloco }}</div>
+      <div class="plan-price-row" *ngIf="billingCycle === 'monthly'">
+        <span class="plan-currency">€</span>
+        <span class="plan-price">12</span>
+        <span class="plan-period">&nbsp;{{ 'pricing.proMonth' | transloco }}</span>
+      </div>
+      <div class="plan-price-row" *ngIf="billingCycle === 'yearly'">
+        <span class="plan-currency">€</span>
+        <span class="plan-price">70</span>
+        <span class="plan-period">&nbsp;{{ 'pricing.proYear' | transloco }}</span>
+        <span class="plan-saving">{{ 'pricing.proSaving' | transloco }}</span>
+      </div>
+      <p class="plan-desc">{{ 'pricing.proDesc' | transloco }}</p>
+      <ul class="plan-features">
+        <li class="feat feat--yes">{{ 'pricing.proFeature1' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.proFeature2' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.proFeature3' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.proFeature4' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.proFeature5' | transloco }}</li>
+        <li class="feat feat--yes">{{ 'pricing.proFeature6' | transloco }}</li>
+      </ul>
+      <button
+        class="plan-btn plan-btn--primary"
+        [disabled]="!!loading"
+        (click)="checkout(billingCycle)">
+        <span *ngIf="loading === billingCycle" class="spin"></span>
+        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 0 0 .95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 0 0-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 0 0-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 0 0-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 0 0 .951-.69l1.07-3.292z"/>
+        </svg>
+        {{ billingCycle === 'yearly' ? ('pricing.proBtnYearly' | transloco) : ('pricing.proBtnMonthly' | transloco) }}
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ TRUST BAR ════════════════════════════════════════════════════════════ -->
+<section class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span>{{ 'pricing.trustSSL' | transloco }}</span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      <span>{{ 'pricing.trustGuarantee' | transloco }}</span>
+    </div>
+    <div class="trust-item trust-item--stripe">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z"/></svg>
+      <span>{{ 'pricing.trustStripe' | transloco }} <strong>Stripe</strong></span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1.581.814l-4.419-3.535-4.419 3.535A1 1 0 014 16V4z"/></svg>
+      <span>{{ 'pricing.trustOperated' | transloco }} <strong>Webartfly LLC</strong></span>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/></svg>
+      <span>{{ 'pricing.trustCancel' | transloco }}</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══════════════════════════════════════════════════════════════════ -->
+<section class="faq-section">
+  <div class="faq-inner">
+    <h2 class="faq-title">{{ 'pricing.faqTitle' | transloco }}</h2>
+    <div class="faq-grid">
+
+      <div class="faq-item">
+        <h3 class="faq-q">{{ 'pricing.faq1Q' | transloco }}</h3>
+        <p class="faq-a">{{ 'pricing.faq1A' | transloco }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">{{ 'pricing.faq2Q' | transloco }}</h3>
+        <p class="faq-a">{{ 'pricing.faq2A' | transloco }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">{{ 'pricing.faq3Q' | transloco }}</h3>
+        <p class="faq-a">{{ 'pricing.faq3A' | transloco }}</p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-q">{{ 'pricing.faq4Q' | transloco }}</h3>
+        <p class="faq-a">{{ 'pricing.faq4A' | transloco }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BANNER ═══════════════════════════════════════════════════════════ -->
+<section class="cta-banner">
+  <div class="cta-banner-inner">
+    <h2 class="cta-banner-title">{{ 'pricing.ctaTitle' | transloco }}</h2>
+    <p class="cta-banner-sub">{{ 'pricing.ctaSub' | transloco }}</p>
+    <a class="cta-banner-btn" [routerLink]="['/tags']">{{ 'pricing.ctaBtn' | transloco }}</a>
+  </div>
+</section>

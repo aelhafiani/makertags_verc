@@ -1,0 +1,26 @@
+<div>
+    
+<div class="color-list simple">
+    <p>Color</p>
+    <nz-color-picker [nzFlipFlop]="flipFlop" (nzOnChange)="changeColor($event)" nzShowText [nzOpen]="false">
+        <ng-template #flipFlop>
+            <div  class="colorCard picker" ></div>
+          </ng-template>
+    </nz-color-picker >
+</div>
+<div>
+    <p>Blure</p>
+    <nz-slider  (nzOnAfterChange)="changeBlur()" [nzMin]="0" [nzMax]="100" [nzStep]="0.1" [(ngModel)]="blurValue"></nz-slider>
+
+</div>
+<div>
+    <p>OfssetX</p>
+    <nz-slider  (nzOnAfterChange)="changeOffsetX()"  [nzMin]="0" [nzMax]="50" [nzStep]="0.1" [(ngModel)]="ofssetX"></nz-slider>
+
+</div>
+<div>
+    <p>OfssetY</p>
+    <nz-slider  (nzOnAfterChange)="changeOffsetY()" [nzMin]="0" [nzMax]="50" [nzStep]="0.1" [(ngModel)]="offsetY"></nz-slider>
+
+</div>
+</div>

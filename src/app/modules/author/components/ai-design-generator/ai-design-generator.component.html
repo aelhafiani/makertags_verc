@@ -1,0 +1,175 @@
+<!-- HEADER -->
+<div class="ai-header">
+  <div class="ai-header-icon">
+    <span nz-icon nzType="experiment" nzTheme="fill"></span>
+  </div>
+  <div>
+    <h2 class="ai-title">Générer par IA</h2>
+    <p class="ai-subtitle">Choisissez une forme, donnez une image d'inspiration</p>
+  </div>
+</div>
+
+<!-- STEP INDICATOR -->
+<div class="step-indicator" *ngIf="step === 'shape' || step === 'upload'">
+  <div class="step-dot" [class.active]="step === 'shape'" [class.done]="step === 'upload'">1</div>
+  <div class="step-line"></div>
+  <div class="step-dot" [class.active]="step === 'upload'">2</div>
+</div>
+
+<!-- ══ STEP 1: SHAPE SELECTION ══ -->
+<ng-container *ngIf="step === 'shape'">
+  <p class="step-label">Choisissez la forme du tag <span class="step-optional">(optionnel)</span></p>
+
+  <div class="shape-grid" *ngIf="!loadingShapes && shapeModels.length > 0">
+    <button
+      *ngFor="let shape of shapeModels"
+      class="shape-card"
+      [class.selected]="selectedShape?.id === shape.id"
+      type="button"
+      (click)="selectShape(shape)"
+    >
+      <img [src]="shape.source" [alt]="shape.name" class="shape-thumb" />
+      <span class="shape-name">{{ shape.name }}</span>
+    </button>
+  </div>
+
+  <div class="shapes-loading" *ngIf="loadingShapes">
+    <nz-spin nzSize="small"></nz-spin>
+    <span>Chargement des modèles…</span>
+  </div>
+
+  <div class="no-shapes" *ngIf="!loadingShapes && shapeModels.length === 0">
+    <span nz-icon nzType="inbox" nzTheme="outline"></span>
+    <p>Aucun modèle disponible</p>
+  </div>
+
+  <div class="ai-actions">
+    <button nz-button nzType="default" (click)="close()">Annuler</button>
+    <button nz-button nzType="default" (click)="skipShape()">
+      Passer cette étape
+      <span nz-icon nzType="arrow-right" nzTheme="outline"></span>
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="!selectedShape"
+      (click)="goToUpload()"
+      class="btn-next"
+    >
+      Suivant
+      <span nz-icon nzType="arrow-right" nzTheme="outline"></span>
+    </button>
+  </div>
+</ng-container>
+
+<!-- ══ STEP 2: IMAGE UPLOAD ══ -->
+<ng-container *ngIf="step === 'upload'">
+  <p class="step-label">
+    Donnez une image d'inspiration
+    <span *ngIf="selectedShape" class="shape-badge">
+      <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+      {{ selectedShape.name }}
+    </span>
+  </p>
+
+  <div
+    class="drop-zone"
+    [class.drop-zone--over]="isDragOver"
+    [class.drop-zone--filled]="!!inspirationPreview"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+  >
+    <ng-container *ngIf="!inspirationPreview">
+      <span nz-icon nzType="cloud-upload" nzTheme="outline" class="drop-icon"></span>
+      <p class="drop-label">Glissez une image ici</p>
+      <p class="drop-hint">ou</p>
+      <label class="btn-pick">
+        <span nz-icon nzType="folder-open" nzTheme="outline"></span>
+        Choisir une image
+        <input type="file" accept="image/*" (change)="onFileChange($event)" hidden />
+      </label>
+      <p class="drop-formats">JPEG · PNG · WebP</p>
+    </ng-container>
+
+    <ng-container *ngIf="inspirationPreview">
+      <img class="preview-img" [src]="inspirationPreview" alt="Inspiration" />
+      <div class="preview-overlay">
+        <label class="btn-change">
+          <span nz-icon nzType="swap" nzTheme="outline"></span>
+          Changer l'image
+          <input type="file" accept="image/*" (change)="onFileChange($event)" hidden />
+        </label>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="ai-actions">
+    <button nz-button nzType="default" (click)="step = 'shape'">
+      <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+      Retour
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="!inspirationPreview"
+      (click)="generate()"
+      class="btn-generate"
+    >
+      <span nz-icon nzType="thunderbolt" nzTheme="fill"></span>
+      Générer le design
+    </button>
+  </div>
+</ng-container>
+
+<!-- ══ GENERATING ══ -->
+<ng-container *ngIf="step === 'generating'">
+  <div class="generating-state">
+    <nz-spin nzSize="large"></nz-spin>
+    <p class="generating-label">L'IA analyse votre image et crée le design…</p>
+    <p class="generating-hint">Cela peut prendre 10 à 20 secondes</p>
+    <div class="inspiration-thumb">
+      <img [src]="inspirationPreview" alt="Inspiration" />
+      <span class="inspiration-badge">Inspiration</span>
+    </div>
+  </div>
+</ng-container>
+
+<!-- ══ STEP 3: PREVIEW ══ -->
+<ng-container *ngIf="step === 'preview'">
+  <div class="ready-state">
+    <div class="ready-icon">
+      <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+    </div>
+    <h3 class="ready-title">Design prêt !</h3>
+    <p class="ready-desc">
+      L'IA a généré votre design à partir de l'image.<br />
+      Tous les éléments seront modifiables sur le canvas.
+    </p>
+    <div class="ready-summary">
+      <span *ngIf="selectedShape" class="summary-chip">
+        <span nz-icon nzType="layout" nzTheme="outline"></span>
+        {{ selectedShape.name }}
+      </span>
+      <span class="summary-chip">
+        <span nz-icon nzType="picture" nzTheme="outline"></span>
+        Image d'inspiration
+      </span>
+    </div>
+    <div class="inspiration-thumb">
+      <img [src]="inspirationPreview" alt="Inspiration" />
+      <span class="inspiration-badge">Inspiration</span>
+    </div>
+  </div>
+
+  <div class="ai-actions">
+    <button nz-button nzType="default" (click)="reset()">
+      <span nz-icon nzType="reload" nzTheme="outline"></span>
+      Recommencer
+    </button>
+    <button nz-button nzType="primary" (click)="applyToCanvas()" class="btn-apply">
+      <span nz-icon nzType="check" nzTheme="outline"></span>
+      Appliquer sur le canvas
+    </button>
+  </div>
+</ng-container>

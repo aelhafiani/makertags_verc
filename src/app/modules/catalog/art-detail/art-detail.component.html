@@ -1,0 +1,201 @@
+<!-- Mobile sticky CTA -->
+<div class="mobile-sticky-cta" *ngIf="artwork">
+  <button class="btn-edit-mobile" (click)="openEditor()" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" aria-hidden="true" fill="currentColor">
+      <path d="M492.9 11.3c-18.4-14.8-43.4-15.1-62.3-.9-40.3 30.6-87.2 74.5-132 123.8-39.8 43.7-74.1 87.3-97.9 124.2-1.2 0-2.3-.1-3.5-.1-36.4 0-67.3 14.7-92 43.7-19.4 22.7-31.5 50.5-40.4 70.7-3.8 8.6-7.3 16.7-10.2 21.5-18.7 31.2-34.6 38-36.2 38.7-9.5 2.6-16.6 10.6-18.1 20.4a25.1 25.1 0 0 0 12.2 25.4C14.9 480 71.4 512 167 512h20c33.4 0 67.5-13.1 93.6-36 28-24.6 43.4-56.8 43.4-90.8 0-8.5-.9-16.9-2.5-25C390.5 277 469 155.4 507.3 71.9c9.8-21.5 4-45.8-14.4-60.6z"/>
+    </svg>
+    {{ 'artDetail.editExport' | transloco }}
+  </button>
+</div>
+
+<div class="detail-page" *ngIf="artwork">
+
+  <!-- ══ MAIN SECTION ═══════════════════════════════════════════════════════ -->
+  <div class="detail-main">
+
+    <!-- LEFT: Gallery -->
+    <div class="detail-gallery">
+      <div class="gallery-wrapper">
+        <maker-tags-product-gallery *ngIf="imagesGallery?.length > 0" [images]="imagesGallery"></maker-tags-product-gallery>
+        <!-- Premium overlay on gallery -->
+        <div class="gallery-premium-overlay" *ngIf="artwork.is_premuim">
+          <div class="gallery-lock-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22" height="22">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            {{ 'artDetail.premium' | transloco }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Share + Pinterest -->
+      <div class="social-row">
+        <button class="social-btn" (click)="shareNative()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          {{ 'artDetail.share' | transloco }}
+        </button>
+        <a
+          class="social-btn social-btn--pinterest"
+          [href]="'https://www.pinterest.com/pin/create/button/?url='+currentLink+'/&media='+artwork?.generated_preview_url+'&description='+artwork.title"
+          target="_blank"
+          rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+          {{ 'artDetail.pinterest' | transloco }}
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Details panel -->
+    <div class="detail-panel">
+
+      <!-- Title -->
+      <h1 class="detail-title">{{ (artwork?.title | translateContent : activeLang()! | async) || artwork?.title || 'Loading...' }}</h1>
+
+      <!-- ── UNLOCKED badge (if user has access to premium) ── -->
+      <div class="unlocked-badge" *ngIf="artwork.is_premuim && hasAccess">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143z"/></svg>
+        {{ 'artDetail.accessBadge' | transloco }}
+      </div>
+
+      <!-- ── PREMIUM block (only if not purchased) ── -->
+      <div class="premium-block" *ngIf="artwork.is_premuim && !hasAccess">
+        <div class="premium-block-header">
+          <div class="premium-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="14" height="14" fill="currentColor"><path d="M486.2 50.2c-9.6-3.8-20.5-1.3-27.5 6.2l-98.2 125.5-83-161.1C273 13.2 264.9 8.5 256 8.5s-17.1 4.7-21.5 12.3l-83 161.1L53.3 56.5c-7-7.5-17.9-10-27.5-6.2C16.3 54 10 63.2 10 73.5v333c0 35.8 29.2 65 65 65h362c35.8 0 65-29.2 65-65v-333c0-10.3-6.3-19.5-15.8-23.3"/></svg>
+            {{ 'artDetail.premiumTemplate' | transloco }}
+          </div>
+          <span class="premium-price-tag">{{ 'artDetail.fromPrice' | transloco }}</span>
+        </div>
+        <p class="premium-desc">{{ 'artDetail.premiumDesc' | transloco }}</p>
+
+        <!-- Pricing options -->
+        <div class="premium-options">
+          <!-- Single -->
+          <div class="premium-option" (click)="buyDirect('single')">
+            <div class="premium-option-left">
+              <div class="premium-option-name">{{ 'artDetail.thisDesignOnly' | transloco }}</div>
+              <div class="premium-option-sub">{{ 'artDetail.oneTimePurchase' | transloco }}</div>
+            </div>
+            <div class="premium-option-price">€2</div>
+          </div>
+          <!-- Subscribe -->
+          <div class="premium-option premium-option--featured" (click)="buyDirect('yearly')">
+            <div class="premium-option-left">
+              <div class="premium-option-name">
+                {{ 'artDetail.proUnlimited' | transloco }}
+                <span class="premium-option-best">{{ 'artDetail.bestValue' | transloco }}</span>
+              </div>
+              <div class="premium-option-sub">{{ 'artDetail.proPricing' | transloco }}</div>
+            </div>
+            <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20" style="color:#f59e0b;flex-shrink:0">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 0 0 .95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 0 0-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 0 0-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 0 0-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 0 0 .951-.69l1.07-3.292z"/>
+            </svg>
+          </div>
+        </div>
+
+        <button class="btn-unlock" (click)="buyDirect('single')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          {{ 'artDetail.unlockDesign' | transloco }}
+        </button>
+
+        <a class="premium-compare-link" [routerLink]="['/pricing']">{{ 'artDetail.comparePlans' | transloco }}</a>
+      </div>
+
+      <!-- Free badge -->
+      <div class="free-badge" *ngIf="!artwork.is_premuim">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143z"/></svg>
+        {{ 'artDetail.freeToDownload' | transloco }}
+      </div>
+
+      <!-- How it works -->
+      <div class="how-it-works">
+        <h3 class="how-title">{{ 'artDetail.howTitle' | transloco }}</h3>
+        <ol class="how-steps">
+          <li [innerHTML]="'artDetail.howStep1' | transloco"></li>
+          <li>{{ 'artDetail.howStep2' | transloco }}</li>
+          <li [innerHTML]="'artDetail.howStep3' | transloco"></li>
+        </ol>
+      </div>
+
+      <!-- CTA button -->
+      <button class="btn-edit" (click)="openEditor()" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <path d="M492.9 11.3c-18.4-14.8-43.4-15.1-62.3-.9-40.3 30.6-87.2 74.5-132 123.8-39.8 43.7-74.1 87.3-97.9 124.2-1.2 0-2.3-.1-3.5-.1-36.4 0-67.3 14.7-92 43.7-19.4 22.7-31.5 50.5-40.4 70.7-3.8 8.6-7.3 16.7-10.2 21.5-18.7 31.2-34.6 38-36.2 38.7-9.5 2.6-16.6 10.6-18.1 20.4a25.1 25.1 0 0 0 12.2 25.4C14.9 480 71.4 512 167 512h20c33.4 0 67.5-13.1 93.6-36 28-24.6 43.4-56.8 43.4-90.8 0-8.5-.9-16.9-2.5-25C390.5 277 469 155.4 507.3 71.9c9.8-21.5 4-45.8-14.4-60.6z"/>
+        </svg>
+        {{ 'artDetail.editExport' | transloco }}
+      </button>
+      <p class="watermark-notice" *ngIf="artwork.is_premuim">
+        {{ 'artDetail.watermarkNotice' | transloco }}
+        <a (click)="buyDirect('single')" style="cursor:pointer">{{ 'artDetail.unlock' | transloco }}</a>
+        {{ 'artDetail.watermarkSuffix' | transloco }}
+      </p>
+
+      <!-- Description -->
+      <div class="detail-desc">
+        <div *ngIf="!isExpanded" [innerHTML]="(artwork?.description?.slice(0, 100) | translateContent : activeLang()! | async) || shortDescription | sanitizeHtml"></div>
+        <span class="read-more" (click)="toggleDescription()" *ngIf="!isExpanded">{{ 'artDetail.readMore' | transloco }}</span>
+        <div *ngIf="artwork?.description" [innerHTML]="(artwork?.description | translateContent : activeLang()! | async) || artwork?.description | sanitizeHtml"></div>
+      </div>
+
+      <!-- Tags -->
+      <div class="tags-wrap" *ngIf="artwork.tags?.length">
+        <span class="tag" *ngFor="let tag of artwork.tags">{{ tag }}</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ REVIEWS ═══════════════════════════════════════════════════════════ -->
+  <div class="reviews-section" *ngIf="isReviewsVisible">
+    <div class="reviews-inner">
+      <div class="reviews-header">
+        <div>
+          <h2 class="reviews-title">{{ 'artDetail.reviews' | transloco }} <span class="reviews-count">({{ artwork?.reviews?.length }})</span></h2>
+          <nz-rate ngSkipHydration [nzDisabled]="true" [ngModel]="rateAssum"></nz-rate>
+        </div>
+        <button class="btn-review" (click)="createReview()">{{ 'artDetail.writeReview' | transloco }}</button>
+      </div>
+
+      <div class="review-cards">
+        <div class="review-card" *ngFor="let review of artwork.reviews">
+          <div class="review-top">
+            <div>
+              <div class="reviewer-name">{{ review.user_name }}</div>
+              <div class="reviewer-date">{{ reviewDate | date:'longDate' }}</div>
+            </div>
+            <nz-rate ngSkipHydration [nzAllowHalf]="true" [ngModel]="review.rate" nzDisabled></nz-rate>
+          </div>
+          <p class="review-comment">{{ review.comment }}</p>
+          <div *ngIf="review?.user_arts?.length > 0">
+            <maker-tags-simple-gallery [userImages]="review.user_arts"></maker-tags-simple-gallery>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RELATED ════════════════════════════════════════════════════════════ -->
+  @defer (on viewport) {
+    <div class="related-section" *ngIf="(relatedArts$ | async)?.length">
+      <div class="related-inner">
+        <h2 class="related-title">{{ 'artDetail.relatedTitle' | transloco }}</h2>
+        <div class="related-grid">
+          <div class="related-card" *ngFor="let art of relatedArts$ | async" (click)="goTodetail(art)">
+            <div class="related-img">
+              <img loading="lazy" [src]="art.preview_realized_art" [alt]="art.title" />
+              <div class="related-overlay"><span>{{ 'artDetail.customize' | transloco }}</span></div>
+            </div>
+            <p class="related-name">{{ (art.title | translateContent : activeLang()! | async) || art.title }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @placeholder {
+    <div></div>
+  }
+
+</div>

@@ -1,0 +1,37 @@
+<div class="floating-qr-toolbar" *ngIf="visible" (click)="$event.stopPropagation()">
+
+  <span class="fqr-label">QR Code</span>
+
+  <div class="fqr-sep"></div>
+
+  <div class="fqr-input-wrap">
+    <input
+      class="fqr-input"
+      type="text"
+      placeholder="https://example.com"
+      [(ngModel)]="qrData"
+      (keydown.enter)="updateQr()"
+    />
+  </div>
+
+  <button
+    class="fqr-update-btn"
+    type="button"
+    [disabled]="loading"
+    (click)="updateQr()"
+    title="Mettre à jour le QR Code"
+  >
+    <span nz-icon [nzType]="loading ? 'loading' : 'reload'" nzTheme="outline"></span>
+  </button>
+
+  <div class="fqr-sep"></div>
+
+  <button class="fqr-action-btn fqr-delete-btn" type="button" (click)="deleteQr()" title="Supprimer">
+    <span nz-icon nzType="delete" nzTheme="outline"></span>
+  </button>
+
+  <button class="fqr-action-btn" type="button" (click)="close()" title="Fermer">
+    <span nz-icon nzType="close" nzTheme="outline"></span>
+  </button>
+
+</div>

@@ -1,0 +1,301 @@
+:host {
+  --amber:      #f59e0b;
+  --amber-dark: #d97706;
+  --text:       #111827;
+  --muted:      #6b7280;
+  --border:     #e5e7eb;
+  --bg:         #f9fafb;
+  --radius:     12px;
+  --red:        #dc2626;
+}
+
+.gate-wrap {
+  padding: 4px 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── HEADER ─────────────────────────────────────────────────────────────────── */
+.gate-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.gate-lock {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #fef3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--amber-dark);
+}
+
+.gate-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+
+.gate-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── GUEST FORM (primary path) ──────────────────────────────────────────────── */
+.guest-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.form-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color .15s;
+}
+
+.form-input:focus { border-color: var(--amber); }
+
+.form-input--otp {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: .3em;
+}
+
+.form-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.form-error {
+  font-size: 13px;
+  color: var(--red);
+  margin: 0;
+}
+
+/* ── PRIMARY BUTTON ─────────────────────────────────────────────────────────── */
+.btn-primary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px;
+  background: var(--amber);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--amber-dark);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+
+/* ── GOOGLE BUTTON ──────────────────────────────────────────────────────────── */
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+
+.btn-google:hover { background: var(--bg); border-color: #9ca3af; }
+
+/* ── OR DIVIDER ─────────────────────────────────────────────────────────────── */
+.gate-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gate-or::before,
+.gate-or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── LINKS / FOOTER ─────────────────────────────────────────────────────────── */
+.signin-link {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.link-btn:hover { color: #1d4ed8; }
+
+.gate-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.gate-dot { color: var(--border); }
+
+.gate-later {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+}
+
+.gate-later:hover { color: var(--text); }
+
+/* ── PRO PLANS ──────────────────────────────────────────────────────────────── */
+.plan-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.toggle-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+
+.toggle-btn.active {
+  border-color: var(--amber);
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.toggle-price { font-weight: 800; }
+
+.toggle-save {
+  font-size: 11px;
+  background: #d1fae5;
+  color: #065f46;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.pro-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pro-features li {
+  font-size: 13px;
+  color: #374151;
+}
+
+/* ── AUTH FORM ──────────────────────────────────────────────────────────────── */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.otp-hint {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── BACK BUTTON ────────────────────────────────────────────────────────────── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  align-self: flex-start;
+}
+
+.back-btn:hover { color: var(--text); }
+
+/* ── SPINNER ────────────────────────────────────────────────────────────────── */
+.spin {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .6s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg) } }

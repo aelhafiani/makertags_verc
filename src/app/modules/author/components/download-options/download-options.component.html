@@ -1,0 +1,83 @@
+<nz-tabset>
+    <nz-tab nzTitle="PDF">
+       <h4>Download as PDF</h4> 
+        <ul class="menu-actions">
+            <li class="mb-2" *ngIf="is3D_art"> <nz-switch [(ngModel)]="splitByGroup" (ngModelChange)="onOptionChange()"></nz-switch><span class="icon" nz-icon nzType="apartment" nzTheme="outline"></span> Split By Groups</li>
+            <li class="mb-2"> <nz-switch [(ngModel)]="switchValueBleed" (ngModelChange)="onOptionChange()"></nz-switch><span class="icon" nz-icon nzType="expand" nzTheme="outline"></span> Show bleed</li>
+            <li class="mb-2"> <nz-switch [(ngModel)]="marks" (ngModelChange)="onOptionChange()"></nz-switch><span class="icon" nz-icon nzType="compress" nzTheme="outline"></span> Show Trim Marks</li>
+            <li class="mb-2"> <nz-switch [(ngModel)]="savePaper" (ngModelChange)="onOptionChange()"></nz-switch><span class="icon" nz-icon nzType="table" nzTheme="outline"></span> Save Paper</li>
+        </ul>
+        <div class="paper-format-row mb-3">
+          <div class="format-selectors">
+            <!-- Size -->
+            <div class="format-field">
+              <label class="format-label">Format</label>
+              <nz-select [(ngModel)]="paperSize" (ngModelChange)="onOptionChange()" nzSize="default" style="width:100%">
+                <nz-option *ngFor="let s of paperSizeOptions" [nzValue]="s.value" [nzLabel]="s.label"></nz-option>
+              </nz-select>
+            </div>
+            <!-- Orientation -->
+            <div class="format-field">
+              <label class="format-label">Orientation</label>
+              <nz-select [(ngModel)]="paperOrientation" (ngModelChange)="onOptionChange()" nzSize="default" style="width:100%">
+                <nz-option *ngFor="let o of paperOrientationOptions" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div *ngIf="savePaper && piecesCount > 0" class="pieces-hint mt-1">
+            <span nz-icon nzType="info-circle" nzTheme="outline"></span>
+            {{ piecesCount }} pièce{{ piecesCount > 1 ? 's' : '' }} par page
+          </div>
+          <div *ngIf="savePaper && piecesCount === 0 && artSize" class="pieces-hint pieces-hint--warn mt-1">
+            <span nz-icon nzType="warning" nzTheme="outline"></span>
+            L'élément est plus grand que la page sélectionnée
+          </div>
+        </div>
+         <nz-progress *ngIf="isDownloaded" [nzPercent]="progress"></nz-progress>
+        <div class="button-cont">
+            <button [disabled]="isDownloaded" (click)="downloadFile('pdf')" nz-button nzType="primary" [nzSize]="'large'" nzShape="round">
+                <span nz-icon nzType="download"></span>Download
+              </button>
+        </div>
+        
+    </nz-tab>
+    <nz-tab nzTitle="JPEG">
+        <h4> Download as JPEG</h4>
+        <div class="print-quality mb-2">
+            <nz-radio-group [(ngModel)]="printJpegQuality" nzName="printJpegQuality">
+                <label nz-radio nzValue="96dpi">96 dpi (web)</label>
+                <label nz-radio nzValue="300dpi">300 dpi (print)</label>
+              </nz-radio-group>
+        </div>
+        <ul class="menu-actions mb-2">
+            <li class="mb-2"> <nz-switch [(ngModel)]="switchValueBleed"></nz-switch><span class="icon" nz-icon nzType="expand" nzTheme="outline"></span> Show bleed</li>
+        </ul>
+        <nz-progress *ngIf="isDownloaded" [nzPercent]="progress"></nz-progress>
+
+        <div class="button-cont">
+          
+        <button  [disabled]="isDownloaded"  (click)="downloadFile('jpeg')" nz-button nzType="primary" [nzSize]="'large'" nzShape="round">
+            <span nz-icon nzType="download"></span>
+            Download
+          </button>
+        </div>
+    </nz-tab>
+    <nz-tab nzTitle="PNG">
+        <h4>Download as PNG</h4>
+        <div class="mb-2">
+            <nz-radio-group [(ngModel)]="printPngQuality" nzName="printPngQuality">
+                <label nz-radio nzValue="96dpi">96 dpi (web)</label>
+                <label nz-radio nzValue="300dpi">300 dpi (print)</label>
+              </nz-radio-group>
+              <!-- <li class="mb-2"> <nz-switch [(ngModel)]="transparent"></nz-switch><span class="icon" nz-icon nzType="table" nzTheme="outline"></span> Transparent</li> -->
+
+        </div>
+         <nz-progress *ngIf="isDownloaded" [nzPercent]="progress"></nz-progress>
+        <div class="button-cont">
+          <button  [disabled]="isDownloaded"  (click)="downloadFile('png')"  nz-button nzType="primary" [nzSize]="'large'" nzShape="round">
+            <span nz-icon nzType="download"></span>
+            Download
+          </button>
+        </div>
+    </nz-tab>
+  </nz-tabset>

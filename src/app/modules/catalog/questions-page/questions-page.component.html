@@ -1,0 +1,60 @@
+<!-- faq.component.html -->
+<div  class="container-fluid py-5 bg-light">
+    <!-- Page Header -->
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 text-center">
+        <h1 class="mb-4">{{ 'faq.title' | transloco }}</h1>
+        <p class="lead">{{ 'faq.sub' | transloco }}</p>
+        <div [innerHTML]="faqSchemaJsonLd"></div>
+        <!-- Search Bar -->
+        <nz-input-group [nzSuffix]="searchIcon" class="mb-5">
+          <input
+            type="text"
+            nz-input
+            [placeholder]="'faq.searchPlaceholder' | transloco"
+            [(ngModel)]="searchQuery"
+          />
+          <ng-template #searchIcon>
+            <span nz-icon nzType="search"></span>
+          </ng-template>
+        </nz-input-group>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div  *ngIf="questions && questions.length > 0" class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <nz-collapse [nzAccordion]="true">
+          <nz-collapse-panel
+            *ngFor="let faq  of questions"
+            [nzHeader]="faq.question"
+            [nzActive]="faq.expanded"
+          >
+            <div [innerHTML]="faq.answer"></div>
+
+
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
+    </div>
+
+    <!-- Submit Question Section -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 col-md-10 col-lg-8 text-center">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="mb-3">{{ 'faq.stillHave' | transloco }}</h4>
+            <textarea
+              nz-input
+              class="w-100 mb-3"
+              [placeholder]="'faq.typePlaceholder' | transloco"
+              rows="3"
+              [(ngModel)]="questionText"
+            ></textarea>
+            <button nz-button (click)="addQuestion()" nzType="primary">{{ 'faq.submitBtn' | transloco }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

@@ -1,0 +1,94 @@
+<!-- ══ HERO ════════════════════════════════════════════════════════════════════ -->
+<section class="contact-hero">
+  <div class="contact-hero-inner">
+    <span class="contact-badge">{{ 'contact.badge' | transloco }}</span>
+    <h1 class="contact-title">{{ 'contact.title' | transloco }}</h1>
+    <p class="contact-sub">{{ 'contact.sub' | transloco }}</p>
+  </div>
+</section>
+
+<!-- ══ CONTACT BODY ═══════════════════════════════════════════════════════════ -->
+<section class="contact-body">
+  <div class="contact-inner">
+
+    <!-- Info cards -->
+    <div class="contact-info">
+      <div class="info-card">
+        <span class="info-icon">✉️</span>
+        <div>
+          <strong>{{ 'contact.emailLabel' | transloco }}</strong>
+          <p>contact&#64;tagprintly.com</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">⏱️</span>
+        <div>
+          <strong>{{ 'contact.responseLabel' | transloco }}</strong>
+          <p>{{ 'contact.responseValue' | transloco }}</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">💬</span>
+        <div>
+          <strong>{{ 'contact.faqLabel' | transloco }}</strong>
+          <p><a routerLink="/questions">{{ 'contact.faqLink' | transloco }}</a> {{ 'contact.faqLinkSuffix' | transloco }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="contact-form-wrap">
+      <h2 class="form-title">{{ 'contact.formTitle' | transloco }}</h2>
+
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form" novalidate>
+        <div class="form-field">
+          <label class="field-label" for="name">{{ 'contact.nameLabel' | transloco }}</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            class="field-input"
+            [placeholder]="'contact.namePlaceholder' | transloco"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="form-field">
+          <label class="field-label" for="email">{{ 'contact.emailFieldLabel' | transloco }}</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="field-input"
+            [placeholder]="'contact.emailPlaceholder' | transloco"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-field">
+          <label class="field-label" for="message">{{ 'contact.messageLabel' | transloco }}</label>
+          <textarea
+            id="message"
+            formControlName="message"
+            class="field-input field-textarea"
+            rows="5"
+            [placeholder]="'contact.messagePlaceholder' | transloco"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="!contactForm.valid"
+        >
+          {{ 'contact.submitBtn' | transloco }}
+        </button>
+      </form>
+
+      <div *ngIf="responseMessage" class="response-msg" [class.error]="responseMessage.includes('wrong') || responseMessage.includes('mal')">
+        {{ responseMessage }}
+      </div>
+    </div>
+
+  </div>
+</section>

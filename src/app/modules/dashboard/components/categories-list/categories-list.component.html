@@ -1,0 +1,169 @@
+<nz-card nzTitle="Categories" class="shadow-md rounded-xl">
+  <div class="flex justify-between items-center mb-3">
+    <button nz-button nzType="primary" (click)="openDrawer()">
+      <i nz-icon nzType="plus"></i> Add Category
+    </button>
+
+    <button nz-button nzType="default" (click)="loadCategories()" [disabled]="loading">
+      <i nz-icon nzType="reload"></i> Refresh
+    </button>
+  </div>
+
+<nz-table
+  #basicTable
+  [nzData]="categories"
+  [nzLoading]="loading"
+  nzBordered
+  class="mt-4"
+>
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Label</th>
+      <th>Value</th>
+
+      <th>Show on Home</th>
+      <th>Title</th>
+      <th>Description</th>
+
+      <th>Heading</th>
+      <th>FullDescription</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of categories">
+      <td>
+        <img loading="lazy"  fetchpriority="high" 
+          *ngIf="c.image_url; else noImage"
+          [src]="c.image_url"
+          alt="{{ c.label }}"
+          width="60"
+          height="60"
+          style="object-fit: cover; border-radius: 8px;"
+        />
+        <ng-template #noImage>
+          <div
+            style="width: 60px; height: 60px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999;"
+          >
+            <i nz-icon nzType="picture" nzTheme="outline"></i>
+          </div>
+        </ng-template>
+      </td>
+      <td>{{ c.label }}</td>
+      <td>{{ c.value }}</td>
+      <td>
+        <nz-tag [nzColor]="c.is_showing ? 'green' : 'red'">
+          {{ c.is_showing ? 'Yes' : 'No' }}
+        </nz-tag>
+      </td>
+       <td>{{ c.title }}</td>
+      <td>{{ c.description }}</td>
+
+       <td>{{ c.heading }}</td>
+      <td>{{ c.full_description }}</td>
+      <td>
+        <button nz-button nzType="link" (click)="editCategory(c)">
+          <i nz-icon nzType="edit"></i> Edit
+        </button>
+        <button nz-button nzType="link" nzDanger (click)="deleteCategory(c.id)">
+          <i nz-icon nzType="delete"></i> Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+</nz-card>
+
+<!-- Drawer for Add Category -->
+<nz-drawer
+  [nzVisible]="drawerVisible"
+  [nzTitle]="isEditMode ? 'Edit Category' : 'Add Category'"
+  nzPlacement="right"
+  [nzWidth]="360"
+  (nzOnClose)="closeDrawer()"
+>
+  <ng-container *nzDrawerContent>
+    <form nz-form [formGroup]="categoryForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true" nzFor="label">Label</nz-form-label>
+        <nz-form-control nzErrorTip="Please input label!">
+          <input nz-input id="label" formControlName="label" placeholder="Enter category label" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true" nzFor="value">Value</nz-form-label>
+        <nz-form-control nzErrorTip="Please input value!">
+          <input nz-input id="value" formControlName="value" placeholder="Enter category value" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="image">Image</nz-form-label>
+        <nz-form-control>
+          <input type="file" (change)="onFileSelected($event)" />
+          <div *ngIf="previewUrl" class="mt-2">
+            <img loading="lazy"  fetchpriority="high"  [src]="previewUrl" alt="Preview" width="100" style="border-radius:8px;" />
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="is_showing">Show on Home</nz-form-label>
+      <nz-form-control>
+        <nz-switch formControlName="is_showing"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="title">Title</nz-form-label>
+      <nz-form-control>
+        <input nz-input id="title" formControlName="title" placeholder="Enter title" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="description">Description</nz-form-label>
+      <nz-form-control>
+        <textarea
+          nz-input
+          rows="3"
+          id="description"
+          formControlName="description"
+          placeholder="Enter description"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label nzFor="heading">Heading</nz-form-label>
+      <nz-form-control>
+        <input nz-input id="heading" formControlName="heading" placeholder="Enter heading" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="full_description">Full Description</nz-form-label>
+      <nz-form-control>
+        <textarea
+          nz-input
+          rows="3"
+          id="full_description"
+          formControlName="full_description"
+          placeholder="Enter description"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+      <div class="text-right mt-4">
+        <button nz-button nzType="default" (click)="closeDrawer()" [disabled]="submitting">
+          Cancel
+        </button>
+        <button nz-button nzType="primary" htmlType="submit" [nzLoading]="submitting" class="ml-2">
+          {{ isEditMode ? 'Update' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  </ng-container>
+</nz-drawer>

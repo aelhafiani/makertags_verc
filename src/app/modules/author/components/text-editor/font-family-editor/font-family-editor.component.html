@@ -1,0 +1,12 @@
+<div *ngFor="let category of categories">
+  <p class="font-category-label">{{ category }}</p>
+  <ul>
+    <li
+      (click)="changeFont(font.key)"
+      *ngFor="let font of fontsByCategory(category)"
+      [style.font-family]="font.key"
+    >
+      {{ font.label }}
+    </li>
+  </ul>
+</div>

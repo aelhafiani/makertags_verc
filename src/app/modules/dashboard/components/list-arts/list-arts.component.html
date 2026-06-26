@@ -1,0 +1,281 @@
+<div style="background: #ECECEC;padding:30px;">
+    <div class="mb-2">
+        <button (click)="openAddArt()" nz-button nzType="primary">Add Art</button>
+        <!-- <button nz-button nzType="default">Default Button</button>
+        <button nz-button nzType="dashed">Dashed Button</button> -->
+    </div>
+    <form [formGroup]="filterForm" class="filter-form" nz-form nzLayout="horizontal">
+      <div class="row">
+        <!-- Category -->
+        <div class="col-md-4 col-12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="24">Category</nz-form-label>
+            <nz-form-control [nzSpan]="24">
+              <nz-select
+                formControlName="category"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="Select Category">
+                <nz-option
+                  *ngFor="let category of categories"
+                  [nzValue]="category.value"
+                  [nzLabel]="category.label">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- Status -->
+        <div class="col-md-4 col-12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="24">Status</nz-form-label>
+            <nz-form-control [nzSpan]="24">
+              <nz-select
+                formControlName="status"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="Select Status">
+                <nz-option
+                  *ngFor="let category of status"
+                  [nzValue]="category.value"
+                  [nzLabel]="category.label">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- Size / Type -->
+        <div class="col-md-4 col-12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="24">Type</nz-form-label>
+            <nz-form-control [nzSpan]="24">
+              <nz-select
+                formControlName="size"
+                nzAllowClear
+                nzPlaceHolder="Select Size">
+                <nz-option
+                  *ngFor="let size of sizes"
+                  [nzValue]="size.value"
+                  [nzLabel]="size.label">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  <div nz-row> <div><h3>Number Of ALl Art {{artsList.length}}</h3></div></div>
+    <div nz-row [nzGutter]="5">
+     
+      <ng-container *ngFor="let doc of artsList; let i = index">
+        <maker-tags-art-card (onEditDoc)="onEditDoc($event)" (docDeleted)="getArtsList()" [art]="doc"></maker-tags-art-card>
+
+      </ng-container>
+<!--      
+      <div nz-col [nzSpan]="8"  *ngFor="let doc of artsList">
+        <nz-card nzTitle="Card">
+         <img loading="lazy"  fetchpriority="high"  [src]="doc.pages[0].preview" />
+        </nz-card>
+      </div> -->
+      
+    </div>
+   
+    <nz-drawer
+      [nzClosable]="false"
+      [nzVisible]="visible"
+      nzPlacement="right"
+      nzTitle="Basic Drawer"
+      (nzOnClose)="close()"
+    >
+      <ng-container *nzDrawerContent>
+        <form nz-form  [formGroup]="addNewArtForm"  (ngSubmit)="AddNewArt()">
+            
+          <nz-form-item>
+            <nz-form-label  nzRequired  nzFor="Width">Generated Preview Url</nz-form-label>
+            <nz-form-control nzErrorTip="Please input your username!">
+              <input id="generated_preview_url" type="text" nz-input formControlName="generated_preview_url" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzFor="is_premuim" nzRequired>Preview</nz-form-label>
+            <nz-upload
+            class="avatar-uploader"
+            nzName="avatar"
+            nzListType="picture-card"
+            [nzShowUploadList]="false"
+            [nzBeforeUpload]="beforeUploadMain"
+            (nzChange)="handleChange($event)"
+          >
+            @if (!mainPreview) {
+              <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
+              <div class="ant-upload-text">Upload</div>
+            } @else {
+              <img loading="lazy"  fetchpriority="high"  [src]="mainPreview" style="width: 100%" />
+            }
+          </nz-upload>
+          </nz-form-item>
+          <nz-form-item >
+            <nz-form-label nzFor="is_premuim" nzRequired>Is Premuim</nz-form-label>
+            <nz-form-control  nzErrorTip="Please input your is_premuim!">
+              <nz-switch formControlName="is_premuim"></nz-switch>
+           </nz-form-control>
+          </nz-form-item>
+          <nz-form-item >
+            <nz-form-label nzFor="is_3d" nzRequired>Is 3D</nz-form-label>
+            <nz-form-control  nzErrorTip="Please input your is_3d!">
+              <nz-switch formControlName="is_3d"></nz-switch>
+           </nz-form-control>
+          </nz-form-item>
+          <nz-form-item class="w-100">
+            <nz-form-label  nzRequired  nzFor="type">Type</nz-form-label>
+            <nz-select class="w-100"  formControlName="size">
+              <nz-option nzValue="2 x 3.5" nzLabel="business card size"></nz-option>
+              <nz-option nzValue="2 x 2" nzLabel="square"></nz-option>
+              <nz-option nzValue="1.75 x 3.75" nzLabel="rectangular"></nz-option>
+              <nz-option nzValue="2 x 3" nzLabel="rec smaller than business card size"></nz-option>
+              <nz-option nzValue="6 x 2.5" nzLabel="cut die card size"></nz-option>
+              <nz-option nzValue="custom" nzLabel="Custom size"></nz-option>
+            </nz-select>
+          </nz-form-item>
+          @if (isCustomSize) {
+            <nz-form-item>
+              <nz-form-label nzRequired nzFor="customSizeLabel">Custom size (e.g. 4 x 8)</nz-form-label>
+              <nz-form-control nzErrorTip="Enter the size, e.g. 4 x 8">
+                <input id="customSizeLabel" type="text" nz-input formControlName="customSizeLabel" placeholder="4 x 8" />
+              </nz-form-control>
+            </nz-form-item>
+          }
+          <nz-form-item class="w-100">
+            <nz-form-label nzRequired nzFor="type">Status</nz-form-label>
+            <nz-select class="w-100" formControlName="status">
+              <nz-option nzValue="draft" nzLabel="Draft"></nz-option>
+              <nz-option nzValue="published" nzLabel="Published"></nz-option>
+            </nz-select>
+          </nz-form-item>
+          <nz-form-item class="w-100">
+            <nz-form-label nzRequired nzFor="type">Categories</nz-form-label>
+            <nz-select [nzOptionOverflowSize]	="15" class="w-100" formControlName="categorie">
+              <nz-option *ngFor="let cat of categoriesForAdded" [nzValue]="cat.value" [nzLabel]="cat.label"></nz-option>
+            </nz-select>
+          </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label  nzRequired  nzFor="Width">Width</nz-form-label>
+              <nz-form-control nzErrorTip="Please input your username!">
+                @if (isCustomSize) {
+                  <input id="Width" type="number" nz-input formControlName="width" placeholder="e.g. 800" />
+                } @else {
+                  <input id="Width" type="number" nz-input formControlName="width" [readOnly]="true" style="background:#f5f5f5;color:#888;cursor:not-allowed" />
+                }
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="Height" nzRequired>Height</nz-form-label>
+              <nz-form-control  nzErrorTip="Please input your username!">
+                @if (isCustomSize) {
+                  <input id="Height" type="number" nz-input formControlName="height" placeholder="e.g. 1000" />
+                } @else {
+                  <input id="Height" type="number" nz-input formControlName="height" [readOnly]="true" style="background:#f5f5f5;color:#888;cursor:not-allowed" />
+                }
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="title" nzRequired>Title</nz-form-label>
+              <nz-form-control  nzErrorTip="Please input your Title!">
+                <input id="Height" type="text" nz-input formControlName="title" />
+              </nz-form-control>
+            </nz-form-item>
+            <div class="ai-generate-bar">
+              <button
+                type="button"
+                class="btn-ai-generate"
+                [disabled]="aiGenerating"
+                (click)="generateTitleAndDescription()">
+                <span *ngIf="!aiGenerating">&#x2728; Generate title &amp; description with AI</span>
+                <span *ngIf="aiGenerating">Generating&#8230;</span>
+              </button>
+            </div>
+            <nz-form-item>
+              <nz-form-label nzFor="Description" nzRequired>Description</nz-form-label>
+              <quill-editor [styles]="{height: '250px'}" formControlName="description" ></quill-editor>
+            </nz-form-item>
+            <div>
+              <nz-form-item>
+                <div class="tags-label-row">
+                  <span class="tags-label-text">Tags</span>
+                  <button
+                    type="button"
+                    class="btn-ai-tags"
+                    [disabled]="aiGeneratingTags"
+                    (click)="generateMetaTags()">
+                    <span *ngIf="!aiGeneratingTags">&#x2728; Generate tags with AI</span>
+                    <span *ngIf="aiGeneratingTags">Generating&#8230;</span>
+                  </button>
+                </div>
+                @for (tag of tags; track tag) {
+                  <nz-tag [nzMode]="$index === 0 ? 'default' : 'closeable'" (nzOnClose)="handleClose(tag)">
+                    {{ sliceTagName(tag) }}
+                  </nz-tag>
+                }
+                @if (!inputVisible) {
+                  <nz-tag class="editable-tag" nzNoAnimation (click)="showInput()">
+                    <span nz-icon nzType="plus"></span>
+                    New Tag
+                  </nz-tag>
+                } @else {
+                  <input
+                    #inputElement
+                    nz-input
+                    nzSize="small"
+                    type="text"
+                   formControlName="tags"
+                    style="width: 78px;"
+                    (blur)="handleInputConfirm()"
+                    (keydown.enter)="handleInputConfirm()"
+                  />
+                }
+     
+              </nz-form-item>
+            </div>
+            <div class="clearfix">
+              <nz-upload
+                nzListType="picture-card"
+                [(nzFileList)]="arts_thumbnails"
+                [nzShowButton]="arts_thumbnails.length < 8"
+                [nzPreview]="handlePreview"
+                [nzBeforeUpload]="beforeUploadList"
+              >
+                <div>
+                  <span nz-icon nzType="plus"></span>
+                  <div style="margin-top: 8px">Upload</div>
+                </div>
+              </nz-upload>
+              <nz-modal
+                [nzVisible]="previewVisible"
+                [nzContent]="modalContent"
+                [nzFooter]="null"
+                (nzOnCancel)="previewVisible = false">
+                <ng-template #modalContent>
+                  <img loading="lazy"  fetchpriority="high"  [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+                </ng-template>
+              </nz-modal>
+            </div>
+            <nz-form-item >
+              <nz-form-label nzFor="video" nzRequired>Video</nz-form-label>
+              <nz-form-control  nzErrorTip="Please input your video!">
+                <input id="video" type="text" nz-input formControlName="video" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-control [nzSpan]="12" [nzOffset]="5">
+              <button *ngIf="!editMode" nz-button nzType="primary" type="submit">Add</button>
+              <button *ngIf="editMode" nz-button nzType="primary" type="submit">Edit</button>
+              <button *ngIf="editMode" nz-button nzType="dashed" type="button" (click)="publishToBlog()" [nzLoading]="isPublishingToWP" style="margin-left: 8px;">
+                Publish to Blog
+              </button>
+            </nz-form-control>
+      
+          </form>
+      </ng-container>
+    </nz-drawer>
+  </div>
+  

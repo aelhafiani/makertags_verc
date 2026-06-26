@@ -1,0 +1,219 @@
+<section
+  class="add-image-panel"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+>
+  <header class="panel-header">
+    <h3>Add images</h3>
+    <p>Upload your own images or generate them with AI.</p>
+  </header>
+
+  <!-- AI Generate Section -->
+  <div class="ai-section">
+    <div class="ai-section-header" (click)="toggleAiSection()">
+      <span class="ai-section-title">
+        <span nz-icon nzType="robot" nzTheme="outline"></span>
+        AI Image Generation
+      </span>
+      <span nz-icon [nzType]="showAiSection ? 'up' : 'down'" class="ai-chevron"></span>
+    </div>
+
+    <ng-container *ngIf="showAiSection">
+      <p class="ai-hint">Generates decorative elements based on your design's theme — flowers, ornaments, illustrations — ready to place on your canvas.</p>
+
+      <textarea
+        class="ai-prompt-input"
+        [(ngModel)]="aiPrompt"
+        [disabled]="isGenerating"
+        rows="3"
+        placeholder="Describe the image to generate…"
+      ></textarea>
+
+      <button
+        nz-button
+        class="ai-generate-btn"
+        type="button"
+        [nzLoading]="isGenerating"
+        [disabled]="isGenerating || !aiPrompt.trim()"
+        (click)="generateAiImages()"
+      >
+        <span *ngIf="!isGenerating" nz-icon nzType="thunderbolt" nzTheme="fill"></span>
+        {{ aiImages.length > 0 ? 'Regenerate' : 'Generate images' }}
+      </button>
+
+      <p *ngIf="aiError" class="ai-error">{{ aiError }}</p>
+
+      <div *ngIf="isGenerating" class="ai-loading">
+        <nz-spin nzSimple></nz-spin>
+        <span>Generating &amp; removing backgrounds…</span>
+      </div>
+
+      <div *ngIf="aiImages.length > 0 && !isGenerating" class="ai-grid">
+        <button
+          *ngFor="let imgUrl of aiImages"
+          class="ai-image-card"
+          type="button"
+          (click)="placeAiImage(imgUrl)"
+          aria-label="Place AI image on canvas"
+        >
+          <img [src]="imgUrl" alt="AI generated image" loading="lazy" crossorigin="anonymous" />
+          <div class="ai-image-overlay">
+            <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
+          </div>
+        </button>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Sticker Maker Section -->
+  <div class="sticker-section">
+    <div class="sticker-section-header" (click)="toggleStickerSection()">
+      <span class="sticker-section-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="6" fill="currentColor" opacity="0.25"/>
+          <circle cx="12" cy="12" r="3" fill="currentColor"/>
+        </svg>
+        Sticker Maker
+      </span>
+      <span nz-icon [nzType]="showStickerSection ? 'up' : 'down'" class="sticker-chevron"></span>
+    </div>
+
+    <ng-container *ngIf="showStickerSection">
+      <p class="sticker-hint">Select one of your uploaded images and add a white or black outline to turn it into a sticker. The result is placed directly on the canvas.</p>
+
+      <!-- Outline width controls -->
+      <div class="sticker-width-row">
+        <span class="sticker-width-swatch sticker-width-swatch--white"></span>
+        <label class="sticker-width-label">White</label>
+        <input class="sticker-width-slider" type="range" min="2" max="60" step="1" [(ngModel)]="stickerWhiteWidth" />
+        <span class="sticker-width-value">{{ stickerWhiteWidth }}px</span>
+      </div>
+      <div class="sticker-width-row">
+        <span class="sticker-width-swatch sticker-width-swatch--black"></span>
+        <label class="sticker-width-label">Black</label>
+        <input class="sticker-width-slider" type="range" min="2" max="60" step="1" [(ngModel)]="stickerBlackWidth" />
+        <span class="sticker-width-value">{{ stickerBlackWidth }}px</span>
+      </div>
+
+      <p class="sticker-error" *ngIf="stickerError">{{ stickerError }}</p>
+
+      <div *ngIf="!loading && uploads.length === 0" class="sticker-empty">Upload an image first to create stickers.</div>
+
+      <div class="sticker-grid" *ngIf="!loading && uploads.length > 0">
+        <div class="sticker-card" *ngFor="let image of uploads; trackBy: trackUpload">
+          <img class="sticker-thumb" [src]="image.url" [alt]="image.fileName" loading="lazy" />
+          <span class="sticker-name">{{ image.fileName }}</span>
+          <div class="sticker-actions">
+            <button
+              class="btn-sticker btn-sticker--white"
+              type="button"
+              [disabled]="isStickerLoading(image.path)"
+              (click)="makeSticker(image, 'white')"
+              title="White outline"
+            >
+              <nz-spin *ngIf="stickerLoading[image.path] === 'white'" nzSimple [nzSize]="'small'"></nz-spin>
+              <span *ngIf="stickerLoading[image.path] !== 'white'">White</span>
+            </button>
+            <button
+              class="btn-sticker btn-sticker--black"
+              type="button"
+              [disabled]="isStickerLoading(image.path)"
+              (click)="makeSticker(image, 'black')"
+              title="Black outline"
+            >
+              <nz-spin *ngIf="stickerLoading[image.path] === 'black'" nzSimple [nzSize]="'small'"></nz-spin>
+              <span *ngIf="stickerLoading[image.path] !== 'black'">Black</span>
+            </button>
+            <button
+              class="btn-sticker btn-sticker--double"
+              type="button"
+              [disabled]="isStickerLoading(image.path)"
+              (click)="makeSticker(image, 'double')"
+              title="White + Black outline (classic sticker)"
+            >
+              <nz-spin *ngIf="stickerLoading[image.path] === 'double'" nzSimple [nzSize]="'small'"></nz-spin>
+              <span *ngIf="stickerLoading[image.path] !== 'double'">⬤ Both</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Upload Section -->
+  <section class="upload-section" [class.drag-active]="dragActive">
+    <input
+      #fileInput
+      class="sr-only"
+      type="file"
+      accept="image/jpeg,image/png,image/webp,image/svg+xml"
+      (change)="onFileSelected($event)"
+    />
+
+    <button nz-button nzType="primary" type="button" [disabled]="uploading" (click)="openFilePicker()">
+      <span nz-icon nzType="upload"></span>
+      Upload from desktop
+    </button>
+
+    <p class="upload-hint">
+      Drag and drop JPEG, PNG, WebP, or SVG files here. Maximum size: 10 MB.
+    </p>
+
+    <div class="upload-state" *ngIf="uploading">
+      <nz-spin nzSimple></nz-spin>
+      <span>Uploading image...</span>
+    </div>
+
+    <p class="inline-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </section>
+
+  <section class="gallery-section">
+    <div class="section-heading">
+      <h4>Your uploads</h4>
+      <span>{{ uploads.length }}</span>
+    </div>
+
+    <div class="gallery-loading" *ngIf="loading">
+      <nz-spin></nz-spin>
+    </div>
+
+    <div class="image-grid" *ngIf="!loading && uploads.length > 0">
+      <div
+        *ngFor="let image of uploads; trackBy: trackUpload"
+        class="image-card"
+      >
+        <button
+          class="image-select"
+          type="button"
+          (click)="placeImage(image)"
+          [attr.aria-label]="'Place image ' + image.fileName"
+        >
+          <img [src]="image.url" [alt]="image.fileName" loading="lazy" />
+
+          <div class="image-meta">
+            <span class="image-name">{{ image.fileName }}</span>
+          </div>
+        </button>
+
+        <button
+          class="delete-button"
+          type="button"
+          [disabled]="deletingPath === image.path"
+          (click)="removeImage(image, $event)"
+          [attr.aria-label]="'Delete image ' + image.fileName"
+        >
+          <span *ngIf="deletingPath !== image.path" nz-icon nzType="delete"></span>
+          <nz-spin *ngIf="deletingPath === image.path" nzSimple></nz-spin>
+        </button>
+      </div>
+    </div>
+
+    <nz-empty
+      *ngIf="!loading && uploads.length === 0"
+      nzNotFoundImage="simple"
+      nzNotFoundContent="No images yet — upload one above"
+    ></nz-empty>
+  </section>
+</section>
