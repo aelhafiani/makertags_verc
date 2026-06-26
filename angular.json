@@ -26,6 +26,7 @@
               "entry": "src/main.server.ts"
             },
             "outputMode": "server",
+            "externalDependencies": ["canvas", "fabric"],
             "polyfills": [
               "zone.js"
             ],
