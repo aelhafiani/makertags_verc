@@ -4,7 +4,7 @@
   "outputDirectory": "dist/makertags/browser",
   "functions": {
     "api/ssr.js": {
-      "includeFiles": "dist/makertags/server/**"
+      "includeFiles": ["dist/makertags/server/**", "dist/makertags/browser/assets/i18n/**"]
     }
   },
   "routes": [
