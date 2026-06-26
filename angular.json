@@ -25,6 +25,7 @@
             "ssr": {
               "entry": "src/main.server.ts"
             },
+            "outputMode": "server",
             "polyfills": [
               "zone.js"
             ],
