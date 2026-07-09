@@ -58,17 +58,22 @@ getArtworkByid(id: string): Observable<any> {
     return of(null);
   }
 
-  const columnToQuery = this.isUUIDv4(id) ? 'id' : 'firestore_id';
+  const query = this.supabaseService.client.from('art_docs').select('*');
 
-  return from(
-    this.supabaseService.client
-      .from('art_docs')
-      .select('*')
-      .eq(columnToQuery, id)
-      .single()
-  ).pipe(
+  if (this.isUUIDv4(id)) {
+    query.eq('id', id);
+  } else {
+    query.eq('firestore_id', id);
+  }
+
+  return from(query.maybeSingle()).pipe(
     map(({ data, error }) => {
-      if (error || !data) {
+      if (error) {
+        console.error('Error in getArtworkByid:', error);
+        this.nzMessageService.error('Error fetching artwork');
+        return null;
+      }
+      if (!data) {
         this.nzMessageService.error('Document does not exist');
         return null;
       }
@@ -433,9 +438,10 @@ async getArtDocById(id: string): Promise<IArtDoc | undefined> {
       .from('art_docs')
       .select('*')
       .eq(queryColumn, id)
-      .single();
+      .maybeSingle();
 
-    if (error || !artDoc) throw error || new Error('Document not found');
+    if (error) throw error;
+    if (!artDoc) throw new Error('Document not found');
 
     const { data: pages, error: pagesError } = await this.supabaseService.client
       .from('art_docs_faces')

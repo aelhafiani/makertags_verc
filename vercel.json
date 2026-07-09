@@ -8,8 +8,20 @@
     }
   },
   "routes": [
-    { "src": "^/$", "dest": "/api/ssr" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/api/ssr" }
+    {
+      "src": "^/\\.netlify/functions/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "^/(.*\\.(?:js|mjs|css|map|json|png|jpg|jpeg|svg|ico|webp|txt|woff2?|ttf|eot|webmanifest|xml))$",
+      "dest": "/api/static"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/ssr"
+    }
   ]
 }

@@ -19,13 +19,24 @@ export const catalogRoutes: Routes = [
   },
   {
     path: 'tags',
-       
+    children: [
+      {
+        path: '',
         resolve: {
           artList: ArtListResolver
         },
         loadComponent: () =>
           import('./art-list/art-list.component').then((m) => m.ArtListComponent),
-    
+      },
+      {
+        path: ':title/:id',
+        resolve: {
+          artwork: ArtworkResolver
+        },
+        loadComponent: () =>
+          import('./art-detail/art-detail.component').then((m) => m.ArtDetailComponent),
+      }
+    ]
   },
    
   {

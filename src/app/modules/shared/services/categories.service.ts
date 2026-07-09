@@ -65,9 +65,9 @@ export class CategoriesService {
       .from('categories')
       .select('*')
       .eq('id', id)
-      .single();
+      .maybeSingle();
     if (error) throw error;
-    return data;
+    return data ?? null;
   }
 
   // ✏️ UPDATE
@@ -98,9 +98,9 @@ export class CategoriesService {
       .select('*')
       .eq('value', value)
       .eq('is_showing', true)
-      .single();
+      .maybeSingle();
     if (error) throw error;
-    return data;
+    return data ?? null;
   }
 
   async getVisibleCategories() {

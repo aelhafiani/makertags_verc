@@ -10,7 +10,7 @@ export const environment = {
       functionsUrl: 'http://localhost:5001/artmaker-8a799/us-central1/',
       tinyurlApiUrl: 'https://api.tinyurl.com',
       tinyurlApiKey: 'hSH4YJwejK3H5Jz5zicafdFsBTTNB1oWEzr3NqLzNGcgPKjp3BfGUqJcuaeX',
-      hostServer:'https://makertags.netlify.app',
+      hostServer:'https://tagprintly.com',
       appUrl: 'https://tagprintly.com',
       unsplash: {
         accessKey: 'sYleC0cRWuCOfHljrxxUXDyLzikIxHREOH7yytNkOqg',

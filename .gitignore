@@ -48,3 +48,5 @@ Thumbs.db
 .netlify
 .env
 artmaker-8a799-firebase-adminsdk-m0u8d-9a89b8a864.json
+
+.vercel

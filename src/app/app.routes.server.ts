@@ -6,6 +6,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'dashboard/**',       renderMode: RenderMode.Client },
   { path: 'auth/**',            renderMode: RenderMode.Client },
   { path: 'profile',            renderMode: RenderMode.Client },
+  { path: 'profile/**',         renderMode: RenderMode.Client },
   { path: 'purchase-success',   renderMode: RenderMode.Client },
 
   // ── SSR public pages (SEO-critical, data fetched on each request) ─────────

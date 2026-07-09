@@ -11,7 +11,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:prod": "ng build --configuration production",
-    "dev:netlify": "rimraf dist && netlify dev"
+    "dev:vercel": "rimraf dist && vercel dev"
   },
   "private": true,
   "dependencies": {
@@ -30,7 +30,6 @@
     "@ctrl/tinycolor": "^4.1.0",
     "@google-cloud/functions-framework": "^3.4.0",
     "@jsverse/transloco": "^8.3.0",
-    "@netlify/angular-runtime": "^3.0.1",
     "@ngxs/devtools-plugin": "^20.1.0",
     "@ngxs/storage-plugin": "^20.1.0",
     "@ngxs/store": "^20.1.0",

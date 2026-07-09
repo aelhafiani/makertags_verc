@@ -74,7 +74,7 @@ export class PublicArtService {
         .from('public_user_art_docs')
         .select('*')
         .eq('public_slug', slug)
-        .single()
+        .maybeSingle()
     ).pipe(
       map(({ data, error }) => {
         if (error || !data) {
