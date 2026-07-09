@@ -26,8 +26,12 @@ function contentTypeFor(ext) {
 
 module.exports = async function handler(req, res) {
   try {
-    // Extract pathname (strip leading slash)
-    const urlPath = decodeURIComponent(req.url.split('?')[0] || '').replace(/^\/+/, '');
+    // Extract pathname (strip query and any internal rewrite prefix)
+    const rawUrl = req.originalUrl || req.url || '';
+    let urlPath = decodeURIComponent(rawUrl.split('?')[0]).replace(/^\/+/, '');
+    if (urlPath.startsWith('api/static/')) {
+      urlPath = urlPath.slice('api/static/'.length);
+    }
     if (!urlPath) {
       res.statusCode = 404;
       res.end('Not found');

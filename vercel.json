@@ -1,10 +1,13 @@
 {
   "buildCommand": "npm run build:prod",
-  "installCommand": "npm install --ignore-scripts",
+  "installCommand": "npm install --ignore-scripts --no-optional",
   "outputDirectory": "dist/makertags/browser",
   "functions": {
     "api/ssr.js": {
       "includeFiles": "dist/makertags/{server,browser/assets/i18n}/**"
+    },
+    "api/static.js": {
+      "includeFiles": "dist/makertags/browser/**"
     }
   },
   "routes": [
@@ -14,7 +17,7 @@
     },
     {
       "src": "^/(.*\\.(?:js|mjs|css|map|json|png|jpg|jpeg|svg|ico|webp|txt|woff2?|ttf|eot|webmanifest|xml))$",
-      "dest": "/api/static"
+      "dest": "/api/static/$1"
     },
     {
       "handle": "filesystem"
