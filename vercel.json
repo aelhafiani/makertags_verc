@@ -1,10 +1,13 @@
 {
   "buildCommand": "npm run build:prod",
-  "installCommand": "npm install --ignore-scripts",
+  "installCommand": "npm install",
   "outputDirectory": "dist/makertags/browser",
   "functions": {
     "api/ssr.js": {
       "includeFiles": "dist/makertags/{server,browser/assets/i18n}/**"
+    },
+    "api/[...slug].js": {
+      "includeFiles": "netlify/functions/**"
     }
   },
   "routes": [
