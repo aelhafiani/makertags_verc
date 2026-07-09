@@ -10,8 +10,8 @@ export const environment = {
       functionsUrl: 'http://localhost:5001/artmaker-8a799/us-central1/',
       tinyurlApiUrl: 'https://api.tinyurl.com',
       tinyurlApiKey: 'hSH4YJwejK3H5Jz5zicafdFsBTTNB1oWEzr3NqLzNGcgPKjp3BfGUqJcuaeX',
-      hostServer:'https://tagprintly.com',
-      appUrl: 'https://tagprintly.com',
+      hostServer:'https://makertags-verc-qpke.vercel.app',
+      appUrl: 'https://makertags-verc-qpke.vercel.app',
       unsplash: {
         accessKey: 'sYleC0cRWuCOfHljrxxUXDyLzikIxHREOH7yytNkOqg',
         baseUrl: 'https://api.unsplash.com',
