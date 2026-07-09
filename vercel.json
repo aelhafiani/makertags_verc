@@ -5,19 +5,12 @@
   "functions": {
     "api/ssr.js": {
       "includeFiles": "dist/makertags/{server,browser/assets/i18n}/**"
-    },
-    "api/static.js": {
-      "includeFiles": "dist/makertags/browser/**"
     }
   },
   "routes": [
     {
       "src": "^/\\.netlify/functions/(.*)",
       "dest": "/api/$1"
-    },
-    {
-      "src": "^/(.*\\.(?:js|mjs|css|map|json|png|jpg|jpeg|svg|ico|webp|txt|woff2?|ttf|eot|webmanifest|xml))$",
-      "dest": "/api/static/$1"
     },
     {
       "handle": "filesystem"
