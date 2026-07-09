@@ -1282,13 +1282,17 @@ export class EditorShellComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  private generateDoc(requestOption: any): void {
+  private async generateDoc(requestOption: any): Promise<void> {
     const url = `${this.env.hostServer}/.netlify/functions/generatePdfFromFabricJson`;
     this.http.post(url, requestOption).subscribe({
-      next: (response: any) => {
+      next: async (response: any) => {
         this.progress = 100;
         this.isDownloaded = false;
-        saveAs(response.url, `generated-file-${Date.now()}.pdf`);
+        if (response?.url) {
+          const pdfResponse = await fetch(response.url);
+          const blob = await pdfResponse.blob();
+          saveAs(blob, `generated-file-${Date.now()}.pdf`);
+        }
       },
       error: () => { this.isDownloaded = false; },
     });

@@ -1199,7 +1199,7 @@ saveUserArt(){
     const url = `${this.env.hostServer}/.netlify/functions/generatePdfFromFabricJson`;
 
     this.httpCLientService.post(url, requestOption).subscribe({
-      next: (response: any) => {
+      next: async (response: any) => {
         this.progress = 100
         this.isDownloaded = false
         
@@ -1211,7 +1211,11 @@ saveUserArt(){
           }, 1000);
         this.initElementsInCanvas();
         const filename = `generated-file-${Date.now()}.pdf`;
-        saveAs(response.url, filename);
+        if (response?.url) {
+          const pdfResponse = await fetch(response.url);
+          const blob = await pdfResponse.blob();
+          saveAs(blob, filename);
+        }
       },
       error: (err) => {
         this.isDownloaded = false
