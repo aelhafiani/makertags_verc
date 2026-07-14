@@ -11,7 +11,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:prod": "ng build --configuration production",
-    "dev:vercel": "rimraf dist && vercel dev"
+    "dev:static": "node ./scripts/dev-static.js",
+    "dev:vercel": "vercel dev"
   },
   "private": true,
   "dependencies": {

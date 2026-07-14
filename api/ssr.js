@@ -1,11 +1,16 @@
 // Vercel serverless function — exécute le bundle Angular SSR
 // Les fichiers du bundle sont inclus via `includeFiles` dans vercel.json
 
+const path = require('path');
+const { pathToFileURL } = require('url');
+
 let _reqHandler = null;
 
 async function getHandler() {
   if (!_reqHandler) {
-    const mod = await import('../dist/makertags/server/server.mjs');
+    const serverPath = path.resolve(__dirname, '../dist/makertags/server/server.mjs');
+    const serverUrl = pathToFileURL(serverPath).href;
+    const mod = await import(serverUrl);
     _reqHandler = mod.reqHandler;
   }
   return _reqHandler;

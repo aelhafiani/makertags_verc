@@ -84,6 +84,9 @@
             ],
             "outputHashing": "all",
             "serviceWorker": "ngsw-config.json",
+            "allowedCommonJsDependencies": [
+              "@supabase/node-fetch"
+            ],
             "optimization": {
               "styles": {
                 "minify": true,
