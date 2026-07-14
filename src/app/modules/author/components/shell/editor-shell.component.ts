@@ -1289,9 +1289,22 @@ export class EditorShellComponent implements OnInit, AfterViewInit, OnDestroy {
         this.progress = 100;
         this.isDownloaded = false;
         if (response?.url) {
-          const pdfResponse = await fetch(response.url);
-          const blob = await pdfResponse.blob();
-          saveAs(blob, `generated-file-${Date.now()}.pdf`);
+          try {
+            const pdfResponse = await fetch(response.url);
+            if (!pdfResponse.ok) {
+              throw new Error(`Failed to fetch PDF: ${pdfResponse.status}`);
+            }
+            const blob = await pdfResponse.blob();
+            saveAs(blob, `generated-file-${Date.now()}.pdf`);
+            this.isDownloaded = true;
+            console.log('PDF downloaded successfully');
+          } catch (error) {
+            console.error('Error downloading PDF:', error);
+            this.isDownloaded = false;
+          }
+        } else {
+          console.error('No URL returned from PDF generation');
+          this.isDownloaded = false;
         }
       },
       error: () => { this.isDownloaded = false; },

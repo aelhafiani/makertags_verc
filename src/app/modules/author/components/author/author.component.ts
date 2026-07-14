@@ -1212,9 +1212,22 @@ saveUserArt(){
         this.initElementsInCanvas();
         const filename = `generated-file-${Date.now()}.pdf`;
         if (response?.url) {
-          const pdfResponse = await fetch(response.url);
-          const blob = await pdfResponse.blob();
-          saveAs(blob, filename);
+          try {
+            const pdfResponse = await fetch(response.url);
+            if (!pdfResponse.ok) {
+              throw new Error(`Failed to fetch PDF: ${pdfResponse.status}`);
+            }
+            const blob = await pdfResponse.blob();
+            saveAs(blob, filename);
+            this.isDownloaded = true;
+            console.log('PDF downloaded successfully:', filename);
+          } catch (error) {
+            console.error('Error downloading PDF:', error);
+            this.notificationService.error('Failed to download PDF. Please try again.');
+          }
+        } else {
+          console.error('No URL returned from PDF generation');
+          this.notificationService.error('Failed to generate PDF URL');
         }
       },
       error: (err) => {
